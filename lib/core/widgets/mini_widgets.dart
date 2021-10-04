@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../extensions/context_ext.dart';
@@ -240,20 +241,43 @@ class FormButton extends StatelessWidget {
   }
 }
 
-class RichTextCustom extends StatelessWidget {
+class RichTextCustom extends StatefulWidget {
   const RichTextCustom({
     Key? key,
     this.firstText = 'First Text',
     this.secondText = 'Second Text',
+    this.onPressed,
   }) : super(key: key);
 
   final String firstText, secondText;
+
+  /// Receives an actions when the second word is tapped.
+  final VoidCallback? onPressed;
+
+  @override
+  _RichTextCustomState createState() => _RichTextCustomState();
+}
+
+class _RichTextCustomState extends State<RichTextCustom> {
+  late TapGestureRecognizer tapRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    tapRecognizer = TapGestureRecognizer()..onTap = widget.onPressed;
+  }
+
+  @override
+  void dispose() {
+    tapRecognizer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: firstText,
+        text: widget.firstText,
         style: TextStyle(
           color: Colors.white,
         ),
@@ -262,13 +286,49 @@ class RichTextCustom extends StatelessWidget {
             text: ' ',
           ),
           TextSpan(
-            text: secondText,
+            text: widget.secondText,
+            recognizer: tapRecognizer,
             style: TextStyle(
               color: Utils.acentColor,
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Exposes a common scaffold to use in the forms
+///
+/// Contains a [SafeArea] to avoid paint over the status bar
+///
+/// Also contains a [SingleChildScrollView] to scroll over the children
+class ScaffoldForm extends StatelessWidget {
+  const ScaffoldForm({
+    Key? key,
+    this.useScroll = true,
+    this.children = const [],
+    this.backgroundColor,
+    this.formKey,
+  }) : super(key: key);
+
+  final bool useScroll;
+  final Color? backgroundColor;
+  final List<Widget> children;
+  final GlobalKey<FormState>? formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget child = Form(
+      key: formKey,
+      child: Column(children: children),
+    );
+
+    if (useScroll) child = SingleChildScrollView(child: child);
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: SafeArea(child: child),
     );
   }
 }

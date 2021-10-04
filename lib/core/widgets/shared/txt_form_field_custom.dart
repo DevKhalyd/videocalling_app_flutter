@@ -7,9 +7,11 @@ class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
     Key? key,
     required this.hintText,
+    required this.keyboardType,
     this.isPassword = false,
     this.onSaved,
     this.onChanged,
+    this.validator,
   }) : super(key: key);
 
   final String hintText;
@@ -21,12 +23,17 @@ class TextFormFieldCustom extends StatefulWidget {
 
   final ValueChanged<String>? onChanged;
 
+  final FormFieldValidator<String>? validator;
+
+  final TextInputType keyboardType;
+
   @override
   _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
 }
 
 class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
   late FocusNode focusNode;
+
   bool hasFocus = false;
   bool isPassword = false;
 
@@ -62,10 +69,12 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
           selectionHandleColor: Utils.acentColor,
         ),
         child: TextFormField(
+          keyboardType: widget.keyboardType,
           onChanged: widget.onChanged,
           onSaved: widget.onSaved,
           focusNode: focusNode,
           obscureText: isPassword,
+          validator: widget.validator,
           decoration: InputDecoration(
             hoverColor: Utils.acentColor,
             suffixStyle: TextStyle(color: Colors.red),
