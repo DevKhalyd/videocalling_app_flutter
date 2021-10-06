@@ -2,6 +2,10 @@
 
 A videocalling app where I show how structure an application with GetX and Clean Architecture.
 
+# Set up the project
+
+`flutter pub run build_runner build` or `watch`(Run to generate the files misssing)
+
 ## Android and IOS
 
 Add your own files to configure this project.

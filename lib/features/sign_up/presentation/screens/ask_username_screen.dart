@@ -39,6 +39,7 @@ class AskUsernameScreen extends StatelessWidget {
               FormButton(
                 label: 'Sign Up',
                 isEnabled: c.isEnabled,
+                onPressed: c.signUp,
               )
           ],
         );

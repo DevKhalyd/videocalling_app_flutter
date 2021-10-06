@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../../core/logger.dart';
-import '../../data/api/sign_up_repository.dart';
+import '../../data/api/sign_up_auth_repository.dart';
 
 abstract class SignUpWithEmail {
   /// If return a string means that something went wrong and a message should be shown

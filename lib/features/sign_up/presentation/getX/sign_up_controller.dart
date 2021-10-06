@@ -6,6 +6,8 @@ import '../../../../core/routes.dart';
 import '../../domain/bridges/user_basic_info.dart';
 
 class SignUpController extends GetxController {
+  static SignUpController get to => Get.find();
+
   late UserBasicInfo _userInfo;
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;

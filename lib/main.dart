@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/repositories/firestore_repository.dart';
 
 import 'core/routes.dart';
 import 'core/utils.dart';
@@ -9,6 +10,8 @@ import 'core/utils.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // TODO: Remove when the tests ends
+  EmulatorFirestoreRepository.init();
   runApp(VideocallingApp());
 }
 

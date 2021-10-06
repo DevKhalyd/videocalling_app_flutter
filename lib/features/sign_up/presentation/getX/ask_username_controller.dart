@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 
+import '../../../../core/messages.dart';
 import '../../../../core/repositories/validations_repository.dart';
+import '../../../../core/routes.dart';
+import '../../../../core/shared/models/more/user.dart';
+import '../../../../core/widgets/dialogs/info_dialog.dart';
+import '../../domain/usecases/add_user_data.dart';
+import '../../domain/usecases/exits_username.dart';
+import '../../domain/usecases/sign_up_with_email.dart';
+import 'sign_up_controller.dart';
 
 class AskUsernameController extends GetxController {
   final _controller = TextEditingController();
   final delayed = Debouncer(delay: Duration(seconds: 1));
-  TextEditingController get controller => _controller;
 
+  String _username = '';
   bool _isLookingUp = false;
   bool _isLoading = false;
-  bool _isEnabled = false;
   bool _usernameIsAvaible = false;
 
   /// When the application is verifying if the username is avaible
@@ -21,29 +28,79 @@ class AskUsernameController extends GetxController {
   bool get isLoading => _isLoading;
 
   /// If the button sign up is enabled
-  bool get isEnabled => _isEnabled;
+  bool get isEnabled => _usernameIsAvaible;
 
-  void signUp() async {}
+  TextEditingController get controller => _controller;
 
   @override
   void onReady() {
+    /// Check the username each time the user enters a new username
     _controller.addListener(() {
-      delayed(() {
+      delayed(() async {
         final text = controller.text;
+        _username = '';
+        _usernameAvaibleState();
         if (text.length < 3) return;
-        
+        _lookingUpState(true);
+        final isAvaible = await ExistsUsername.execute(username: text);
+        _lookingUpState();
+        if (isAvaible == null) {
+          Get.dialog(AlertInfo(content: Messages.error));
+          return;
+        }
+        _usernameAvaibleState(isAvaible);
+        if (!isAvaible)
+          Get.dialog(AlertInfo(content: Messages.usernameUnavaible));
+        else
+          _username = text;
       });
     });
     super.onReady();
   }
 
-  // 1. TODO: Research for the username in the database
+  void signUp() async {
+    if (_username.isEmpty) return;
+    final userInfo = SignUpController.to.userInfo;
 
-  // 2. TODO: Disabled / Enabled the button
+    final msg = await SignUpWithEmail.execute(
+      email: userInfo.email,
+      password: userInfo.password,
+    );
 
-  _usernameState([bool value = false]) {
+    if (msg is String) {
+      Get.dialog(AlertInfo(content: msg));
+      return;
+    }
+
+    final wasDataAdded = await AddUserData.execute(
+        user: User(
+      username: _username,
+      fullname: userInfo.name,
+      email: userInfo.email,
+      password: userInfo.password,
+      isOnline: true,
+    ));
+
+    if (wasDataAdded) {
+      // TODO: Set the option to upload an image to the server.
+      Get.toNamed(Routes.home);
+      return;
+    }
+
+    Get.dialog(AlertInfo(content: Messages.error));
+  }
+
+  /// Change the value of [_usernameIsAvaible]
+  _usernameAvaibleState([bool value = false]) {
     if (value == _usernameIsAvaible) return;
     _usernameIsAvaible = value;
+    update();
+  }
+
+  /// Change the value of [_isLookingUp]
+  _lookingUpState([bool value = false]) {
+    if (value == _isLookingUp) return;
+    _isLookingUp = value;
     update();
   }
 
