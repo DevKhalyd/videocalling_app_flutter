@@ -208,11 +208,16 @@ class HeaderForms extends StatelessWidget {
 }
 
 class FormButton extends StatelessWidget {
-  const FormButton({Key? key, this.onPressed, this.label = 'TextLabel'})
-      : super(key: key);
+  const FormButton({
+    Key? key,
+    this.onPressed,
+    this.label = 'TextLabel',
+    this.isEnabled = true,
+  }) : super(key: key);
 
   final VoidCallback? onPressed;
   final String label;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +239,9 @@ class FormButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               )),
-          onPressed: onPressed ?? () => print('Button Form Pressed'),
+          onPressed: isEnabled
+              ? onPressed ?? () => print('Button Form Pressed')
+              : null,
         ),
       ),
     );
@@ -310,16 +317,19 @@ class ScaffoldForm extends StatelessWidget {
     this.children = const [],
     this.backgroundColor,
     this.formKey,
+    this.autovalidateMode,
   }) : super(key: key);
 
   final bool useScroll;
   final Color? backgroundColor;
   final List<Widget> children;
   final GlobalKey<FormState>? formKey;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
     Widget child = Form(
+      autovalidateMode: autovalidateMode,
       key: formKey,
       child: Column(children: children),
     );

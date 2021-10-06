@@ -13,9 +13,11 @@ class SignInScreen extends StatelessWidget {
     return GetBuilder<SignInController>(
       init: SignInController(),
       builder: (c) {
+        final isLoading = c.isLoading;
         return ScaffoldForm(
           formKey: c.formKey,
           backgroundColor: Colors.black,
+          autovalidateMode: c.autovalidateMode,
           children: [
             Space(0.09),
             HeaderForms(
@@ -37,10 +39,12 @@ class SignInScreen extends StatelessWidget {
               onSaved: c.onSavePassword,
             ),
             Space(0.09),
-            FormButton(
-              label: 'Sign In',
-              onPressed: c.onSignIn,
-            ),
+            if (isLoading) CircularProgressCustom(),
+            if (!isLoading)
+              FormButton(
+                label: 'Sign In',
+                onPressed: c.onSignIn,
+              ),
             Space(0.06),
             RichTextCustom(
               firstText: "Don't have an Account?",

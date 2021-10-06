@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
 import 'core/routes.dart';
 import 'core/utils.dart';
 
-void main() => runApp(VideocallingApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(VideocallingApp());
+}
 
 class VideocallingApp extends StatelessWidget {
   // Dark theme always...

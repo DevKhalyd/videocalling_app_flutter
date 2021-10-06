@@ -7,11 +7,13 @@ class TextFormFieldCustom extends StatefulWidget {
   const TextFormFieldCustom({
     Key? key,
     required this.hintText,
-    required this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.onSaved,
-    this.onChanged,
     this.validator,
+    this.controller,
+    this.suffixIcon,
+    this.autovalidateMode,
   }) : super(key: key);
 
   final String hintText;
@@ -21,11 +23,15 @@ class TextFormFieldCustom extends StatefulWidget {
 
   final FormFieldSetter<String>? onSaved;
 
-  final ValueChanged<String>? onChanged;
-
   final FormFieldValidator<String>? validator;
 
   final TextInputType keyboardType;
+
+  final TextEditingController? controller;
+
+  final Widget? suffixIcon;
+
+  final AutovalidateMode? autovalidateMode;
 
   @override
   _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
@@ -69,8 +75,9 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
           selectionHandleColor: Utils.acentColor,
         ),
         child: TextFormField(
+          autovalidateMode: widget.autovalidateMode,
+          controller: widget.controller,
           keyboardType: widget.keyboardType,
-          onChanged: widget.onChanged,
           onSaved: widget.onSaved,
           focusNode: focusNode,
           obscureText: isPassword,
@@ -84,7 +91,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
                     icon: Icon(
                         isPassword ? Icons.visibility_off : Icons.visibility,
                         color: hasFocus ? Utils.acentColor : Colors.grey))
-                : null,
+                : widget.suffixIcon,
             hintText: widget.hintText,
             hintStyle: TextStyle(color: Colors.grey),
             filled: true,
@@ -100,6 +107,12 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
               borderRadius: BorderRadius.circular(24),
             ),
             enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+              ),
               borderRadius: BorderRadius.circular(24),
             ),
             errorBorder: OutlineInputBorder(

@@ -3,10 +3,17 @@ import 'package:get/get.dart';
 
 import '../../../../core/repositories/validations_repository.dart';
 import '../../../../core/routes.dart';
+import '../../../../core/widgets/dialogs/info_dialog.dart';
+import '../../domain/usecases/sign_in_email.dart';
 
 class SignInController extends GetxController {
   final _formKey = GlobalKey<FormState>();
+  AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  bool _isLoading = false;
+
   GlobalKey<FormState> get formKey => _formKey;
+  AutovalidateMode get autovalidateMode => _autovalidateMode;
+  bool get isLoading => _isLoading;
 
   String _email = '';
   String _password = '';
@@ -31,15 +38,34 @@ class SignInController extends GetxController {
 
   void onSavePassword(String? password) => _password = password!;
 
-  void onSignIn() {
+  void onSignIn() async {
     final state = formKey.currentState!;
 
     if (!state.validate()) {
+      _autovalidateMode = AutovalidateMode.onUserInteraction;
+      update();
       return;
     }
-    // Save the data...
 
+    // Save the data necessary to login
+    state.save();
 
+    _loadingState(true);
+    final msg =
+        await SignInWithEmail.execute(email: _email, password: _password);
+    _loadingState();
+    if (msg is String) {
+      Get.dialog(AlertInfo(content: msg));
+      return;
+    }
+    Get.offNamed(Routes.home);
+  }
+
+  /// Change the value of isLoading
+  _loadingState([bool value = false]) {
+    if (value == _isLoading) return;
+    _isLoading = value;
+    update();
   }
 
   void onSignUpUser() => Get.toNamed(Routes.signUp);

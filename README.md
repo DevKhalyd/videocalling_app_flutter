@@ -1,16 +1,30 @@
-# videocalling_app
+# Videocalling App
 
-A new Flutter project.
+A videocalling app where I show how structure an application with GetX and Clean Architecture.
 
-## Getting Started
+## Android and IOS
 
-This project is a starting point for a Flutter application.
+Add your own files to configure this project.
 
-A few resources to get you started if this is your first Flutter project:
+All those files necessary are from Firebase Core. Check out the docs.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# TODO
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Add the configuration for IOS
+
+# Structure
+
+presentation: The UI and their controllers.
+
+domain: The bridge between the data and presentation layers (Models and UseCases).
+
+Use cases means that if I'm usign the AuthRepository the cases can be
+
+- Sign in with Email and Password
+- Sign in with Google
+- Sign in with Twitter
+- Sign in with GitHub
+
+From that use cases should I return a response to interact with the UI... that means with the presentation Layer.
+
+data: Get the data from an API or Local Storage (Firebase, API rest)

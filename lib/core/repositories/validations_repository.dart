@@ -27,4 +27,7 @@ abstract class ValidationsRepository {
 
     return isValid;
   }
+
+  /// Return `true` if this username is valid
+  static bool username(String username) => GetUtils.isUsername(username);
 }

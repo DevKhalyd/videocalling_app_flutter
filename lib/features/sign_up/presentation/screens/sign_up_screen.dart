@@ -14,6 +14,8 @@ class SignUpScreen extends StatelessWidget {
         init: SignUpController(),
         builder: (c) {
           return ScaffoldForm(
+            formKey: c.formKey,
+            autovalidateMode: c.autovalidateMode,
             backgroundColor: Colors.black,
             children: [
               Space(0.09),
@@ -25,19 +27,26 @@ class SignUpScreen extends StatelessWidget {
               TextFormFieldCustom(
                 hintText: 'Full Name',
                 keyboardType: TextInputType.name,
+                onSaved: c.onSaveName,
+                validator: c.onValidatorName,
               ),
               TextFormFieldCustom(
-                hintText: 'E-mail Address',
+                hintText: 'E-mail',
                 keyboardType: TextInputType.emailAddress,
+                validator: c.onValidatorEmail,
+                onSaved: c.onSaveEmail,
               ),
               TextFormFieldCustom(
                 hintText: 'Password',
                 isPassword: true,
                 keyboardType: TextInputType.visiblePassword,
+                validator: c.onValidatorPassword,
+                onSaved: c.onSavePassword,
               ),
               Space(0.05),
               FormButton(
-                label: 'Sign Up',
+                label: 'Continue',
+                onPressed: c.onContinue,
               ),
               Space(0.06),
               RichTextCustom(
