@@ -1,5 +1,5 @@
-import 'package:videocalling_app/core/shared/models/more/user.dart';
-import 'package:videocalling_app/features/sign_up/data/api/sign_up_firestore_repository.dart';
+import '../../../../core/shared/models/user/user.dart';
+import '../../data/api/sign_up_firestore_repository.dart';
 
 abstract class AddUserData {
   static Future<bool> execute({required User user}) async {

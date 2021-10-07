@@ -38,6 +38,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # https://flutter.dev/docs/development/data-and-backend/json
   build_runner: ^2.0.0
   json_serializable: ^5.0.0
 

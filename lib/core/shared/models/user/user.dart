@@ -9,12 +9,11 @@ part 'user.g.dart';
 /// JSON serialization logic to be generated.
 @JsonSerializable()
 class User {
-  
   User({
     required this.username,
     required this.fullname,
     required this.email,
-    required this.isOnline,
+    this.isOnline = true,
     this.password,
     this.imageUrl,
   });

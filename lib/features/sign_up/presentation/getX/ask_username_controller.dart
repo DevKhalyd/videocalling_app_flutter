@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 
+import '../../../../core/logger.dart';
 import '../../../../core/messages.dart';
 import '../../../../core/repositories/validations_repository.dart';
 import '../../../../core/routes.dart';
-import '../../../../core/shared/models/more/user.dart';
+import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../domain/usecases/add_user_data.dart';
 import '../../domain/usecases/exits_username.dart';
@@ -13,10 +14,15 @@ import '../../domain/usecases/sign_up_with_email.dart';
 import 'sign_up_controller.dart';
 
 class AskUsernameController extends GetxController {
+  final _focusNode = FocusNode();
   final _controller = TextEditingController();
-  final delayed = Debouncer(delay: Duration(seconds: 1));
+  final _delayed = Debouncer(delay: Duration(milliseconds: 500));
+  final _delayedFocus = Debouncer(delay: Duration(milliseconds: 150));
 
   String _username = '';
+
+  /// The last input by the user
+  String _lastInput = '';
   bool _isLookingUp = false;
   bool _isLoading = false;
   bool _usernameIsAvaible = false;
@@ -32,35 +38,63 @@ class AskUsernameController extends GetxController {
 
   TextEditingController get controller => _controller;
 
+  FocusNode get focusNode => _focusNode;
+
   @override
   void onReady() {
-    /// Check the username each time the user enters a new username
+    _controllerListener();
+    _focusListener();
+    super.onReady();
+  }
+
+  _focusListener() {
+    /// Allow to update the UI according to the user's input
+    _focusNode.addListener(() {
+      _delayedFocus(() {
+        final hasFocus = _focusNode.hasFocus;
+        Log.console(hasFocus);
+        if (!_usernameIsAvaible && _username.isNotEmpty) {
+          _usernameAvaibleState(true);
+        }
+      });
+    });
+  }
+
+  /// Check the username each time the user enters a new username
+  ///
+  /// Also update the UI
+  _controllerListener() {
     _controller.addListener(() {
-      delayed(() async {
+      _usernameAvaibleState();
+      _delayed(() async {
         final text = controller.text;
+        if (_lastInput == text || !_isValidUserName(text)) return;
         _username = '';
-        _usernameAvaibleState();
-        if (text.length < 3) return;
         _lookingUpState(true);
-        final isAvaible = await ExistsUsername.execute(username: text);
+        final exists = await ExistsUsername.execute(username: text);
         _lookingUpState();
-        if (isAvaible == null) {
+        _lastInput = text;
+        if (exists == null) {
           Get.dialog(AlertInfo(content: Messages.error));
           return;
         }
-        _usernameAvaibleState(isAvaible);
-        if (!isAvaible)
+        _usernameAvaibleState(!exists);
+        if (exists)
           Get.dialog(AlertInfo(content: Messages.usernameUnavaible));
         else
           _username = text;
       });
     });
-    super.onReady();
   }
 
   void signUp() async {
     if (_username.isEmpty) return;
+
     final userInfo = SignUpController.to.userInfo;
+
+    Log.console('Username: $_username');
+
+    return;
 
     final msg = await SignUpWithEmail.execute(
       email: userInfo.email,
@@ -78,7 +112,6 @@ class AskUsernameController extends GetxController {
       fullname: userInfo.name,
       email: userInfo.email,
       password: userInfo.password,
-      isOnline: true,
     ));
 
     if (wasDataAdded) {
@@ -86,7 +119,6 @@ class AskUsernameController extends GetxController {
       Get.toNamed(Routes.home);
       return;
     }
-
     Get.dialog(AlertInfo(content: Messages.error));
   }
 
@@ -106,7 +138,9 @@ class AskUsernameController extends GetxController {
 
   String? onValidation(String? v) {
     if (v == null) return null;
-    if (!ValidationsRepository.username(v) && v.length > 2)
+    if (!ValidationsRepository.username(v) || v.length < 3)
       return 'Username not valid';
   }
+
+  bool _isValidUserName(String v) => onValidation(v) == null;
 }

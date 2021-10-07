@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/repositories/firestore_repository.dart';
 
+import 'core/repositories/firestore_repository.dart';
 import 'core/routes.dart';
 import 'core/utils.dart';
 

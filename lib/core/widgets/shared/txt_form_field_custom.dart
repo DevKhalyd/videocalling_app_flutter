@@ -14,6 +14,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.controller,
     this.suffixIcon,
     this.autovalidateMode,
+    this.focusNode,
   }) : super(key: key);
 
   final String hintText;
@@ -33,6 +34,8 @@ class TextFormFieldCustom extends StatefulWidget {
 
   final AutovalidateMode? autovalidateMode;
 
+  final FocusNode? focusNode;
+
   @override
   _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
 }
@@ -47,20 +50,25 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
   void initState() {
     super.initState();
     isPassword = widget.isPassword;
-    focusNode = FocusNode();
-    focusNode.addListener(() {
-      final focus = focusNode.hasFocus;
-      if (focus != hasFocus) {
-        // It's not necessary to use a state managment just for this changes
-        setState(() => hasFocus = focus);
-      }
-    });
+    if (widget.focusNode == null) {
+      focusNode = FocusNode();
+      focusNode.addListener(() {
+        final focus = focusNode.hasFocus;
+        if (focus != hasFocus) {
+          // It's not necessary to use a state managment just for this changes
+          setState(() => hasFocus = focus);
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
-    focusNode.dispose();
+    if (widget.focusNode == null)
+      focusNode.dispose();
+    else
+      widget.focusNode!.dispose();
     super.dispose();
   }
 
@@ -79,7 +87,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           onSaved: widget.onSaved,
-          focusNode: focusNode,
+          focusNode: widget.focusNode ?? focusNode,
           obscureText: isPassword,
           validator: widget.validator,
           decoration: InputDecoration(

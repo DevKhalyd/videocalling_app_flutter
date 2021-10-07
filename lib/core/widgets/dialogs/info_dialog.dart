@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:videocalling_app/core/utils.dart';
 import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
 class AlertInfo extends StatelessWidget {
@@ -15,15 +16,27 @@ class AlertInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: TextCustom(title),
+      backgroundColor: Utils.textFormFIeldColor,
+      title: TextCustom(
+        title,
+        color: Colors.white,
+      ),
       content: SingleChildScrollView(
         child: ListBody(
-          children: <Widget>[TextCustom(content)],
+          children: <Widget>[
+            TextCustom(
+              content,
+              color: Colors.white,
+            )
+          ],
         ),
       ),
       actions: <Widget>[
         TextButton(
-          child: Text(button),
+          child: TextCustom(
+            button,
+            color: Utils.acentColor,
+          ),
           onPressed: () => Get.back(),
         ),
       ],

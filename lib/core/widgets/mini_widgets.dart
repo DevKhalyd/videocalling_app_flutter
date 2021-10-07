@@ -232,7 +232,7 @@ class FormButton extends StatelessWidget {
           child: TextCustom(
             label,
             fontSize: 17.5,
-            color: Colors.white,
+            color: isEnabled ? Colors.white : Colors.grey,
           ),
           style: ElevatedButton.styleFrom(
               primary: Utils.acentColor,

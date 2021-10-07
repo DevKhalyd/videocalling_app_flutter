@@ -9,10 +9,10 @@ abstract class FirestoreRepository {
   final String usernamesUnavaibles = 'usernames_unavaible';
 
   final String usersCollection = 'users';
-  
+
   // NOTE: Fields in the database
 
-  final String usernameField = 'userFirestoreRepositoryname';
+  final String usernameField = 'username';
 
   /// Add data to a given collection given
   Future<void> addData(

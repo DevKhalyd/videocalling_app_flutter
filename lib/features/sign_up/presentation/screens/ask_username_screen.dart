@@ -18,29 +18,40 @@ class AskUsernameScreen extends StatelessWidget {
         final isLoading = c.isLoading;
         return ScaffoldForm(
           backgroundColor: Colors.black,
+          useScroll: false,
           children: [
-            TextCustom(
-              'Introduce your username to use in the application',
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
+            Space(0.05),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 18),
+                child: TextCustom(
+                  'Introduce your username to use it \nin the app',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
             ),
-            Space(0.01),
+            Space(0.03),
             TextFormFieldCustom(
               hintText: 'Username',
               controller: c.controller,
+              focusNode: c.focusNode,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               suffixIcon: c.isLookingUp ? CircularProgressCustom() : null,
               validator: c.onValidation,
             ),
-            Space(0.05),
-            if (isLoading) CircularProgressCustom(),
-            if (!isLoading)
-              FormButton(
-                label: 'Sign Up',
-                isEnabled: c.isEnabled,
-                onPressed: c.signUp,
-              )
+            Expanded(
+                child: Center(
+              child: !isLoading
+                  ? FormButton(
+                      label: 'Sign Up',
+                      isEnabled: c.isEnabled,
+                      onPressed: c.signUp,
+                    )
+                  : CircularProgressCustom(),
+            )),
           ],
         );
       },

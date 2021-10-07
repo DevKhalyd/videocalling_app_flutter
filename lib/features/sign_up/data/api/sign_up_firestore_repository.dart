@@ -1,6 +1,6 @@
-import 'package:videocalling_app/core/shared/models/more/user.dart';
 
 import '../../../../core/repositories/firestore_repository.dart';
+import '../../../../core/shared/models/user/user.dart';
 
 /// Contains all the functions to use in the sign up fucntion
 ///
