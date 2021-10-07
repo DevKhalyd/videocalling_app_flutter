@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/routes.dart';
+
+import '../../../../core/routes.dart';
+import '../../domain/usecases/is_sign.dart';
 
 class SplashController extends GetxController {
   bool showProgressIndicator = false;
@@ -17,9 +19,12 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: Create the logic to know where go
-    Timer(Duration(milliseconds: 1550), () {
-      Get.offNamed(Routes.signIn);
+    Timer(Duration(milliseconds: 750), () {
+      final isAuthenticated = IsAuthenticated.execute();
+      if (isAuthenticated)
+        Get.offAllNamed(Routes.home);
+      else
+        Get.offNamed(Routes.signIn);
     });
     super.onReady();
   }

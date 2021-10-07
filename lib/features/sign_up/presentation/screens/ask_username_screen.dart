@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils.dart';
 
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../../../core/widgets/shared/txt_form_field_custom.dart';

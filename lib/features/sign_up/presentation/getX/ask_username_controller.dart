@@ -111,9 +111,8 @@ class AskUsernameController extends GetxController {
     ));
 
     _loadingState();
-    
+
     if (wasDataAdded) {
-      // TODO: Set the option to upload an image to the server.
       Get.toNamed(Routes.home);
       return;
     }
