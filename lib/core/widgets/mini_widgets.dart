@@ -155,18 +155,24 @@ class CircularProgressCustom extends StatelessWidget {
   const CircularProgressCustom({
     this.color = Colors.white,
     this.strokeWidth = 2.5,
+    this.useCenter = true,
   });
 
   final Color color;
   final double strokeWidth;
+  final bool useCenter;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(color),
-          strokeWidth: strokeWidth,
-        ),
-      );
+  Widget build(BuildContext context) {
+    Widget child = CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(color),
+      strokeWidth: strokeWidth,
+    );
+
+    if (useCenter) child = Center(child: child);
+
+    return child;
+  }
 }
 
 /// Use in the Sign In and Sign Up forms

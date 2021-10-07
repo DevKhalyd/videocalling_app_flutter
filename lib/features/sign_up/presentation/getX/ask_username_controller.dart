@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 
-import '../../../../core/logger.dart';
 import '../../../../core/messages.dart';
 import '../../../../core/repositories/validations_repository.dart';
 import '../../../../core/routes.dart';
@@ -51,8 +50,6 @@ class AskUsernameController extends GetxController {
     /// Allow to update the UI according to the user's input
     _focusNode.addListener(() {
       _delayedFocus(() {
-        final hasFocus = _focusNode.hasFocus;
-        Log.console(hasFocus);
         if (!_usernameIsAvaible && _username.isNotEmpty) {
           _usernameAvaibleState(true);
         }
@@ -92,9 +89,7 @@ class AskUsernameController extends GetxController {
 
     final userInfo = SignUpController.to.userInfo;
 
-    Log.console('Username: $_username');
-
-    return;
+    _loadingState(true);
 
     final msg = await SignUpWithEmail.execute(
       email: userInfo.email,
@@ -103,6 +98,7 @@ class AskUsernameController extends GetxController {
 
     if (msg is String) {
       Get.dialog(AlertInfo(content: msg));
+      _loadingState();
       return;
     }
 
@@ -114,6 +110,8 @@ class AskUsernameController extends GetxController {
       password: userInfo.password,
     ));
 
+    _loadingState();
+    
     if (wasDataAdded) {
       // TODO: Set the option to upload an image to the server.
       Get.toNamed(Routes.home);
@@ -133,6 +131,12 @@ class AskUsernameController extends GetxController {
   _lookingUpState([bool value = false]) {
     if (value == _isLookingUp) return;
     _isLookingUp = value;
+    update();
+  }
+
+  void _loadingState([bool value = false]) {
+    if (value == _isLoading) return;
+    _isLoading = value;
     update();
   }
 

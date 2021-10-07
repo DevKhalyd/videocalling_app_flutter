@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/utils.dart';
 
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../../../core/widgets/shared/txt_form_field_custom.dart';
@@ -39,7 +40,7 @@ class AskUsernameScreen extends StatelessWidget {
               controller: c.controller,
               focusNode: c.focusNode,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              suffixIcon: c.isLookingUp ? CircularProgressCustom() : null,
+              suffixIcon: c.isLookingUp ? _CircularAskCustom() : null,
               validator: c.onValidation,
             ),
             Expanded(
@@ -55,6 +56,20 @@ class AskUsernameScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _CircularAskCustom extends StatelessWidget {
+  const _CircularAskCustom({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.scale(
+      scale: 0.5,
+      child: CircularProgressCustom(useCenter: false),
     );
   }
 }

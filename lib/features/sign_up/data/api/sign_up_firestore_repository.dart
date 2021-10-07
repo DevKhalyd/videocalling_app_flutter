@@ -1,4 +1,3 @@
-
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
 
@@ -11,7 +10,7 @@ class SignUpFirestoreRepository extends FirestoreRepository {
     try {
       final querySnapshot = await firestore
           .collection(usernamesUnavaibles)
-          .where(usernameField)
+          .where(usernameField, isEqualTo: username)
           .get();
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
