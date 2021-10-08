@@ -10,7 +10,7 @@ class TextCustom extends StatelessWidget {
       {Key? key,
       this.fontSize = 14,
       this.fontWeight,
-      this.color = Colors.black,
+      this.color = Colors.white,
       this.letterSpacing,
       this.decoration,
       this.textAlign,
@@ -197,7 +197,6 @@ class HeaderForms extends StatelessWidget {
         children: [
           TextCustom(
             title,
-            color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),

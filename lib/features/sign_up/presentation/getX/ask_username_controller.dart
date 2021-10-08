@@ -4,6 +4,7 @@ import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 
 import '../../../../core/repositories/validations_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
+import '../../../../core/utils/arguments.dart';
 import '../../../../core/utils/messages.dart';
 import '../../../../core/utils/routes.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
@@ -113,7 +114,7 @@ class AskUsernameController extends GetxController {
     _loadingState();
 
     if (wasDataAdded) {
-      Get.toNamed(Routes.home);
+      Get.toNamed(Routes.home, arguments: Arguments.openImagePicker);
       return;
     }
     Get.dialog(AlertInfo(content: Messages.error));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:videocalling_app/core/widgets/mini_widgets.dart';
+import 'package:videocalling_app/features/home/presentation/widgets/home_bottom_navigation.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Space(0.01),
+            // Test from here the new item
+            HomeBottomNavigation()
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/routes.dart';
 
 import '../../../../core/repositories/validations_repository.dart';
+import '../../../../core/utils/routes.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../domain/usecases/sign_in_email.dart';
 

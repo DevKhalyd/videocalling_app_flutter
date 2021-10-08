@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/widgets/mini_widgets.dart';
 import '../getX/home_controller.dart';
+import '../widgets/home_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +13,17 @@ class HomeScreen extends StatelessWidget {
       init: HomeController(),
       builder: (c) {
         return Scaffold(
-          body: CenterText('Center Data and custom this one'),
+          backgroundColor: Colors.black,
+          body: Column(
+            children: [
+              // Appbar
+              HomeAppBar(),
+              // Body
+              Expanded(child: c.currentPage),
+              // Bottombar
+              
+            ],
+          ),
         );
       },
     );
