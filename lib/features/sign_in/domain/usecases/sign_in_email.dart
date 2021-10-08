@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:videocalling_app/core/logger.dart';
+import 'package:videocalling_app/core/utils/logger.dart';
 
 import '../../data/api/sign_in_repository.dart';
 

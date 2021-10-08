@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../extensions/context_ext.dart';
-import '../my_themes.dart';
-import '../utils.dart';
+import '../utils/my_themes.dart';
+import '../utils/utils.dart';
 
 class TextCustom extends StatelessWidget {
   const TextCustom(this.data,

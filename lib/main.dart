@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 //import 'core/repositories/firestore_repository.dart';
-import 'core/routes.dart';
-import 'core/utils.dart';
+import 'core/utils/routes.dart';
+import 'core/utils/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

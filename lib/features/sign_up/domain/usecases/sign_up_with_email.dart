@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../../../core/logger.dart';
+import '../../../../core/utils/logger.dart';
 import '../../data/api/sign_up_auth_repository.dart';
 
 abstract class SignUpWithEmail {

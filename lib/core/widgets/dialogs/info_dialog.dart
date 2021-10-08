@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:videocalling_app/core/utils.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
 class AlertInfo extends StatelessWidget {

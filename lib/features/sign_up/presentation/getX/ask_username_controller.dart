@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 
-import '../../../../core/messages.dart';
 import '../../../../core/repositories/validations_repository.dart';
-import '../../../../core/routes.dart';
 import '../../../../core/shared/models/user/user.dart';
+import '../../../../core/utils/messages.dart';
+import '../../../../core/utils/routes.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../domain/usecases/add_user_data.dart';
 import '../../domain/usecases/exits_username.dart';

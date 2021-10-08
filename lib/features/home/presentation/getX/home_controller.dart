@@ -6,8 +6,13 @@ class HomeController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: Get the arguments.
     // If any then show an screen asking for the url.
+    final arguments = Get.arguments;
+
+    if (arguments is String) {
+      
+    }
+
     super.onReady();
   }
 }

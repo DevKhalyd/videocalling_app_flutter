@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils.dart';
+import '../../utils/utils.dart';
 
 /// A responsive text field
 class TextFormFieldCustom extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-import '../features/home/presentation/screens/home_screen.dart';
-import '../features/sign_in/presentation/screens/sign_in_screen.dart';
-import '../features/sign_up/presentation/screens/ask_username_screen.dart';
-import '../features/sign_up/presentation/screens/sign_up_screen.dart';
-import '../features/splash/presentation/screens/splash_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/sign_in/presentation/screens/sign_in_screen.dart';
+import '../../features/sign_up/presentation/screens/ask_username_screen.dart';
+import '../../features/sign_up/presentation/screens/sign_up_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 
 /// All avaible routes in the application
 abstract class Routes {

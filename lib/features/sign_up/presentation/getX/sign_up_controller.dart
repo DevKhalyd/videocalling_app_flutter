@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/repositories/validations_repository.dart';
-import '../../../../core/routes.dart';
+import '../../../../core/utils/routes.dart';
 import '../../domain/bridges/user_basic_info.dart';
 
 class SignUpController extends GetxController {

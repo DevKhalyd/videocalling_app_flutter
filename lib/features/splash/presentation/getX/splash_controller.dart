@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/utils/routes.dart';
 
-import '../../../../core/routes.dart';
 import '../../domain/usecases/is_sign.dart';
 
 class SplashController extends GetxController {
