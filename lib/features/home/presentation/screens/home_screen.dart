@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/features/home/presentation/widgets/home_bottom_navigation.dart';
 
 import '../getX/home_controller.dart';
 import '../widgets/home_app_bar.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               // Body
               Expanded(child: c.currentPage),
               // Bottombar
-              
+              HomeBottomNavigation(),
             ],
           ),
         );
