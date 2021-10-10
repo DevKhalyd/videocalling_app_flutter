@@ -16,19 +16,15 @@ class HomeAppBar extends StatelessWidget {
           width: context.width,
           child: Row(
             children: [
-              Space(0.01, isHorizontal: true),
+              Space(0.05, isHorizontal: true),
               TextCustom(
                 c.title,
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 20,
               ),
               Spacer(),
-              // TODO: Get the image url or the first letter to show here
-              CircleAvatar(
-                backgroundColor: Colors.red,
-                radius: 30,
-              ),
-              Space(0.01, isHorizontal: true),
+              c.getImageAppbar(),
+              Space(0.02, isHorizontal: true),
             ],
           ),
         );

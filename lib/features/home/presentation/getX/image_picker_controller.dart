@@ -5,7 +5,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/utils/messages.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
+import '../../domain/usecases/update_image_url.dart';
 import '../../domain/usecases/upload_profile_image.dart';
+import 'home_controller.dart';
 
 class ImagePickerController extends GetxController {
   final _picker = ImagePicker();
@@ -30,9 +32,13 @@ class ImagePickerController extends GetxController {
       Get.dialog(AlertInfo(content: 'You have to choose an image to upload'));
       return;
     }
-    UploadProfileImage.execute(_bytes!).then((value) {
-      if (value != null) {
-        // TODO: Update the UI of the Home Screen with the new URL image
+    UploadProfileImage.execute(_bytes!).then((url) {
+      if (url != null) {
+        final ctrl = HomeController.to;
+        final user = ctrl.user;
+        final id = user?.id;
+        if (id != null) UpdateImageUrl.execute(id: id, url: url);
+        if (user != null) ctrl.updateUser(user.copyWith(imageUrl: url));
       }
     });
     // Return to home

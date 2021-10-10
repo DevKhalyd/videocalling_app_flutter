@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../features/home/presentation/widgets/home_bottom_navigation.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,10 +15,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // Test from here the new item
-            HomeBottomNavigation()
-          ],
+          children: [],
         ),
       ),
     );

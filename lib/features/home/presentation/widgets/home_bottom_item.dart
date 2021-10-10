@@ -25,19 +25,22 @@ class HomeBottomItem extends StatelessWidget {
         color: Colors.black,
         child: InkWell(
           onTap: onPressed,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isSelected ? iconSelected : iconNotSelected,
-                color: Colors.white,
-              ),
-              Space(0.005),
-              TextCustom(
-                label,
-                color: isSelected ? Colors.white : Colors.grey,
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 65.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  isSelected ? iconSelected : iconNotSelected,
+                  color: Colors.white,
+                ),
+                Space(0.005),
+                TextCustom(
+                  label,
+                  color: isSelected ? Colors.white : Colors.grey,
+                )
+              ],
+            ),
           ),
         ),
       ),

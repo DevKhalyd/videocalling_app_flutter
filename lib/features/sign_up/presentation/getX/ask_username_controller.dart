@@ -114,7 +114,7 @@ class AskUsernameController extends GetxController {
     _loadingState();
 
     if (wasDataAdded) {
-      Get.toNamed(Routes.home, arguments: Arguments.openImagePicker);
+      Get.offNamed(Routes.home, arguments: Arguments.openImagePicker);
       return;
     }
     Get.dialog(AlertInfo(content: Messages.error));

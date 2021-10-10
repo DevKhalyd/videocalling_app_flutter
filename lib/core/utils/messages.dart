@@ -5,4 +5,6 @@ abstract class Messages {
 
   static const selectImageExplanation =
       'Select an image tapping the camera or you can skip this step.';
+
+  static const signInAgain = 'Please sign in again.';
 }

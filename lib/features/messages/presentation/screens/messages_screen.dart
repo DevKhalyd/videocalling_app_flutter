@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 
 import '../../../../core/widgets/mini_widgets.dart';
 
@@ -9,7 +10,7 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Utils.textFormFIeldColor,
       body: CenterText('Messages Screens'),
     );
   }
