@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
 
+import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 
 class CallsScreen extends StatelessWidget {
@@ -10,7 +10,10 @@ class CallsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Utils.textFormFIeldColor,
-      body: CenterText('Calls Screens'),
+      body: CenterText(
+        'Calls Screens',
+        color: Colors.white,
+      ),
     );
   }
 }

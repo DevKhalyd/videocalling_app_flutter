@@ -10,7 +10,6 @@ abstract class Utils {
   static final _colors = <Color>[
     Colors.red,
     Colors.green,
-    Colors.grey,
     Colors.orange,
     Colors.deepPurple,
     Colors.blue,

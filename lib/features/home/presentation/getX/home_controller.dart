@@ -17,6 +17,8 @@ import '../screens/image_picker_screen.dart';
 
 /// Handle each fragment in this screen
 class HomeController extends GetxController {
+  /// Allow to update
+  static const idUnique = 'id';
   static HomeController get to => Get.find();
 
   /// Pages to show
@@ -66,7 +68,7 @@ class HomeController extends GetxController {
   void _changeCurrentPage([int value = 0]) {
     if (value == _currentPage) return;
     _currentPage = value;
-    update();
+    update([idUnique]);
   }
 
   /// Update the UI with the user data

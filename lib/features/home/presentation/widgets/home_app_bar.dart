@@ -9,26 +9,33 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      builder: (c) {
-        return Container(
-          height: kToolbarHeight,
-          width: context.width,
-          child: Row(
-            children: [
-              Space(0.05, isHorizontal: true),
-              TextCustom(
+    return Container(
+      height: kToolbarHeight,
+      width: context.width,
+      child: Row(
+        children: [
+          Space(0.05, isHorizontal: true),
+          GetBuilder<HomeController>(
+            assignId: true,
+            id: HomeController.idUnique,
+            builder: (c) {
+              return TextCustom(
                 c.title,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-              ),
-              Spacer(),
-              c.getImageAppbar(),
-              Space(0.02, isHorizontal: true),
-            ],
+              );
+            },
           ),
-        );
-      },
+          Spacer(),
+          GetBuilder<HomeController>(
+            builder: (c) {
+              return c.getImageAppbar();
+            },
+          ),
+          // c.getImageAppbar(),
+          Space(0.02, isHorizontal: true),
+        ],
+      ),
     );
   }
 }

@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       init: HomeController(),
-      builder: (c) {
+      builder: (_) {
         return Scaffold(
           backgroundColor: Colors.black,
           body: SafeArea(
@@ -21,7 +21,13 @@ class HomeScreen extends StatelessWidget {
                 // Appbar
                 HomeAppBar(),
                 // Body
-                Expanded(child: c.currentPage),
+                GetBuilder<HomeController>(
+                  assignId: true,
+                  id: HomeController.idUnique,
+                  builder: (c) {
+                    return Expanded(child: c.currentPage);
+                  },
+                ),
                 // Bottombar
                 HomeBottomNavigation(),
               ],
