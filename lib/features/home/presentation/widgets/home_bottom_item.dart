@@ -22,7 +22,7 @@ class HomeBottomItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Material(
-        color: Colors.black,
+        color: Colors.black38,
         child: InkWell(
           onTap: onPressed,
           child: Padding(

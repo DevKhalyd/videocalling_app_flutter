@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 
 import '../../../../core/widgets/mini_widgets.dart';
 import '../getX/splash_controller.dart';
@@ -11,7 +12,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Utils.textFormFIeldColor,
         body: GetBuilder<SplashController>(
             init: SplashController(),
             builder: (c) {

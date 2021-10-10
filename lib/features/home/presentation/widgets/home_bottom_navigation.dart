@@ -68,7 +68,7 @@ class HomeBottomNavigation extends StatelessWidget {
                           padding: const EdgeInsets.all(6.0),
                           child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: Utils.acentColor,
                                 shape: BoxShape.circle,
                               ),
                               // ALlow to see the splash in this widget

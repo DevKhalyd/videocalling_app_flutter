@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 
-import '../../utils/utils.dart';
 import '../mini_widgets.dart';
 
-const _size = 50.0;
+const _size = 40.0;
 
 class CircleProfileImage extends StatelessWidget {
   /// Returns an image if provider otherwise use a letter to show
@@ -26,13 +26,15 @@ class CircleProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: _size,
+      width: _size,
       decoration: BoxDecoration(
-          color: Utils.genereateColor(),
+          color: url != null ? null : Utils.genereateColor(),
           shape: BoxShape.circle,
           image: url != null
               ? DecorationImage(
                   image: NetworkImage(url!),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 )
               : null),
       child: firstLetter != null

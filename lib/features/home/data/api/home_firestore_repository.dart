@@ -26,10 +26,8 @@ class HomeFirestoreRepository extends FirestoreRepository {
       if (query.docs.isEmpty) throw ('Docs not found');
       final doc = query.docs[0];
       final user = User.fromJson(doc.data() as Map<String, dynamic>);
-      Log.console('Password: ${user.password}');
       user.clean();
       user.setId(doc.id);
-      Log.console('New Password: ${user.password}');
       return user;
     } catch (e) {
       rethrow;
