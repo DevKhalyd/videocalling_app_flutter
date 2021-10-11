@@ -2,20 +2,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//import 'core/repositories/firestore_repository.dart';
+import 'core/repositories/auth_repository.dart';
+import 'core/repositories/firestore_repository.dart';
 import 'core/utils/routes.dart';
 import 'core/utils/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Remove when the tests ends
-  // EmulatorFirestoreRepository.init();
+  // TODO : Remove when the tests ends
+  EmulatorAuthRepository.init();
+  EmulatorFirestoreRepository.init();
   runApp(VideocallingApp());
 }
 
 class VideocallingApp extends StatelessWidget {
-  // Dark theme always...
+  // Dark theme always...`
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

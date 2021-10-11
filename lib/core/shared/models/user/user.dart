@@ -15,6 +15,13 @@ class User {
   static const imageUrlField = 'imageUrl';
   static const isOnlineField = 'isOnline';
 
+  /// In this model this field does not exists. But in the database it does.
+  ///
+  /// Basically store the username as a List of strings.
+  ///
+  /// This allow to search usernames letter by letter.
+  static const userNameQueryField = 'username_query';
+
   User({
     required this.username,
     required this.fullname,

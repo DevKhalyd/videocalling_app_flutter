@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
+import '../../../../core/utils/utils.dart';
 
 import '../getX/home_controller.dart';
 import 'home_bottom_item.dart';
 
-/// The button navigation of the home
+/// The button navigation of the home 
 class HomeBottomNavigation extends StatelessWidget {
   const HomeBottomNavigation({Key? key}) : super(key: key);
 

@@ -5,6 +5,8 @@ import '../extensions/context_ext.dart';
 import '../utils/my_themes.dart';
 import '../utils/utils.dart';
 
+typedef OnData = Widget Function(BuildContext context, AsyncSnapshot snapshot);
+
 class TextCustom extends StatelessWidget {
   const TextCustom(this.data,
       {Key? key,
@@ -344,6 +346,63 @@ class ScaffoldForm extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(child: child),
+    );
+  }
+}
+
+class StreamCustom<T> extends StatelessWidget {
+  const StreamCustom({Key? key, this.stream, required this.onData})
+      : super(key: key);
+
+  final Stream<T>? stream;
+  /// When the data is ready to be shown
+  final OnData onData;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: stream,
+      builder: (context, AsyncSnapshot<T> snapshot) {
+        if (snapshot.hasError)
+          return IconDescription(Icons.block, 'Something went wrong');
+
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return CircularProgressCustom();
+
+        return onData(context, snapshot);
+      },
+    );
+  }
+}
+
+class IconDescription extends StatelessWidget {
+  final IconData icon;
+  final String msg;
+
+  const IconDescription(this.icon, this.msg);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 60,
+            color: Colors.grey,
+          ),
+          Space(0.01),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextCustom(
+              msg,
+              textAlign: TextAlign.center,
+              color: Colors.grey,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

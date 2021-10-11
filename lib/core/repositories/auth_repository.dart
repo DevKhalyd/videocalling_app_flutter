@@ -6,3 +6,9 @@ abstract class AuthRepository {
   User? get user => auth.currentUser;
   void signOut() => auth.signOut();
 }
+
+class EmulatorAuthRepository extends AuthRepository {
+  EmulatorAuthRepository.init() {
+    auth.useAuthEmulator('localhost', 9099);
+  }
+}

@@ -1,6 +1,5 @@
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
-import '../../../../core/utils/logger.dart';
 
 class HomeFirestoreRepository extends FirestoreRepository {
   /// [id] The id of the document
@@ -17,6 +16,7 @@ class HomeFirestoreRepository extends FirestoreRepository {
     }
   }
 
+  /// Get the user data from firebase
   Future<User> getUserData(String email) async {
     try {
       final query = await getCollection(usersCollection)
@@ -29,6 +29,36 @@ class HomeFirestoreRepository extends FirestoreRepository {
       user.clean();
       user.setId(doc.id);
       return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Get a list of users given a username
+  Stream<List<User>> getUsersByUsername(String username) async* {
+    try {
+      final query = getCollection(usersCollection)
+          .where(User.userNameQueryField, arrayContains: username)
+          .snapshots();
+
+      await for (final q in query) {
+        final docs = q.docs;
+
+        if (docs.isEmpty) {
+          yield [];
+          return;
+        }
+
+        final users = <User>[];
+
+        for (final d in docs) {
+          final data = d.data() as Map<String, dynamic>;
+          final u = User.fromJson(data);
+          u.clean();
+          users.add(u);
+        }
+        yield users;
+      }
     } catch (e) {
       rethrow;
     }

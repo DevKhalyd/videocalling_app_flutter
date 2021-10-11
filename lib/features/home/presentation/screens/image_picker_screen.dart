@@ -6,8 +6,6 @@ import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../getX/image_picker_controller.dart';
 
-// TODO: Test this screen
-
 /// Select a image (if is desired) and then upload to the database.
 ///
 /// This screen appears over the home screen.
@@ -21,7 +19,7 @@ class ImagePickerScreen extends StatelessWidget {
       builder: (c) {
         final bytes = c.bytes;
         return Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: Utils.textFormFIeldColor,
           body: Column(
             children: [
               Space(0.05),
