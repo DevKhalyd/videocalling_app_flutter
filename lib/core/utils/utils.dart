@@ -38,4 +38,8 @@ abstract class Utils {
     final n = random.nextInt(_colors.length - 1);
     return _colors[n];
   }
+  
+  static bool containsLetter(String letter, String input) {
+    return input.contains(letter);
+  }
 }

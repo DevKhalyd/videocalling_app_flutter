@@ -5,6 +5,7 @@ import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/arguments.dart';
 import '../../../../core/utils/messages.dart';
 import '../../../../core/utils/routes.dart';
+import '../../../../core/widgets/dialogs/alert_option.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../../../core/widgets/shared/circle_profile_image.dart';
 import '../../../calls/presentation/screens/calls_screen.dart';
@@ -112,7 +113,9 @@ class HomeController extends GetxController {
     final url = user?.imageUrl;
     final firstLetter = user?.fullname[0];
 
-    return CircleProfileImage(url: url, firstLetter: firstLetter);
+    return GestureDetector(
+        onTap: _onSignOut,
+        child: CircleProfileImage(url: url, firstLetter: firstLetter));
   }
 
   /// Update the user and notifies to the listeners
@@ -142,5 +145,14 @@ class HomeController extends GetxController {
   signOut() {
     SignOut.execute();
     Get.offAllNamed(Routes.signIn);
+  }
+
+  // End this one
+  void _onSignOut() async {
+    final result = await Get.dialog(
+        AlertOption(content: 'Do you want to sign out of the app?'));
+    if (result is bool) {
+      if (result) signOut();
+    }
   }
 }

@@ -31,9 +31,7 @@ class HomeScreen extends StatelessWidget {
                   GetBuilder<HomeController>(
                     assignId: true,
                     id: HomeController.idUnique,
-                    builder: (c) {
-                      return Expanded(child: c.currentPage);
-                    },
+                    builder: (c) => Expanded(child: c.currentPage),
                   ),
                   // Bottombar
                   HomeBottomNavigation(),

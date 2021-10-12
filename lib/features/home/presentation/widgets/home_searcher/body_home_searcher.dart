@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/features/home/presentation/widgets/home_searcher/react_username.dart';
 
 import '../../../../../core/shared/models/user/user.dart';
 import '../../../../../core/widgets/mini_widgets.dart';
@@ -37,7 +38,10 @@ class BodyHomeSearcher extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = users[index];
                         return TileHomeSearcher(
-                          username: item.username,
+                          username: ReactUsername(
+                            inputUser: c.controller.text,
+                            username: item.username,
+                          ),
                           fullname: item.fullname,
                           isOnline: item.isOnline,
                           profileImage: CircleProfileImage(

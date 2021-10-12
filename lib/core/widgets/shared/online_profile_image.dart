@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/utils.dart';
 import 'circle_profile_image.dart';
 import 'dot.dart';
 

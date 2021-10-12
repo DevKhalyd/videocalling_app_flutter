@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/widgets/mini_widgets.dart';
 import '../../../../../core/widgets/shared/circle_profile_image.dart';
 import '../../../../../core/widgets/shared/online_profile_image.dart';
+import 'react_username.dart';
 
 /// The item to show when the user is searching for a username
 class TileHomeSearcher extends StatelessWidget {
@@ -15,9 +16,10 @@ class TileHomeSearcher extends StatelessWidget {
     this.onPressed,
   }) : super(key: key);
 
-  final String username, fullname;
+  final String fullname;
   final bool isOnline;
   final CircleProfileImage profileImage;
+  final ReactUsername username;
   final VoidCallback? onPressed;
 
   @override
@@ -27,10 +29,7 @@ class TileHomeSearcher extends StatelessWidget {
         profile: profileImage,
         isOnline: isOnline,
       ),
-      title: TextCustom(
-        username,
-        fontWeight: FontWeight.bold,
-      ),
+      title: username,
       subtitle: TextCustom(
         fullname,
         color: Colors.grey,
