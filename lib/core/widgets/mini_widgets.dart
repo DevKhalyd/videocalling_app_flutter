@@ -5,8 +5,6 @@ import '../extensions/context_ext.dart';
 import '../utils/my_themes.dart';
 import '../utils/utils.dart';
 
-typedef OnData = Widget Function(BuildContext context, AsyncSnapshot snapshot);
-
 class TextCustom extends StatelessWidget {
   const TextCustom(this.data,
       {Key? key,
@@ -350,13 +348,14 @@ class ScaffoldForm extends StatelessWidget {
   }
 }
 
-class StreamCustom<T> extends StatelessWidget {
-  const StreamCustom({Key? key, this.stream, required this.onData})
+class StreamBuilderCustom<T> extends StatelessWidget {
+  const StreamBuilderCustom({Key? key, this.stream, required this.onData})
       : super(key: key);
 
   final Stream<T>? stream;
+
   /// When the data is ready to be shown
-  final OnData onData;
+  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot) onData;
 
   @override
   Widget build(BuildContext context) {

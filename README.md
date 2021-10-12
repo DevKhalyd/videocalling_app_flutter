@@ -15,6 +15,14 @@ All those files necessary are from Firebase Core. Check out the docs.
 # TODO
 
 Add the configuration for IOS
+Create the log out session button
+Take two params the RichTextLetters
+
+username: From the database
+inputUser : From user
+
+an array of richt text for each letter
+if (inputUser.contains(username))
 
 # Structure
 

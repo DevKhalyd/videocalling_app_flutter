@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-import '../../../../core/widgets/mini_widgets.dart';
-import '../getX/home_controller.dart';
+import '../../../../../core/widgets/mini_widgets.dart';
+import '../../getX/home_controller.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({Key? key}) : super(key: key);

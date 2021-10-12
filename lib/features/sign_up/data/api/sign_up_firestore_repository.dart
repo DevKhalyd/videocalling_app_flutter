@@ -10,7 +10,7 @@ class SignUpFirestoreRepository extends FirestoreRepository {
     try {
       final querySnapshot = await firestore
           .collection(usernamesUnavaibles)
-          .where(usernameField, isEqualTo: username)
+          .where(usernameField, isEqualTo: username.toLowerCase())
           .get();
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {

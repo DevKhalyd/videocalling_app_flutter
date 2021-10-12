@@ -37,8 +37,13 @@ class HomeFirestoreRepository extends FirestoreRepository {
   /// Get a list of users given a username
   Stream<List<User>> getUsersByUsername(String username) async* {
     try {
+      var usernameArray = username.split('');
+
+      if (usernameArray.length > 10)
+        usernameArray = usernameArray.getRange(0, 10).toList();
+
       final query = getCollection(usersCollection)
-          .where(User.userNameQueryField, arrayContains: username)
+          .where(User.userNameQueryField, arrayContainsAny: usernameArray)
           .snapshots();
 
       await for (final q in query) {

@@ -9,11 +9,11 @@ import 'logger.dart';
 abstract class Utils {
   static final _colors = <Color>[
     Colors.red,
-    Colors.green,
     Colors.orange,
     Colors.deepPurple,
     Colors.blue,
-    acentColor,
+    Colors.pink,
+    acentColor
   ];
 
   static final appName = 'Videocalling App';

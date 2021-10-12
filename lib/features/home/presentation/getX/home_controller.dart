@@ -13,6 +13,7 @@ import '../../domain/usecases/get_email_user.dart';
 import '../../domain/usecases/get_user_data.dart';
 import '../../domain/usecases/sign_out.dart';
 import '../../domain/usecases/update_user_online.dart';
+import '../screens/home_searcher_screen.dart';
 import '../screens/image_picker_screen.dart';
 
 /// Handle each fragment in this screen
@@ -63,7 +64,8 @@ class HomeController extends GetxController {
 
   void onTabCallSelected() => _changeCurrentPage(1);
 
-  void onVideocall() {}
+  /// When press the videocall button
+  void onVideocall() => Get.to(HomeSearcherScreen());
 
   void _changeCurrentPage([int value = 0]) {
     if (value == _currentPage) return;
@@ -108,10 +110,9 @@ class HomeController extends GetxController {
     if (user == null) return Container();
 
     final url = user?.imageUrl;
+    final firstLetter = user?.fullname[0];
 
-    if (url != null) return CircleProfileImage(url: url);
-
-    return CircleProfileImage(firstLetter: user!.fullname[0]);
+    return CircleProfileImage(url: url, firstLetter: firstLetter);
   }
 
   /// Update the user and notifies to the listeners

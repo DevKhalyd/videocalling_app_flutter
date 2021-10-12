@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
 
+import '../../utils/utils.dart';
 import '../mini_widgets.dart';
 
 const _size = 40.0;
@@ -13,11 +13,11 @@ class CircleProfileImage extends StatelessWidget {
     this.firstLetter,
     this.size = _size,
     this.fontSize = 16,
-  })  :
-        // Avoid to use both parameters
-        assert(url == null || firstLetter == null),
+  })  : assert(url != null || firstLetter != null,
+            'At least one must be provided'),
         super(key: key);
 
+  /// Both can be used. But take priority the url over first letter.
   final String? url, firstLetter;
   final double size;
 
@@ -34,12 +34,11 @@ class CircleProfileImage extends StatelessWidget {
           image: url != null
               ? DecorationImage(
                   image: NetworkImage(url!),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 )
               : null),
-      child: firstLetter != null
-          ? Padding(
-              padding: const EdgeInsets.all(14.0),
+      child: firstLetter != null && url == null
+          ? Center(
               child: TextCustom(
                 firstLetter!,
                 color: Colors.white,

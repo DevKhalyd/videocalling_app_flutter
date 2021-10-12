@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
-import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
+import '../../../../core/utils/utils.dart';
+import '../../../../core/widgets/mini_widgets.dart';
 import '../getX/home_controller.dart';
-import '../widgets/home_app_bar.dart';
-import '../widgets/home_bottom_navigation.dart';
+import '../widgets/home_screen/home_app_bar.dart';
+import '../widgets/home_screen/home_bottom_navigation.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

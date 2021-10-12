@@ -105,7 +105,7 @@ class AskUsernameController extends GetxController {
 
     final wasDataAdded = await AddUserData.execute(
         user: User(
-      username: _username,
+      username: _username.toLowerCase(),
       fullname: userInfo.name,
       email: userInfo.email,
       password: userInfo.password,
