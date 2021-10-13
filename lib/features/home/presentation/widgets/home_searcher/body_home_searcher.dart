@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/home/presentation/widgets/home_searcher/react_username.dart';
 
 import '../../../../../core/shared/models/user/user.dart';
 import '../../../../../core/widgets/mini_widgets.dart';
 import '../../../../../core/widgets/shared/circle_profile_image.dart';
 import '../../getX/home_search_controller.dart';
+import 'react_username.dart';
 import 'tile_home_searcher.dart';
 
 class BodyHomeSearcher extends StatelessWidget {

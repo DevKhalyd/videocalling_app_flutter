@@ -35,13 +35,25 @@ class HomeFirestoreRepository extends FirestoreRepository {
   }
 
   /// Get a list of users given a username
-  Stream<List<User>> getUsersByUsername(String username) async* {
+  ///
+  /// [username] to search
+  ///
+  /// [thisUsername] The user who is looking for others usernames. In others words, the current user signed in this session
+  Stream<List<User>> getUsersByUsername(
+      String username, String thisUsername) async* {
     try {
       var usernameArray = username.split('');
 
+      /// The query just acepts the first characters if this is not true then throw an Exception
       if (usernameArray.length > 10)
         usernameArray = usernameArray.getRange(0, 10).toList();
 
+      /// Context: Firebase don't have a function that allow to search an user by sending the username or x param.
+      /// Just search for a letter en specific. Example: If I give to firebase a letter called "A" then the query returns
+      /// all the users that matches with that letter. So It's hard to search in firebase.
+      ///
+      /// Solution: When I create a new user a cloud function is triggered and split the username into an array. So this allow search a username
+      /// by the parameter `arrayContainsAny` and make the following query.
       final query = getCollection(usersCollection)
           .where(User.userNameQueryField, arrayContainsAny: usernameArray)
           .snapshots();
@@ -59,8 +71,10 @@ class HomeFirestoreRepository extends FirestoreRepository {
         for (final d in docs) {
           final data = d.data() as Map<String, dynamic>;
           final u = User.fromJson(data);
-          u.clean();
-          users.add(u);
+          if (thisUsername != u.username) {
+            u.clean();
+            users.add(u);
+          }
         }
         yield users;
       }

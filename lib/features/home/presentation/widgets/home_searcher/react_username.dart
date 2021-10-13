@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
+
+import '../../../../../core/utils/utils.dart';
 
 /// React to the values passed to this widget
 class ReactUsername extends StatelessWidget {
@@ -22,6 +23,9 @@ class ReactUsername extends StatelessWidget {
       text: TextSpan(
           text: letters[0],
           style: TextStyle(
+            color: Utils.containsLetter(letters[0], inputUser)
+                ? Colors.red
+                : Colors.white,
             fontWeight: Utils.containsLetter(letters[0], inputUser)
                 ? FontWeight.bold
                 : null,
@@ -31,6 +35,9 @@ class ReactUsername extends StatelessWidget {
               TextSpan(
                 text: s,
                 style: TextStyle(
+                  color: Utils.containsLetter(s, inputUser)
+                      ? Colors.red
+                      : Colors.white,
                   fontWeight: Utils.containsLetter(s, inputUser)
                       ? FontWeight.bold
                       : null,
