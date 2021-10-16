@@ -40,3 +40,8 @@ Use cases means that if I'm usign the AuthRepository the cases can be
 From that use cases should I return a response to interact with the UI... that means with the presentation Layer.
 
 data: Get the data from an API or Local Storage (Firebase, API rest)
+
+# Resources
+
+**Paths in flutter**
+https://medium.com/flutter-community/paths-in-flutter-a-visual-guide-6c906464dcd0

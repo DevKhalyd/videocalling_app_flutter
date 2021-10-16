@@ -38,6 +38,7 @@ class BodyHomeSearcher extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = users[index];
                         return TileHomeSearcher(
+                          onPressed: () => c.onPressUser(item),
                           username: ReactUsername(
                             inputUser: c.controller.text,
                             username: item.username,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:videocalling_app/core/utils/routes.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/logger.dart';
@@ -36,4 +37,12 @@ class HomeSearchController extends GetxController {
           update();
         });
       });
+
+  /// When this user select an user to call.
+  void onPressUser(User u) {
+    // Return to the home screen
+    Get.back();
+    // Open the videocalling screen
+    Get.toNamed(Routes.videocall, arguments: u);
+  }
 }
