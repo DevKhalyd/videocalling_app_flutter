@@ -21,14 +21,17 @@ class MyApp extends StatelessWidget {
 class PathExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CustomPaint(
-        painter: _PathPainter(),
-        child: Container(
-          width: double.infinity,
-          height: 150,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        CustomPaint(
+          painter: _PathPainter(),
+          child: Container(
+            width: double.infinity,
+            height: 130,
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -69,7 +72,6 @@ class _PathPainter extends CustomPainter {
       width * .7,
       height * .5,
     );*/
-
     canvas.drawPath(path, paint);
   }
 

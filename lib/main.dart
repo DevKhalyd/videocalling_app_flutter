@@ -20,7 +20,7 @@ class VideocallingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(iconTheme: IconThemeData(color: Colors.purple)),
+      theme: ThemeData(iconTheme: IconThemeData(color: Colors.white)),
       title: Utils.appName,
       initialRoute: Routes.initial,
       getPages: Routes.pages,
