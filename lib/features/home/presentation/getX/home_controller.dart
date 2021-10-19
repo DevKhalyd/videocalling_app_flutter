@@ -10,9 +10,11 @@ import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../../../core/widgets/shared/circle_profile_image.dart';
 import '../../../calls/presentation/screens/calls_screen.dart';
 import '../../../messages/presentation/screens/messages_screen.dart';
+import '../../../sign_up/domain/usecases/get_fcm_token.dart';
 import '../../domain/usecases/get_email_user.dart';
 import '../../domain/usecases/get_user_data.dart';
 import '../../domain/usecases/sign_out.dart';
+import '../../domain/usecases/update_fcm_token.dart';
 import '../../domain/usecases/update_user_online.dart';
 import '../screens/home_searcher_screen.dart';
 import '../screens/image_picker_screen.dart';
@@ -104,6 +106,19 @@ class HomeController extends GetxController {
 
     /// Update the app bar with the new data
     updateUser(user);
+    onUpdateFCMToken();
+  }
+
+  /// Update the FCM of this user after the data is fetched.
+  onUpdateFCMToken() async {
+    final u = user!;
+
+    /// The current token
+    final currentToken = await GetFCMToken.execute();
+
+    /// Update token in firestore
+    if (u.tokenFCM != currentToken)
+      UpdateFCMToken.execute(id: u.id, token: currentToken);
   }
 
   /// Get the image according to the data avaible

@@ -14,6 +14,7 @@ class User {
   static const emailField = 'email';
   static const imageUrlField = 'imageUrl';
   static const isOnlineField = 'isOnline';
+  static const tokenFCMField = 'tokenFCM';
 
   /// In this model this field does not exists. But in the database it does.
   ///
@@ -26,18 +27,24 @@ class User {
     required this.username,
     required this.fullname,
     required this.email,
+    this.tokenFCM = '',
     this.isOnline = true,
     this.imageUrl,
     this.password,
   });
 
   @JsonKey(ignore: true)
+
+  /// The id for this document in firestore. Created automatically by Firestore.
   String id = '';
 
   final String username, fullname, email;
 
   /// Can be null when it's necessary.
   final String? imageUrl;
+
+  /// The token of this user. Can be null because the IOS user can deny the notification permission.
+  final String tokenFCM;
 
   final bool isOnline;
 
@@ -58,6 +65,7 @@ class User {
     String? fullname,
     String? email,
     String? imageUrl,
+    String? tokenFCM,
     bool? isOnline,
   }) {
     return User(
@@ -67,6 +75,7 @@ class User {
       isOnline: isOnline ?? this.isOnline,
       imageUrl: imageUrl ?? this.imageUrl,
       password: this.password,
+      tokenFCM: tokenFCM ?? this.tokenFCM,
     );
   }
 

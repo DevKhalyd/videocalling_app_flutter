@@ -10,6 +10,7 @@ import '../../../../core/utils/routes.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../domain/usecases/add_user_data.dart';
 import '../../domain/usecases/exits_username.dart';
+import '../../domain/usecases/get_fcm_token.dart';
 import '../../domain/usecases/sign_up_with_email.dart';
 import 'sign_up_controller.dart';
 
@@ -109,10 +110,9 @@ class AskUsernameController extends GetxController {
       fullname: userInfo.name,
       email: userInfo.email,
       password: userInfo.password,
+      tokenFCM: await GetFCMToken.execute(),
     ));
-
     _loadingState();
-
     if (wasDataAdded) {
       Get.offNamed(Routes.home, arguments: Arguments.openImagePicker);
       return;

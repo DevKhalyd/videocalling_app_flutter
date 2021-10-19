@@ -16,7 +16,6 @@ void main() async {
 }
 
 class VideocallingApp extends StatelessWidget {
-  // Dark theme always...`
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
