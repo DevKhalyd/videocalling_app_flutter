@@ -148,7 +148,7 @@ class HomeController extends GetxController {
           Get.to(ImagePickerScreen());
           break;
         default:
-          throw UnimplementedError("Missing string to execute");
+          throw UnimplementedError("Missing argument to execute");
       }
     }
   }
