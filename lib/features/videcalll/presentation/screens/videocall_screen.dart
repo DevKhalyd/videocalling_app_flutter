@@ -5,6 +5,7 @@ import '../../../../core/utils/utils.dart';
 import '../getX/videocall_controller.dart';
 import '../widgets/videocall_bottom_container.dart';
 
+/// Contains the screen where the user interacts with other one
 class VideocallScreen extends StatelessWidget {
   const VideocallScreen({Key? key}) : super(key: key);
   @override

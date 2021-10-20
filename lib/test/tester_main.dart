@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: Use the method moveTo to start to draw
 
 class PathExample extends StatelessWidget {
   @override

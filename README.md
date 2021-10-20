@@ -37,3 +37,8 @@ data: Get the data from an API or Local Storage (Firebase, API rest)
 
 **Paths in flutter**
 https://medium.com/flutter-community/paths-in-flutter-a-visual-guide-6c906464dcd0
+
+
+# NOTES
+
+This project was built with Flutter 2.5.3 
