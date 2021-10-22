@@ -42,15 +42,13 @@ class VideoCallControlller extends GetxController {
     // _prepareVideocall
   }
 
-  // TODO: If there is a response from the FCM that the notification was sent.
-  // So call this method
+  // TODO: If there is a response from the FCM that the notification was sent.  So call this method
   void _prepareVideocall(VideoCallingModel data) {
     _videoCallingModel = data;
     _initAgoraRtcEngine();
   }
 
   Future<void> _initAgoraRtcEngine() async {
-    // ignore: deprecated_member_use
     _engine = await RtcEngine.create(AgoraSettings.appId);
     await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
@@ -72,10 +70,11 @@ class VideoCallControlller extends GetxController {
   }
 
   void _agoraEventHandlers() {
-    _engine.setEventHandler(RtcEngineEventHandler(
+    _engine.setEventHandler(
+      RtcEngineEventHandler(
         error: (code) => log('Something bad happens. Code: $code'),
         joinChannelSuccess: (channel, uid, elapsed) =>
-            log('onJoinChannel: $channel, uid: $uid'),
+            log('onJoinChannel: $channel, uid: $uid elapsed: $elapsed'),
         leaveChannel: (stats) {
           users.clear();
           _assignViews();
@@ -88,7 +87,8 @@ class VideoCallControlller extends GetxController {
           users.remove(uid);
           _assignViews();
         },
-        firstRemoteVideoFrame: (uid, width, height, elapsed) {}));
+      ),
+    );
   }
 
   void _assignViews() {

@@ -8,6 +8,7 @@ import '../getX/home_controller.dart';
 import '../widgets/home_screen/home_app_bar.dart';
 import '../widgets/home_screen/home_bottom_navigation.dart';
 
+/// Contains the main screen application.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
