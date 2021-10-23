@@ -27,15 +27,25 @@ class User {
     required this.username,
     required this.fullname,
     required this.email,
-    this.tokenFCM = '',
     this.isOnline = true,
+    this.tokenFCM = '',
     this.imageUrl,
     this.password,
   });
 
-  @JsonKey(ignore: true)
+  /// Use this constructor to test a function that needs a User object
+  User.test({
+    this.username = 'testUserName',
+    this.fullname = 'Test One',
+    this.email = 't1@gmail.com',
+    this.tokenFCM = 'TOKEN FCM TEST',
+    this.isOnline = true,
+    this.password = 'Super Secret Password',
+    this.imageUrl,
+  });
 
   /// The id for this document in firestore. Created automatically by Firestore.
+  @JsonKey(ignore: true)
   String id = '';
 
   final String username, fullname, email;

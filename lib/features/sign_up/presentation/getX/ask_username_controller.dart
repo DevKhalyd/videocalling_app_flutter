@@ -86,6 +86,7 @@ class AskUsernameController extends GetxController {
     });
   }
 
+  /// Handle the sign up and the states of the UI
   void signUp() async {
     if (_username.isEmpty) return;
 

@@ -5,6 +5,7 @@ gradle-wrapper.jar
 /gradlew.bat
 /local.properties
 GeneratedPluginRegistrant.java
+app/build
 
 # Sentitive data that should not store onto the public repository
 app/google-services.json
