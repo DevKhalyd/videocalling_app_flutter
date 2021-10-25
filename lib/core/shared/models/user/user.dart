@@ -46,7 +46,13 @@ class User {
 
   /// The id for this document in firestore. Created automatically by Firestore.
   @JsonKey(ignore: true)
-  String id = '';
+  String _id = '';
+
+  String get id {
+    assert(_id.isNotEmpty,
+        'Check out if you assing the ID that comes from firestore with `setId` method');
+    return _id;
+  }
 
   final String username, fullname, email;
 
@@ -61,14 +67,25 @@ class User {
   /// It's no final because this is changed to null when I fetch the data
   String? password;
 
-  /// Remove the encryted password from this model
+  /// Remove the encryted password from this model.
+  ///
+  /// Use this method when you get user information from the database otherwise don't.
   clean() => password = null;
 
-  /// Useful when the id comes from the database and it's necessary to stored
-  setId(String value) => id = value;
+  /// Useful when the id comes from the database and it's necessary to stored in the current model
+  ///
+  /// The ID is generated automatically by firestore. But do this action each time the data is fetched
+  /// is redundant because a better solution can be store the id when the document is created and not
+  /// when the data is fetched.
+  setId(String value) => _id = value;
 
   /// Return `true` if this User represents in a good way the data from Firebase
   bool validate() => password == null && id.isNotEmpty;
+
+  /// Check out if the token is valid to send a notification to another device
+  ///
+  /// If return `false` so abort the current process where the FCM token is needed.
+  bool isValidTokenFCM() => tokenFCM.isNotEmpty;
 
   User copyWith({
     String? username,

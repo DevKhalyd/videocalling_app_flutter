@@ -1,5 +1,6 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 
+/// The data necessary to start the videocall.
 class VideoCallingModel {
   const VideoCallingModel({
     required this.channelID,

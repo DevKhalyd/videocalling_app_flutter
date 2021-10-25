@@ -29,6 +29,7 @@ abstract class Utils {
     return (suffix ?? 'id') + '_' + time;
   }
 
+  /// Useful when you want to print a catch from a try block
   static printACatch(String msg, exception) {
     Log.console(msg, L.E, exception);
   }
@@ -38,7 +39,7 @@ abstract class Utils {
     final n = random.nextInt(_colors.length - 1);
     return _colors[n];
   }
-  
+
   static bool containsLetter(String letter, String input) {
     return input.contains(letter);
   }

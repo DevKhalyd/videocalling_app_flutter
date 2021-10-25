@@ -17,7 +17,6 @@ class ActionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add the material part to the icon if needed
     return Container(
       height: _sizeContainer,
       width: _sizeContainer,

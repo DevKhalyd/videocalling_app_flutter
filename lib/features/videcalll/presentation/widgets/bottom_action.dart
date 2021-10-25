@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 
-const _size = 60.0;
-
-class HangUpIcon extends StatelessWidget {
-  const HangUpIcon({
+class BottomAction extends StatelessWidget {
+  const BottomAction({
     Key? key,
-    this.size = _size,
+    required this.icon,
     this.onPressed,
   }) : super(key: key);
 
-  final double size;
+  final IconData icon;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.red,
+      color: Colors.transparent,
       shape: CircleBorder(),
       clipBehavior: Clip.hardEdge,
       child: Padding(
-        padding: const EdgeInsets.all(7.0),
+        padding: const EdgeInsets.all(8.0),
         child: IconButton(
-            onPressed: () {},
+            onPressed: onPressed,
             icon: Icon(
-              Icons.call_end,
+              icon,
               color: Colors.white,
             )),
       ),

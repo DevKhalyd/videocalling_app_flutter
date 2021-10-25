@@ -43,7 +43,7 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
     addUserData();
   }
 
-  // Test when a user has the data ready.
+  // Test when a user has the data ready to be registered in the database
   addUserData() async {
     final user = User.test();
     final wasAddedData = await AddUserData.execute(user: user);

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
+import 'package:videocalling_app/core/shared/models/user/user.dart';
+import 'package:videocalling_app/features/home/domain/models/call_state.dart';
 
 import '../../domain/models/video_calling_model.dart';
 
@@ -12,6 +14,67 @@ import '../../domain/models/video_calling_model.dart';
 import '../../../../core/utils/agora_settings.dart';
 
 class VideoCallControlller extends GetxController {
+  @override
+  void onInit() {
+    _handleArguments();
+    super.onInit();
+  }
+
+  /// Handle the arguments sent to the VideoScreen
+  ///
+  /// This serves to show some data in the application
+  _handleArguments() {
+    final arguments = Get.arguments;
+
+    switch (arguments) {
+      case User:
+        _assingScreenData(arguments);
+        break;
+      default:
+        assert(false, 'Missing argument case');
+    }
+  }
+
+  /// Use in the init method to prepare the screen for the user
+  _assingScreenData(User u) {
+    _name = u.fullname;
+    _state = CallState.msgRequesting;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  Function? onPressHangUp() {
+    if (_state == CallState.msgRequesting) return null;
+    return () {
+      print('Hang up');
+    };
+  }
+
+  String _name = '';
+
+  String _state = '';
+
+  /// The name of the callee
+  String get name => '';
+
+  /// The state of the videocall
+  ///
+  /// Like: requesting,waiting, oncall (Start to count  each second and convert to minutes)
+  String get state => '';
+
+  void onPressCamerasSwitch() {}
+
+  void onPressMicroPhone() {
+    /*_muted = !_muted;
+    _engine.muteLocalAudioStream(_muted);
+    update(['muted']);*/
+  }
+
+  //NOTE: Agora Engine
+
   // The id of each user assigned by Agora Engine
   final users = <int>[];
 
@@ -36,13 +99,8 @@ class VideoCallControlller extends GetxController {
   /// So, put this one in false means the opposite.
   bool get defaultView => _defaultView;
 
-  @override
-  void onReady() {
-    super.onReady();
-    // _prepareVideocall
-  }
-
   // TODO: If there is a response from the FCM that the notification was sent.  So call this method
+  /// [data] from the Cloud Functions
   void _prepareVideocall(VideoCallingModel data) {
     _videoCallingModel = data;
     _initAgoraRtcEngine();

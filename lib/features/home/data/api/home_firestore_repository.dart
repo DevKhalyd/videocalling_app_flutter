@@ -38,7 +38,9 @@ class HomeFirestoreRepository extends FirestoreRepository {
   ///
   /// [username] to search
   ///
-  /// [thisUsername] The user who is looking for others usernames. In others words, the current user signed in this session
+  /// [thisUsername] The user who is looking for others usernames.
+  /// In others words, the current user signed in this session.
+  /// This allow to remove from the list given by firestore.
   Stream<List<User>> getUsersByUsername(
       String username, String thisUsername) async* {
     try {
@@ -73,6 +75,7 @@ class HomeFirestoreRepository extends FirestoreRepository {
           final u = User.fromJson(data);
           if (thisUsername != u.username) {
             u.clean();
+            u.setId(d.id);
             users.add(u);
           }
         }
