@@ -19,11 +19,17 @@ class Call {
     this.durationInSeconds = 0,
     this.participantA,
     this.participantB,
-  });
+  }) : assert(participantsIds.length == 2,
+            'The correct use of this property is a length of 2 because the logic of the application.');
 
   final ConversationType conversationType;
   final CallType callType;
   final CallState state;
+
+  /// Assing then id when makes an query
+  ///
+  /// To avoid to assign each time the id, create the id before to add to a collection in firestore
+  setId(String id) => _id = id;
 
   /// ID Call
   ///
@@ -31,7 +37,13 @@ class Call {
   ///
   /// It's assigned when comes from firestore and requeried in the same query.
   @JsonKey(ignore: true)
-  String id = '';
+  String _id = '';
+
+  String get id {
+    assert(id.isNotEmpty,
+        'The id is empty. Make sure that the ID is assigned when makes a request');
+    return _id;
+  }
 
   /// ID of each user envolved in this conversation.
   final List<String> participantsIds;

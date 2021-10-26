@@ -8,8 +8,7 @@ class SignUpFirestoreRepository extends FirestoreRepository {
   /// Return true if the username exits
   Future<bool> getUsername(String username) async {
     try {
-      final querySnapshot = await firestore
-          .collection(usernamesUnavaibles)
+      final querySnapshot = await getCollection(usernamesUnavaibles)
           .where(usernameField, isEqualTo: username.toLowerCase())
           .get();
       return querySnapshot.docs.isNotEmpty;
@@ -21,8 +20,7 @@ class SignUpFirestoreRepository extends FirestoreRepository {
   /// Add the user data
   Future<void> addUserData(User user) async {
     try {
-      final collection = getCollection(usersCollection);
-      await addData(collection, user.toJson());
+      await addData(usersCollection, user.toJson());
     } catch (e) {
       rethrow;
     }

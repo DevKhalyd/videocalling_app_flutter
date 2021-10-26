@@ -35,9 +35,9 @@ class VideoCallBottomActions extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Space(0.02),
+                      Space(0.025),
                       TextCustom(c.name),
-                      Space(0.01),
+                      Space(0.0085),
                       TextCustom(c.state),
                     ],
                   ),

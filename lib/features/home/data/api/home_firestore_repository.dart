@@ -10,8 +10,13 @@ class HomeFirestoreRepository extends FirestoreRepository {
   Future<void> updateUserData(String id, String field, dynamic value) async {
     assert(value != null);
     try {
-      await getCollection(usersCollection).doc(id).update({field: value});
-    } catch (e) {
+      await updateData(
+        collection: usersCollection,
+        documentID: id,
+        field: field,
+        data: value,
+      );
+    } catch (_) {
       rethrow;
     }
   }
@@ -46,7 +51,7 @@ class HomeFirestoreRepository extends FirestoreRepository {
     try {
       var usernameArray = username.split('');
 
-      /// The query just acepts the first characters if this is not true then throw an Exception
+      /// The query just acepts the first 10 characters, if this is not true then throw an Exception
       if (usernameArray.length > 10)
         usernameArray = usernameArray.getRange(0, 10).toList();
 

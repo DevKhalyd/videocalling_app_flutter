@@ -5,7 +5,7 @@ part 'call_state.g.dart';
 /// Handle the CallState
 @JsonSerializable()
 class CallState {
-  static const msgRequesting = 'Requesting';
+  static const msgRequesting = 'Requesting...';
 
   /// Check if the other user is avaible
   static const stateRequesting = 0;

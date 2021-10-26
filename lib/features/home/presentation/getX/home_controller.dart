@@ -48,7 +48,7 @@ class HomeController extends GetxController {
 
   Widget get currentPage => _pages[_currentPage];
 
-  /// The user information
+  /// The user information of the current user signed in the application
   User? get user => _user;
   List<String> get tabs => _tabs;
   String get title => _titles[_currentPage];
