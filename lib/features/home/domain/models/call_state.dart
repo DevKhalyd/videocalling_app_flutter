@@ -30,7 +30,7 @@ class CallState {
 
   final int type;
 
-  /// Handle the CallState for a readable version.
+  /// Handle the CallState for a readable human version.
   String getState() {
     switch (type) {
       case stateRequesting:

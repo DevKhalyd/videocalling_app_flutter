@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
 
@@ -18,9 +20,9 @@ class SignUpFirestoreRepository extends FirestoreRepository {
   }
 
   /// Add the user data
-  Future<void> addUserData(User user) async {
+  Future<DocumentReference<Object?>> addUserData(User user) async {
     try {
-      await addData(usersCollection, user.toJson());
+      return await addData(usersCollection, user.toJson());
     } catch (e) {
       rethrow;
     }

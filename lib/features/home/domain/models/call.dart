@@ -8,14 +8,28 @@ import 'conversation_type.dart';
 part 'call.g.dart';
 
 /// Handle the call conversation. Can be videocall and call.
-/// Also handle the properties of this call and the current state.
-@JsonSerializable()
+/// Also handle the properties of this call and the current callState.
+@JsonSerializable(explicitToJson: true)
 class Call {
   Call({
+    required this.date,
     required this.participantsIds,
     this.conversationType = const ConversationType.videoCallType(),
     this.callType = const CallType.outcomingType(),
-    this.state = const CallState.requesting(),
+    this.callState = const CallState.requesting(),
+    this.durationInSeconds = 0,
+    this.participantA,
+    this.participantB,
+  }) : assert(participantsIds.length == 2,
+            'The correct use of this property is a length of 2 because the logic of the application.');
+
+  /// Use to the test the call object
+  Call.test({
+    required this.date,
+    this.participantsIds = const ['CALLER_ID', 'RECEIVER_ID'],
+    this.conversationType = const ConversationType.videoCallType(),
+    this.callType = const CallType.outcomingType(),
+    this.callState = const CallState.requesting(),
     this.durationInSeconds = 0,
     this.participantA,
     this.participantB,
@@ -24,7 +38,7 @@ class Call {
 
   final ConversationType conversationType;
   final CallType callType;
-  final CallState state;
+  final CallState callState;
 
   /// Assing then id when makes an query
   ///
@@ -64,6 +78,14 @@ class Call {
 
   /// The time elapsed since the call start.
   final int durationInSeconds;
+
+  /// Call date
+  final DateTime date;
+
+  /// Get the date for this call
+  static String getDate() => DateTime.now().toIso8601String();
+
+  static DateTime getDateNow() => DateTime.now();
 
   factory Call.fromJson(Map<String, dynamic> json) => _$CallFromJson(json);
 

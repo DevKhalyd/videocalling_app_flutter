@@ -5,19 +5,19 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/logger.dart';
-import 'package:videocalling_app/features/videcalll/domain/usecases/listen_call.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
 /// Create one with your API KEY
 import '../../../../core/utils/agora_settings.dart';
+import '../../../../core/utils/logger.dart';
 import '../../../home/domain/models/call.dart';
 import '../../../home/domain/models/call_state.dart';
 import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/video_calling_model.dart';
 import '../../domain/usecases/create_call.dart';
+import '../../domain/usecases/listen_call.dart';
 
 class VideoCallControlller extends GetxController {
   @override
@@ -54,14 +54,17 @@ class VideoCallControlller extends GetxController {
     // Get the ID of this user
     final idCurrentUser = HomeController.to.user?.id;
 
-    if (idCurrentUser == null) {
+    if (idCurrentUser?.isEmpty ?? true) {
       cancelCreationCall();
       return;
     }
 
     // Create the call
     /// According to the logic of the application, the fist of the list is the caller and the second one is the callee
-    final call = Call(participantsIds: [idCurrentUser, u.id]);
+    final call = Call(
+      participantsIds: [idCurrentUser!, u.id],
+      date: Call.getDateNow(),
+    );
 
     final reference = await CreateCall.execute(call);
 
@@ -88,7 +91,7 @@ class VideoCallControlller extends GetxController {
             L.E);
         return;
       }
-      // TODO: Change the states of the screen
+      Log.console('The call state is: ${event.callState.getState()}');
     });
   }
 

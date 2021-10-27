@@ -114,7 +114,7 @@ class AskUsernameController extends GetxController {
       tokenFCM: await GetFCMToken.execute(),
     ));
     _loadingState();
-    if (wasDataAdded) {
+    if (wasDataAdded != null) {
       Get.offNamed(Routes.home, arguments: Arguments.openImagePicker);
       return;
     }
