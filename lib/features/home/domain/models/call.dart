@@ -18,8 +18,8 @@ class Call {
     this.callType = const CallType.outcomingType(),
     this.callState = const CallState.requesting(),
     this.durationInSeconds = 0,
-    this.participantA,
-    this.participantB,
+    this.caller,
+    this.receiver,
   }) : assert(participantsIds.length == 2,
             'The correct use of this property is a length of 2 because the logic of the application.');
 
@@ -31,8 +31,8 @@ class Call {
     this.callType = const CallType.outcomingType(),
     this.callState = const CallState.requesting(),
     this.durationInSeconds = 0,
-    this.participantA,
-    this.participantB,
+    this.caller,
+    this.receiver,
   }) : assert(participantsIds.length == 2,
             'The correct use of this property is a length of 2 because the logic of the application.');
 
@@ -67,14 +67,14 @@ class Call {
   /// or
   ///
   /// participantsIds[0]
-  final User? participantA;
+  final User? caller;
 
   /// The callee
   ///
   /// or
   ///
   /// participantsIds[1]
-  final User? participantB;
+  final User? receiver;
 
   /// The time elapsed since the call start.
   final int durationInSeconds;

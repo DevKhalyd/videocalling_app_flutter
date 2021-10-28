@@ -39,7 +39,7 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
           )),
     );
   }
-  // TODO: Test those errors...
+
   /// Execute each method to test it
   void onPressed() async {
     final ids = await createTwoUsers();
@@ -71,6 +71,7 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
     final user = User.test(
       username: 'user_$name',
       fullname: name,
+      tokenFCM: 'FCM TOKEN DEVICE',
     );
 
     final doc = await AddUserData.execute(user: user);

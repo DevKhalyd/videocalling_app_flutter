@@ -68,7 +68,7 @@ class HomeController extends GetxController {
   void onTabCallSelected() => _changeCurrentPage(1);
 
   /// When press the videocall button
-  void onVideocall() => Get.to(HomeSearcherScreen());
+  void onVideocall() => Get.to(() => HomeSearcherScreen());
 
   void _changeCurrentPage([int value = 0]) {
     if (value == _currentPage) return;
