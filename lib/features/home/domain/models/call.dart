@@ -20,6 +20,8 @@ class Call {
     this.durationInSeconds = 0,
     this.caller,
     this.receiver,
+    this.channel,
+    this.token,
   }) : assert(participantsIds.length == 2,
             'The correct use of this property is a length of 2 because the logic of the application.');
 
@@ -33,6 +35,8 @@ class Call {
     this.durationInSeconds = 0,
     this.caller,
     this.receiver,
+    this.channel,
+    this.token,
   }) : assert(participantsIds.length == 2,
             'The correct use of this property is a length of 2 because the logic of the application.');
 
@@ -82,9 +86,11 @@ class Call {
   /// Call date
   final DateTime date;
 
-  /// Get the date for this call
-  static String getDate() => DateTime.now().toIso8601String();
+  final String? channel;
 
+  final String? token;
+
+  /// Get the date for this call
   static DateTime getDateNow() => DateTime.now();
 
   factory Call.fromJson(Map<String, dynamic> json) => _$CallFromJson(json);

@@ -1,17 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
+import '../core/repositories/fcm_repository.dart';
 import '../core/shared/models/user/user.dart';
 import '../core/utils/firebase_initalizer.dart';
 import '../core/utils/logger.dart';
 import '../core/widgets/mini_widgets.dart';
 import '../features/home/domain/models/call.dart';
+import '../features/sign_up/data/api/sign_up_fcm_repository.dart';
 import '../features/sign_up/domain/usecases/add_user_data.dart';
 import '../features/videcalll/domain/usecases/create_call.dart';
+
+// TODO: Working in this way. Try to use the other method in the FCMRepository
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 /// This class basically helps to isolate and test each cloud function in the local environment. Then the cloud functions are uploaded to
 /// the production environment.
 void main() async {
-  await FirebaseInitializer.execute(testFirestore: true);
+  await FirebaseInitializer.execute();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(TestFirebaseMain());
 }
 
@@ -21,6 +35,12 @@ class TestFirebaseMain extends StatefulWidget {
 }
 
 class _TestFirebaseMainState extends State<TestFirebaseMain> {
+  @override
+  void initState() {
+    super.initState();
+    FCMRepository.onMessage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,8 +62,12 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
 
   /// Execute each method to test it
   void onPressed() async {
-    final ids = await createTwoUsers();
-    createCall(ids);
+    final repository = SignUpFCMRepository();
+    final token = await repository.getToken();
+    print(token);
+    // Create the calls
+    /*final ids = await createTwoUsers();
+    createCall(ids);*/
   }
 
   Future<List<String>> createTwoUsers() async {
