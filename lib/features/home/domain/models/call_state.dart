@@ -5,6 +5,7 @@ part 'call_state.g.dart';
 /// Handle the CallState
 @JsonSerializable()
 class CallState {
+  /// The first step to create the call is always the Requesting state.
   static const msgRequesting = 'Requesting...';
 
   /// Check if the other user is avaible

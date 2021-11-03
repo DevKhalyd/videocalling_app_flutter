@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -5,7 +6,7 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:videocalling_app/core/utils/utils.dart';
 import '../../../../core/shared/models/user/user.dart';
 
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
@@ -23,15 +24,27 @@ class VideoCallControlller extends GetxController {
   @override
   void onInit() {
     _handleArguments();
-    _createCall();
     super.onInit();
   }
 
+  // NOTE: Global Functions (In this controller)
+
+  void _onEndCall() {
+    Get.back();
+    Timer(Duration(milliseconds: 2500), () {
+      Log.console('Updating database with new data... (Ending call...)');
+    });
+  }
+
+  // NOTE: Methods and parameters to handle the creation of the call and the handling of the call (UI)
   /// Create the call in firestore to start to listen to.
   ///
   /// Helps to manage the state of the screen
   void _createCall() async {
-    if (_userToCall == null) return;
+    if (_userToCall == null) {
+      Log.console('_userToCall is null');
+      return;
+    }
 
     /// HARD TO HAPPEN, BUT IN SOFTWARE EVERYTHING IS POSSIBLE
     final cancelCreationCall = () {
@@ -51,7 +64,7 @@ class VideoCallControlller extends GetxController {
       return;
     }
 
-    // Get the ID of this user
+    // Get the ID of this user. (The current user signed in this session)
     final idCurrentUser = HomeController.to.user?.id;
 
     if (idCurrentUser?.isEmpty ?? true) {
@@ -82,17 +95,35 @@ class VideoCallControlller extends GetxController {
   /// If this method is called means that the call started to
   /// run and the screen should be updated according to the states
   _listenCall(String callId) {
+    Log.console('Listen call: $callId');
     final stream = ListenCall.execute(callId);
 
-    stream.listen((event) {
-      if (event == null) {
+    stream.listen((call) {
+      if (call == null) {
         Log.console(
-            'The call is comming empty. This shouldn"t  happen because the document was created already.',
-            L.E);
+            'The call is comming empty. Checking for a new update...', L.W);
+        Utils.runFunction(() {
+          if (call == null) {
+            Log.console(
+                'The call return null. So this call will be finalized.');
+            _onEndCall();
+          }
+        });
         return;
       }
-      Log.console('The call state is: ${event.callState.getState()}');
+      _handleStateCall(call);
     });
+  }
+
+  /// Update the UI with Call coming from the database.
+  ///
+  /// This method is called every time the call state changes.
+  ///
+  /// Use inside _listenCall method.
+  void _handleStateCall(Call c) {
+    // TODO: Update the UI and call the necessary methods...
+
+    // When onCalling is called, take a debouncer of 10 seconds and if is the same state finalized the call
   }
 
   /// Handle the arguments sent to the VideoScreen
@@ -102,16 +133,17 @@ class VideoCallControlller extends GetxController {
     final arguments = Get.arguments;
 
     if (arguments is User) {
-      _assingScreenData(arguments);
+      _handleUserArgument(arguments);
     } else
       assert(false, 'Missing argument case');
   }
 
   /// Use in the init method to prepare the screen for the user
-  _assingScreenData(User u) {
+  void _handleUserArgument(User u) {
     _userToCall = u;
     _name = u.fullname;
     _state = CallState.msgRequesting;
+    _createCall();
   }
 
   /// The user to call. This is the user selected by the user.

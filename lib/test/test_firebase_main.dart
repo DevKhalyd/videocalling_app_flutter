@@ -6,14 +6,13 @@ import '../core/utils/firebase_initalizer.dart';
 import '../core/utils/logger.dart';
 import '../core/widgets/mini_widgets.dart';
 import '../features/home/domain/models/call.dart';
-import '../features/sign_up/data/api/sign_up_fcm_repository.dart';
 import '../features/sign_up/domain/usecases/add_user_data.dart';
 import '../features/videcalll/domain/usecases/create_call.dart';
 
 /// This class basically helps to isolate and test each cloud function in the local environment. Then the cloud functions are uploaded to
 /// the production environment.
 void main() async {
-  await FirebaseInitializer.execute();
+  await FirebaseInitializer.execute(testFirestore: true);
   FCMRepository.onBackgroundMessage();
   runApp(TestFirebaseMain());
 }
@@ -51,12 +50,13 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
 
   /// Execute each method to test it
   void onPressed() async {
-    final repository = SignUpFCMRepository();
+    //Get tokens
+    /*  final repository = SignUpFCMRepository();
     final token = await repository.getToken();
-    print(token);
-    // Create the calls
-    /*final ids = await createTwoUsers();
-    createCall(ids);*/
+    print(token);*/
+    // Simulate the calls
+    final ids = await createTwoUsers();
+    createCall(ids);
   }
 
   Future<List<String>> createTwoUsers() async {

@@ -1,3 +1,5 @@
+import 'package:videocalling_app/core/utils/utils.dart';
+
 import '../../../home/domain/models/call.dart';
 import '../../data/api/videocall_repository.dart';
 
@@ -13,6 +15,7 @@ abstract class ListenCall {
         yield call;
       }
     } catch (e) {
+      Utils.printACatch('ListenCall', e);
       yield null;
     }
   }

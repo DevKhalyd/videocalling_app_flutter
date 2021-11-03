@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/repositories/fcm_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/arguments.dart';
 import '../../../../core/utils/messages.dart';
@@ -59,6 +60,7 @@ class HomeController extends GetxController {
   void onReady() {
     assert(_pages.length == 2, 'Methods should be updated');
     super.onReady();
+    FCMRepository.onMessage();
     _onReceiveArguments();
     _initData();
   }
@@ -104,7 +106,6 @@ class HomeController extends GetxController {
         UpdateUserOnlineStatus.execute(id: user.id, isOnline: true);
     }
 
-    /// Update the app bar with the new data
     updateUser(user);
     onUpdateFCMToken();
   }
@@ -133,8 +134,8 @@ class HomeController extends GetxController {
         child: CircleProfileImage(url: url, firstLetter: firstLetter));
   }
 
-  /// Update the user and notifies to the listeners
-  updateUser(User u) {
+  /// Update the user and notifies to the listeners. ( Update the app bar with the new data)
+  void updateUser(User u) {
     _user = u;
     update();
   }
@@ -157,7 +158,7 @@ class HomeController extends GetxController {
   ///
   /// Sign out the current user and
   /// go to signIn page erasing the stack of screens
-  signOut() {
+  void signOut() {
     SignOut.execute();
     Get.offAllNamed(Routes.signIn);
   }

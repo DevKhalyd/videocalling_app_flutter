@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' show Random;
 import 'dart:ui';
 
@@ -42,5 +43,9 @@ abstract class Utils {
 
   static bool containsLetter(String letter, String input) {
     return input.contains(letter);
+  }
+
+  static void runFunction(VoidCallback callback, {int milliseconds = 1500}) {
+    Timer(Duration(milliseconds: milliseconds), callback);
   }
 }
