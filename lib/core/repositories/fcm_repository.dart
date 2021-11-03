@@ -1,6 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'dart:io' show Platform;
 
 // Docs: https://firebase.flutter.dev/docs/messaging/usage#requesting-permission-apple--web
 
@@ -38,18 +39,18 @@ abstract class FCMRepository {
   }
 
   // NOTE: Check if this one listen at terminated state
-  /// Listen to messages whilst your application is in background.
+  /// Listen to messages whilst your application is in background or terminated.
   static void onBackgroundMessage() {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  static Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    await Firebase.initializeApp();
-
-    print("Handling a background message: ${message.messageId}");
-  }
   // Docs:https://firebase.flutter.dev/docs/messaging/usage#handling-messages
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
 }

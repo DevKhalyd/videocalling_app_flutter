@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../core/repositories/fcm_repository.dart';
@@ -12,20 +10,11 @@ import '../features/sign_up/data/api/sign_up_fcm_repository.dart';
 import '../features/sign_up/domain/usecases/add_user_data.dart';
 import '../features/videcalll/domain/usecases/create_call.dart';
 
-// TODO: Working in this way. Try to use the other method in the FCMRepository
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  print("Handling a background message: ${message.messageId}");
-}
-
 /// This class basically helps to isolate and test each cloud function in the local environment. Then the cloud functions are uploaded to
 /// the production environment.
 void main() async {
   await FirebaseInitializer.execute();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FCMRepository.onBackgroundMessage();
   runApp(TestFirebaseMain());
 }
 
