@@ -33,7 +33,7 @@ class VideoCallControlller extends GetxController {
   /// Return to home and make some transactions in the database.
   void _onEndCall() {
     Get.back();
-    Timer(Duration(milliseconds: 2500), () {
+    Timer(Duration(milliseconds: 500), () {
       Log.console('Updating database with new data... (Ending call...)');
     });
   }
@@ -117,6 +117,8 @@ class VideoCallControlller extends GetxController {
     });
   }
 
+  int _currentCallState = 0;
+
   /// Update the UI with Call coming from the database.
   ///
   /// This method is called every time the call state changes.
@@ -125,6 +127,7 @@ class VideoCallControlller extends GetxController {
   void _handleStateCall(Call c) {
     // When onCalling is called, take a debouncer of 10 seconds and if is the same state finalized the call
     final callState = c.callState.type;
+    _currentCallState = callState;
 
     switch (callState) {
       case CallState.stateRequesting:
@@ -161,7 +164,7 @@ class VideoCallControlller extends GetxController {
     update();
     Utils.runFunction(
       () {
-        if (callState.type == CallState.stateCalling) {
+        if (_currentCallState == CallState.stateCalling) {
           log("Because the receiver don't answer the call. This one will be finalized...");
           _onEndCall();
         }
