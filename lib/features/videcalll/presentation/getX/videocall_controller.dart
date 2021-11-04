@@ -6,13 +6,14 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
+
 import '../../../../core/shared/models/user/user.dart';
 
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
 /// Create one with your API KEY
 import '../../../../core/utils/agora_settings.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../home/domain/models/call.dart';
 import '../../../home/domain/models/call_state.dart';
 import '../../../home/presentation/getX/home_controller.dart';
@@ -28,7 +29,8 @@ class VideoCallControlller extends GetxController {
   }
 
   // NOTE: Global Functions (In this controller)
-
+  // TODO: End this method.
+  /// Return to home and make some transactions in the database.
   void _onEndCall() {
     Get.back();
     Timer(Duration(milliseconds: 2500), () {
@@ -121,9 +123,69 @@ class VideoCallControlller extends GetxController {
   ///
   /// Use inside _listenCall method.
   void _handleStateCall(Call c) {
-    // TODO: Update the UI and call the necessary methods...
-
     // When onCalling is called, take a debouncer of 10 seconds and if is the same state finalized the call
+    final callState = c.callState.type;
+
+    switch (callState) {
+      case CallState.stateRequesting:
+        _stateRequesting(c);
+        break;
+      case CallState.stateCalling:
+        _stateCalling(c);
+        break;
+      case CallState.stateOnCall:
+        _stateOnCall(c);
+        break;
+      case CallState.stateLost:
+        _stateLost(c);
+        break;
+      case CallState.stateFinalized:
+        _stateFinalized(c);
+        break;
+      default:
+        assert(false, 'Missing call state');
+    }
+  }
+
+  // Handlers for each state of the call
+
+  void _stateRequesting(Call call) {
+    /// This is the first state that is initializated in the init method.
+    /// Nothing to do here.
+  }
+
+  void _stateCalling(Call call) {
+    log('State: Calling...');
+    final callState = call.callState;
+    _state = callState.getState();
+    update();
+    Utils.runFunction(
+      () {
+        if (callState.type == CallState.stateCalling) {
+          log("Because the receiver don't answer the call. This one will be finalized...");
+          _onEndCall();
+        }
+      },
+      milliseconds: 5000,
+    );
+  }
+
+  void _stateOnCall(Call call) {
+    log('State: onCall...');
+    _state = call.callState.getState();
+    update();
+  }
+
+  void _stateLost(Call call) {
+    log('State: onLost...');
+    _state = call.callState.getState();
+    update();
+  }
+
+  void _stateFinalized(Call call) {
+    log('State: Finalized...');
+    _state = call.callState.getState();
+    update();
   }
 
   /// Handle the arguments sent to the VideoScreen

@@ -37,10 +37,10 @@ class CallState {
       case stateRequesting:
         return msgRequesting;
       case stateCalling:
-        return 'Calling';
+        return 'Calling...';
       case stateOnCall:
         // Change for another value when is in this state
-        return 'Counting time';
+        return 'Counting time...';
       case stateLost:
         return 'Lost call';
       case stateFinalized:
