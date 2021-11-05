@@ -29,6 +29,7 @@ class CallState {
 
   const CallState.requesting({this.type = stateRequesting});
 
+  /// The state of this call
   final int type;
 
   /// Handle the CallState for a readable human version.

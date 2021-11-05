@@ -7,4 +7,7 @@ abstract class Messages {
       'Select an image tapping the camera or you can skip this step.';
 
   static const signInAgain = 'Please sign in again.';
+
+  static const videocallConnectionError =
+      'We had have an error. Please try again later.';
 }

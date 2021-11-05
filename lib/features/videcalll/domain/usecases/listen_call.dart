@@ -1,12 +1,11 @@
-import 'package:videocalling_app/core/utils/utils.dart';
-
+import '../../../../core/utils/utils.dart';
 import '../../../home/domain/models/call.dart';
-import '../../data/api/videocall_repository.dart';
+import '../../data/api/videocall_firestore_repository.dart';
 
 abstract class ListenCall {
   static Stream<Call?> execute(String callId) async* {
     try {
-      final repo = VideoCallRepository();
+      final repo = VideoCallFirestoreRepository();
       await for (var d in repo.listenCall(callId)) {
         final id = d.id;
         final data = d.data() as Map<String, dynamic>;

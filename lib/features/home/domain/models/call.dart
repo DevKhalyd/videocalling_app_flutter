@@ -46,7 +46,9 @@ class Call {
 
   /// Assing then id when makes an query
   ///
-  /// To avoid to assign each time the id, create the id before to add to a collection in firestore
+  /// To avoid to assign each time the id, create the id before to add to a collection in firestore.
+  ///
+  /// For future projects and new features.
   setId(String id) => _id = id;
 
   /// ID Call
@@ -57,8 +59,8 @@ class Call {
   @JsonKey(ignore: true)
   String _id = '';
 
-  String get id {
-    assert(id.isNotEmpty,
+  String? get id {
+    assert(id?.isNotEmpty ?? false,
         'The id is empty. Make sure that the ID is assigned when makes a request');
     return _id;
   }

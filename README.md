@@ -1,7 +1,12 @@
 # TODO
 
-- Test the flow application
-- Add the configuration for IOS
+- Receive the videocalling for the Receiver in HOME
+
+- Test that the UI works properly
+
+- Test that in each device contains works properly (Check out the flow)
+
+- Receive the videocalling for the Receiver in the background of the device
 
 # Videocalling App
 

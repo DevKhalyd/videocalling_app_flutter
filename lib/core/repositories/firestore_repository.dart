@@ -20,6 +20,10 @@ abstract class FirestoreRepository {
   CollectionReference getCollection(String collection) =>
       firestore.collection(collection);
 
+  /// Get a document from a collection
+  DocumentReference getDocumentReference(String collection, String document) =>
+      getCollection(collection).doc(document);
+
   /// Add data to a given collection
   ///
   /// [collection] The name collection to get the reference

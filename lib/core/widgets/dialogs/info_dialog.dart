@@ -4,6 +4,7 @@ import 'package:get/route_manager.dart';
 import '../../utils/utils.dart';
 import '../mini_widgets.dart';
 
+/// Alert to show information about the app
 class AlertInfo extends StatelessWidget {
   const AlertInfo({
     Key? key,

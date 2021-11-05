@@ -13,13 +13,16 @@ import '../../../../core/shared/models/user/user.dart';
 /// Create one with your API KEY
 import '../../../../core/utils/agora_settings.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/messages.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../../home/domain/models/call.dart';
 import '../../../home/domain/models/call_state.dart';
 import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/video_calling_model.dart';
 import '../../domain/usecases/create_call.dart';
 import '../../domain/usecases/listen_call.dart';
+import '../../domain/usecases/update_state_call.dart';
 import '../mixin/videocall_utils.dart';
 
 class VideoCallController extends GetxController with VideoCallMixin {
@@ -43,7 +46,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   // NOTE: Global Functions (In this controller)
   VoidCallback get onEndCall => _onEndCall;
 
-  /// Return to home and make some transactions in the database.
+  /// Return to home and make a transaction
+  /// to change to Finalized or Lost state
   void _onEndCall() {
     log('onEndCall called.');
     Get.back();
@@ -54,7 +58,21 @@ class VideoCallController extends GetxController with VideoCallMixin {
     Utils.runFunction(
       () {
         log('Updating database with new data... (Ending call...)');
-        // TODO: Write a transaction in the database to change the state of the videocall
+
+        if (_callId == null) {
+          Log.console(
+              '_callId is null. Please verify that this values is asigned where is used',
+              L.E);
+          return;
+        }
+
+        final int newState;
+
+        if (_currentCallState == CallState.stateOnCall)
+          newState = CallState.stateFinalized;
+        else
+          newState = CallState.stateLost;
+        UpdateStateCall.execute(_callId!, newState);
       },
       milliseconds: 200,
     );
@@ -135,6 +153,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
         });
         return;
       }
+
+      /// Assign for this object
+      call.setId(callId);
       _handleStateCall(call);
     });
   }
@@ -142,15 +163,17 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// The current state of the videocall
   int _currentCallState = CallState.stateRequesting;
 
+  String? _callId;
+
   /// Update the UI with Call coming from the database.
   ///
   /// This method is called every time the call state changes.
   ///
   /// Use inside _listenCall method.
   void _handleStateCall(Call c) {
-    // When onCalling is called, take a debouncer of 10 seconds and if is the same state finalized the call
     final callState = c.callState.type;
     _currentCallState = callState;
+    _callId = c.id;
 
     switch (callState) {
       case CallState.stateRequesting:
@@ -197,9 +220,28 @@ class VideoCallController extends GetxController with VideoCallMixin {
     );
   }
 
-  void _stateOnCall(Call call) {
+  void _stateOnCall(Call call) async {
     log('State: onCall...');
-    onCountTime();
+    final channel = call.channel;
+    final token = call.token;
+
+    if (channel == null || token == null) {
+      final msg = """
+      Channel or token is null. Finishing the call.
+      Hint: Check the cloud functions in Firebase.
+      Why the channel and token are null?
+      """;
+      Log.console(msg, L.E);
+      await Get.dialog(AlertInfo(content: Messages.videocallConnectionError));
+      _onEndCall();
+      return;
+    }
+
+    final videoData = VideoCallingModel(
+      channel: channel,
+      token: token,
+    );
+    _prepareVideocall(videoData);
     _state = call.callState.getState();
     update();
   }
@@ -222,7 +264,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   /// Count the time until the users finalize the call
-  void onCountTime() {
+  void _onCountTime() {
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       _durationInSeconds++;
       // NOTE: Maybe this needs a unique id to update
@@ -309,7 +351,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// So, put this one in false means the opposite.
   bool get defaultView => _defaultView;
 
-  // TODO: If there is a response from the FCM that the notification was sent.  So call this method
+  /// This is the point of initialization of the videocall
+  ///
   /// [data] from the Cloud Functions
   void _prepareVideocall(VideoCallingModel data) {
     _videoCallingModel = data;
@@ -330,11 +373,12 @@ class VideoCallController extends GetxController with VideoCallMixin {
     // await _engine.setVideoEncoderConfiguration(configuration);
     await _engine.joinChannel(
       _videoCallingModel.token,
-      _videoCallingModel.channelID,
+      _videoCallingModel.channel,
       null,
       // If you set uid as 0, the system automatically assigns a uid. (From the docs)
       0,
     );
+    _onCountTime();
   }
 
   void _agoraEventHandlers() => _engine.setEventHandler(
