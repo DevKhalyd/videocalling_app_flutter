@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:videocalling_app/features/videcalll/presentation/widgets/video_call_button_back.dart';
+import 'package:videocalling_app/features/videcalll/presentation/widgets/video_call_switch_camera.dart';
+import 'package:videocalling_app/features/videcalll/presentation/widgets/video_call_users_view.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../getX/videocall_controller.dart';
@@ -11,26 +14,22 @@ class VideocallScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-        init: VideoCallControlller(),
+        init: VideoCallController(),
         builder: (c) {
           return Scaffold(
             backgroundColor: Utils.textFormFIeldColor,
             body: SafeArea(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: BackButton(color: Colors.white),
-                  ),
-                  // Use a stakc
-                  // The video screen
-                  Spacer(),
-                  // Options
-                  // Bottom bar
-                  VideoCallBottomContainer(),
-                ],
-              ),
-            ),
+                child: Stack(
+              children: [
+                /// Button back
+                VideoCallUserView(),
+                VideoCallButtonBack(),
+                VideoCallSwitchCameraViews(),
+
+                /// Actions
+                VideoCallBottomContainer(),
+              ],
+            )),
           );
         });
   }

@@ -20,22 +20,44 @@ import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/video_calling_model.dart';
 import '../../domain/usecases/create_call.dart';
 import '../../domain/usecases/listen_call.dart';
+import '../mixin/videocall_utils.dart';
 
-class VideoCallControlller extends GetxController {
+class VideoCallController extends GetxController with VideoCallMixin {
+  static VideoCallController get to => Get.find();
+
   @override
   void onInit() {
     _handleArguments();
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
+  }
+
+  int _durationInSeconds = 0;
+  Timer? _timer;
+
   // NOTE: Global Functions (In this controller)
-  // TODO: End this method.
+  VoidCallback get onEndCall => _onEndCall;
+
   /// Return to home and make some transactions in the database.
   void _onEndCall() {
+    log('onEndCall called.');
     Get.back();
-    Timer(Duration(milliseconds: 500), () {
-      Log.console('Updating database with new data... (Ending call...)');
-    });
+
+    /// Because the call is finalized already. We don't to do anything more.
+    if (_currentCallState == CallState.stateLost ||
+        _currentCallState == CallState.stateFinalized) return;
+    Utils.runFunction(
+      () {
+        log('Updating database with new data... (Ending call...)');
+        // TODO: Write a transaction in the database to change the state of the videocall
+      },
+      milliseconds: 200,
+    );
   }
 
   // NOTE: Methods and parameters to handle the creation of the call and the handling of the call (UI)
@@ -117,7 +139,8 @@ class VideoCallControlller extends GetxController {
     });
   }
 
-  int _currentCallState = 0;
+  /// The current state of the videocall
+  int _currentCallState = CallState.stateRequesting;
 
   /// Update the UI with Call coming from the database.
   ///
@@ -155,6 +178,7 @@ class VideoCallControlller extends GetxController {
   void _stateRequesting(Call call) {
     /// This is the first state that is initializated in the init method.
     /// Nothing to do here.
+    log('Requesting for the call...');
   }
 
   void _stateCalling(Call call) {
@@ -165,16 +189,17 @@ class VideoCallControlller extends GetxController {
     Utils.runFunction(
       () {
         if (_currentCallState == CallState.stateCalling) {
-          log("Because the receiver don't answer the call. This one will be finalized...");
+          log("Because the receiver don't answer the call. The call will be finalized...");
           _onEndCall();
         }
       },
-      milliseconds: 5000,
+      milliseconds: maxDurationToWait,
     );
   }
 
   void _stateOnCall(Call call) {
     log('State: onCall...');
+    onCountTime();
     _state = call.callState.getState();
     update();
   }
@@ -183,12 +208,29 @@ class VideoCallControlller extends GetxController {
     log('State: onLost...');
     _state = call.callState.getState();
     update();
+    Utils.runFunction(() {
+      log('Ending the call...');
+      _onEndCall();
+    });
   }
 
   void _stateFinalized(Call call) {
     log('State: Finalized...');
     _state = call.callState.getState();
     update();
+    _onEndCall();
+  }
+
+  /// Count the time until the users finalize the call
+  void onCountTime() {
+    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+      _durationInSeconds++;
+      // NOTE: Maybe this needs a unique id to update
+      final time = getMinutesFromSeconds(_durationInSeconds);
+      _state = time;
+      update();
+    });
+    Log.console('Timer initializated for on call state');
   }
 
   /// Handle the arguments sent to the VideoScreen
@@ -221,7 +263,7 @@ class VideoCallControlller extends GetxController {
   /// The name of the callee
   String get name => _name;
 
-  /// The state of the videocall
+  /// The state of the videocall in text
   ///
   /// Like: requesting,waiting, oncall (Start to count  each second and convert to minutes)
   String get state => _state;

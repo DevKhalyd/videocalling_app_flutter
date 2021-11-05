@@ -17,7 +17,7 @@ class HangUpVideoCallButtom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VideoCallControlller>(
+    return GetBuilder<VideoCallController>(
       builder: (c) {
         return Material(
           color: Colors.red,

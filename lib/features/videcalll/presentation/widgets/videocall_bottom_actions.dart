@@ -16,7 +16,7 @@ class VideoCallBottomActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VideoCallControlller>(
+    return GetBuilder<VideoCallController>(
       builder: (c) {
         return CustomPaint(
           painter: _PathPainter(),

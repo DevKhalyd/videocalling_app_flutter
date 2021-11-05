@@ -45,7 +45,7 @@ abstract class Utils {
     return input.contains(letter);
   }
 
-  static void runFunction(VoidCallback callback, {int milliseconds = 1500}) {
+  static void runFunction(VoidCallback callback, {int milliseconds = 750}) {
     Timer(Duration(milliseconds: milliseconds), callback);
   }
 }
