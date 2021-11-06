@@ -2,7 +2,7 @@
 
 - Receive the videocalling for the Receiver in HOME
 
-- Test that the UI works properly
+- Test that the UI works properly. Caller and Receiver
 
 - Test that in each device contains works properly (Check out the flow)
 

@@ -1,7 +1,15 @@
+import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
+
+import '../bridges/fcm_bridge.dart';
+import '../enums/fcm_enums.dart';
+import '../utils/fcm_keys.dart';
+import '../utils/logger.dart';
+import '../utils/routes.dart';
 
 // Docs: https://firebase.flutter.dev/docs/messaging/usage#requesting-permission-apple--web
 
@@ -28,10 +36,36 @@ abstract class FCMRepository {
   /// Listen to messages whilst your application is in the foreground
   static void onMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+      final notification = message.notification;
+      final data = message.data;
+
+      if (notification != null) {
+        log('Message also contained a notification: ${message.notification}');
+      }
+
+      if (data.isEmpty) {
+        Log.console(
+            'Because the logic of the application the data should not be empty',
+            L.E);
+        return;
+      }
+
+      if (data.containsKey(FCMKeys.idVideocall)) {
+        final idVideocall = data[FCMKeys.idVideocall];
+        if (idVideocall.isEmpty) {
+          Log.console('The idVideocall should be not empty', L.E);
+          return;
+        }
+
+        final arguments = FCMBridge(
+          type: TypeContent.videocall,
+          value: idVideocall,
+        );
+
+        Get.toNamed(
+          Routes.videocall,
+          arguments: arguments,
+        );
       }
     });
   }

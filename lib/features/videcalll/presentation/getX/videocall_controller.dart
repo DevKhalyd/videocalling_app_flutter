@@ -6,6 +6,8 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/bridges/fcm_bridge.dart';
+import 'package:videocalling_app/core/enums/fcm_enums.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 
@@ -281,18 +283,40 @@ class VideoCallController extends GetxController with VideoCallMixin {
   _handleArguments() {
     final arguments = Get.arguments;
 
-    if (arguments is User) {
-      _handleUserArgument(arguments);
+    if (arguments is User)
+      _handleUserCaller(arguments);
+    else if (arguments is FCMBridge) {
+      if (arguments.type == TypeContent.videocall)
+        _handleUserReceiver(arguments.value);
+      else
+        assert(false, 'Missing handler arguments');
     } else
-      assert(false, 'Missing argument case');
+      assert(false, 'Missing handler arguments');
   }
 
   /// Use in the init method to prepare the screen for the user
-  void _handleUserArgument(User u) {
+  void _handleUserCaller(User u) {
+    _assignUserUI(u);
+    _createCall();
+  }
+
+  /// Assign to the UI the data of the user that is calling
+  void _assignUserUI(
+    User u, {
+    String callState = CallState.msgRequesting,
+    bool shouldUpdate = false,
+  }) {
     _userToCall = u;
     _name = u.fullname;
-    _state = CallState.msgRequesting;
-    _createCall();
+    _state = callState;
+    if (shouldUpdate) update();
+  }
+
+  void _handleUserReceiver(String idVideocall) {
+    // TODO: Assign the new values to the current screen (USER). Use the model call
+    // TODO: Change the bottom to green because is calling the caller to receiver in this case
+    
+    _listenCall(idVideocall);
   }
 
   /// The user to call. This is the user selected by the user.

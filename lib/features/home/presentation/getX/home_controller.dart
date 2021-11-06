@@ -111,7 +111,7 @@ class HomeController extends GetxController {
   }
 
   /// Update the FCM of this user after the data is fetched.
-  onUpdateFCMToken() async {
+  void onUpdateFCMToken() async {
     final u = user!;
 
     /// The current token
