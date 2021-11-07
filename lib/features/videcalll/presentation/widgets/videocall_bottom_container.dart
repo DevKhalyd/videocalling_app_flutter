@@ -24,7 +24,7 @@ class VideoCallBottomContainer extends StatelessWidget {
           Positioned(
             right: 0,
             left: 0,
-            child: HangUpVideoCallButtom(),
+            child: HangUpVideoCallButton(),
           ),
         ],
       ),

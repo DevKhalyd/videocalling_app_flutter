@@ -6,9 +6,9 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/bridges/fcm_bridge.dart';
-import 'package:videocalling_app/core/enums/fcm_enums.dart';
 
+import '../../../../core/bridges/fcm_bridge.dart';
+import '../../../../core/enums/fcm_enums.dart';
 import '../../../../core/shared/models/user/user.dart';
 
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
@@ -27,6 +27,9 @@ import '../../domain/usecases/listen_call.dart';
 import '../../domain/usecases/update_state_call.dart';
 import '../mixin/videocall_utils.dart';
 
+/// Handle the videocall for the caller and the receiver.
+///
+/// NOTE:`this` refers to the the user signed in this current session.
 class VideoCallController extends GetxController with VideoCallMixin {
   static VideoCallController get to => Get.find();
 
@@ -137,8 +140,17 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   /// If this method is called means that the call started to
-  /// run and the screen should be updated according to the states
-  _listenCall(String callId) {
+  /// run and the screen should be updated according to the states.
+  ///
+  /// This method works in a different way depending on who create the call and who receive the call.
+  ///
+  /// If the caller made the call then the data will be updated from the [onInit] method.
+  ///
+  /// If the receiver wants to join to this call, then the data will be updated from the [_listenCall] method.
+  ///
+  /// [assignCaller] is a flag to indicate if the receiver wants to join to this call. So if it is true, then the data will be assigned from
+  /// this method instead of the [onInit] method
+  _listenCall(String callId, {bool assignCaller = false}) {
     Log.console('Listen call: $callId');
     final stream = ListenCall.execute(callId);
 
@@ -154,6 +166,18 @@ class VideoCallController extends GetxController with VideoCallMixin {
           }
         });
         return;
+      }
+
+      if (assignCaller) {
+        final caller = call.caller;
+        if (caller == null) {
+          Log.console(
+              'The caller is null. Wait for new updates for the Call.', L.W);
+          return;
+        }
+
+        /// Because `this` user is the receiver we want to know who is the caller and then show the user in the screen.
+        _assignUserUI(caller);
       }
 
       /// Assign for this object
@@ -283,8 +307,11 @@ class VideoCallController extends GetxController with VideoCallMixin {
   _handleArguments() {
     final arguments = Get.arguments;
 
+    /// Another [User] selected by `this` user
     if (arguments is User)
       _handleUserCaller(arguments);
+
+    /// `this` user acts as receiver
     else if (arguments is FCMBridge) {
       if (arguments.type == TypeContent.videocall)
         _handleUserReceiver(arguments.value);
@@ -301,22 +328,34 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   /// Assign to the UI the data of the user that is calling
+  ///
+  /// [u] The user who is calling to [this] current user
+  ///
+  /// [callState] The init state of the call
+  ///
+  /// [shouldUpdate] If true, the screen will be updated with the new data.
+  /// Depends where this method is called to use this parameter.
   void _assignUserUI(
     User u, {
     String callState = CallState.msgRequesting,
     bool shouldUpdate = false,
   }) {
+    /// Avoid to assign each time this method is called in `_listenCall`
+    if (_name.isNotEmpty && _state.isNotEmpty) return;
     _userToCall = u;
     _name = u.fullname;
     _state = callState;
     if (shouldUpdate) update();
   }
 
+  bool _isReceiver = false;
+
+  /// Indicates to the UI what colors and icons should use the UI
+  bool get isReceiver => _isReceiver;
+
   void _handleUserReceiver(String idVideocall) {
-    // TODO: Assign the new values to the current screen (USER). Use the model call
-    // TODO: Change the bottom to green because is calling the caller to receiver in this case
-    
-    _listenCall(idVideocall);
+    _isReceiver = true;
+    _listenCall(idVideocall, assignCaller: true);
   }
 
   /// The user to call. This is the user selected by the user.
@@ -343,6 +382,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   Function? onPressHangUp() {
+    // TODO: If is receiver what should do this onpressed according to the state. The same with the caller
+
     if (_state == CallState.msgRequesting) return null;
     return () {
       print('Hang up');

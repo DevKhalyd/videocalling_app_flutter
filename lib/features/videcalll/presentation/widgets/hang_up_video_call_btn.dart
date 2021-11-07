@@ -5,8 +5,8 @@ import '../getX/videocall_controller.dart';
 
 const _size = 60.0;
 
-class HangUpVideoCallButtom extends StatelessWidget {
-  const HangUpVideoCallButtom({
+class HangUpVideoCallButton extends StatelessWidget {
+  const HangUpVideoCallButton({
     Key? key,
     this.size = _size,
     this.onPressed,
@@ -19,8 +19,10 @@ class HangUpVideoCallButtom extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<VideoCallController>(
       builder: (c) {
+        final isReceiver = c.isReceiver;
+
         return Material(
-          color: Colors.red,
+          color: isReceiver ? Colors.green : Colors.red,
           shape: CircleBorder(),
           clipBehavior: Clip.hardEdge,
           child: Padding(
@@ -28,7 +30,7 @@ class HangUpVideoCallButtom extends StatelessWidget {
             child: IconButton(
                 onPressed: c.onPressHangUp,
                 icon: Icon(
-                  Icons.call_end,
+                  isReceiver ? Icons.call_sharp : Icons.call_end,
                   color: Colors.white,
                 )),
           ),
