@@ -8,7 +8,7 @@ class VideoCallSwitchCameraViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: 56,
+        top: 8,
         right: 16,
         child: GestureDetector(
             onTap: VideoCallController.to.onChangeViews,

@@ -59,8 +59,8 @@ class Call {
   @JsonKey(ignore: true)
   String _id = '';
 
-  String? get id {
-    assert(id?.isNotEmpty ?? false,
+  String get id {
+    assert(_id.isNotEmpty,
         'The id is empty. Make sure that the ID is assigned when makes a request');
     return _id;
   }
@@ -91,6 +91,11 @@ class Call {
   final String? channel;
 
   final String? token;
+
+  @override
+  String toString() {
+    return 'ID: $_id \n - State: ${callState.type}';
+  }
 
   /// Get the date for this call
   static DateTime getDateNow() => DateTime.now();

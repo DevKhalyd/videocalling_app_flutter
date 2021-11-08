@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
 import '../getX/videocall_controller.dart';
 
@@ -14,8 +15,11 @@ class VideoCallUserView extends StatelessWidget {
     return GetBuilder<VideoCallController>(builder: (c) {
       final views = c.views;
 
-      assert(views.isNotEmpty,
-          'Missing users to show. Please verify the correct working of this feature');
+      if (views.length != 2)
+        return const CenterText(
+          'Waiting for the users...',
+          color: Colors.white,
+        );
 
       Widget currentUser = views[0];
       Widget guestUser = views[1];

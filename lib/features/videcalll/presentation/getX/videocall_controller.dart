@@ -53,13 +53,24 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   /// Return to home and make a transaction
   /// to change to Finalized or Lost state
-  void _onEndCall() {
-    log('onEndCall called.');
+  void _onEndCall({bool displayEndCallMsg = false}) {
+    log('_onEndCall called...');
     Get.back();
+
+    if (displayEndCallMsg) {
+      Utils.runFunction(() {
+        Get.dialog(AlertInfo(
+          title: 'Videocall finalized',
+          content:
+              'Because the user is not avaible the videocall was finalized.',
+        ));
+      }, milliseconds: 1750);
+    }
 
     /// Because the call is finalized already. We don't to do anything more.
     if (_currentCallState == CallState.stateLost ||
         _currentCallState == CallState.stateFinalized) return;
+
     Utils.runFunction(
       () {
         log('Updating database with new data... (Ending call...)');
@@ -227,11 +238,11 @@ class VideoCallController extends GetxController with VideoCallMixin {
   void _stateRequesting(Call call) {
     /// This is the first state that is initializated in the init method.
     /// Nothing to do here.
-    log('Requesting for the call...');
+    log('_stateRequesting called...');
   }
 
   void _stateCalling(Call call) {
-    log('State: Calling...');
+    log('_stateCalling called...');
     final callState = call.callState;
     _state = callState.getState();
     update();
@@ -239,7 +250,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
       () {
         if (_currentCallState == CallState.stateCalling) {
           log("Because the receiver don't answer the call. The call will be finalized...");
-          _onEndCall();
+          _onEndCall(displayEndCallMsg: true);
         }
       },
       milliseconds: maxDurationToWait,
@@ -247,7 +258,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   void _stateOnCall(Call call) async {
-    log('State: onCall...');
+    log('_stateOnCall called...');
     final channel = call.channel;
     final token = call.token;
 
@@ -273,17 +284,16 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   void _stateLost(Call call) {
-    log('State: onLost...');
+    log('_stateLost called...');
     _state = call.callState.getState();
     update();
     Utils.runFunction(() {
-      log('Ending the call...');
       _onEndCall();
     });
   }
 
   void _stateFinalized(Call call) {
-    log('State: Finalized...');
+    log('_stateFinalized called...');
     _state = call.callState.getState();
     update();
     _onEndCall();
@@ -380,7 +390,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _engine.muteLocalAudioStream(_muted);
     update(['muted']);*/
   }
-  
+
   Function? onPressHangUp() {
     return _onEndCall;
   }
@@ -487,6 +497,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
   void onSwitchCamera() => _engine.switchCamera();
 
   /// Get the camera from the back to the fronted
+  ///
+  /// That means if the user A is the front and the user B is the back,
+  /// the user A will be the back and the user B will be the front and viceversa.
   void onChangeViews() {
     _defaultView = !_defaultView;
     update();

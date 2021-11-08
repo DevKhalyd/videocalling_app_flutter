@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
-import 'package:videocalling_app/core/utils/routes.dart';
 
 import '../../../../core/shared/models/user/user.dart';
-import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/routes.dart';
 import '../../domain/usecases/get_users_by_username.dart';
 import 'home_controller.dart';
 
@@ -30,7 +29,6 @@ class HomeSearchController extends GetxController {
           final text = _controller.text;
           if (text.isEmpty || _lastUsername == text) return;
           _lastUsername = text;
-          Log.console('Searching by: $text');
           _users = GetUsersByUsername.execute(
               username: text,
               thisUsername: HomeController.to.user?.username ?? '');

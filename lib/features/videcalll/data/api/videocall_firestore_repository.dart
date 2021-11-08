@@ -59,7 +59,7 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
         transaction.update(documentReference, {
           'callState.type': newState,
         });
-        log('Just update the callState.type');
+        log('CallState.type was updated in firestore with the value $newState');
       });
     } catch (e) {
       rethrow;

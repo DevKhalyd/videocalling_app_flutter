@@ -31,7 +31,7 @@ class ReactUsername extends StatelessWidget {
                 : null,
           ),
           children: [
-            for (var s in letters.getRange(1, letters.length - 1))
+            for (var s in letters.getRange(1, letters.length))
               TextSpan(
                 text: s,
                 style: TextStyle(

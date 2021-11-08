@@ -8,13 +8,14 @@ class VideoCallButtonBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: 56,
-        left: 16,
+        top: 0,
+        left: 8,
         child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            ),
-            onPressed: () => VideoCallController.to.onEndCall));
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () => VideoCallController.to.onEndCall,
+        ));
   }
 }

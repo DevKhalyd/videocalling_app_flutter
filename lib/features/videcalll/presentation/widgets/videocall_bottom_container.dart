@@ -12,21 +12,24 @@ class VideoCallBottomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: context.width,
-      height: _sizeActions + 40,
-      child: Stack(
-        children: [
-          Positioned(
-            bottom: 0,
-            child: VideoCallBottomActions(),
-          ),
-          Positioned(
-            right: 0,
-            left: 0,
-            child: HangUpVideoCallButton(),
-          ),
-        ],
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: context.width,
+        height: _sizeActions + 40,
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              child: VideoCallBottomActions(),
+            ),
+            Positioned(
+              right: 0,
+              left: 0,
+              child: HangUpVideoCallButton(),
+            ),
+          ],
+        ),
       ),
     );
   }
