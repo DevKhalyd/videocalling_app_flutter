@@ -10,7 +10,7 @@ import '../widgets/home_screen/home_bottom_navigation.dart';
 
 /// Contains the main screen application.
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

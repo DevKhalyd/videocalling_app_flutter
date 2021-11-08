@@ -57,6 +57,15 @@ abstract class FCMRepository {
           return;
         }
 
+        /// Context: Basically the caller sends the notification to the receiver
+        ///
+        /// Then if this one is avaible and the application is running in the foreground
+        ///
+        /// Then the application will open the videocall screen. Without questions to answer the call
+        /// because that is the logic that I want to implement.
+        ///
+        /// If the application is not running in the foreground (Background or Terminated), then the application will ask for answer the call.
+
         final arguments = FCMBridge(
           type: TypeContent.videocall,
           value: idVideocall,

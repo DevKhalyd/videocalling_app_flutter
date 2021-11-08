@@ -22,7 +22,7 @@ import '../screens/image_picker_screen.dart';
 
 /// Handle each fragment in this screen
 class HomeController extends GetxController {
-  /// Allow to update
+  /// Allow to update just a part of the UI
   static const idUnique = 'id';
   static HomeController get to => Get.find();
 

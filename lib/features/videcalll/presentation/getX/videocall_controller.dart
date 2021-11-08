@@ -380,14 +380,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _engine.muteLocalAudioStream(_muted);
     update(['muted']);*/
   }
-
+  
   Function? onPressHangUp() {
-    // TODO: If is receiver what should do this onpressed according to the state. The same with the caller
-
-    if (_state == CallState.msgRequesting) return null;
-    return () {
-      print('Hang up');
-    };
+    return _onEndCall;
   }
 
   //NOTE: Agora Engine
