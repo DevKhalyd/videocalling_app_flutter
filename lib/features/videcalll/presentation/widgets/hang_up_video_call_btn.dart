@@ -28,7 +28,8 @@ class HangUpVideoCallButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(7.0),
             child: IconButton(
-                onPressed: c.onPressHangUp,
+                onPressed: () =>
+                    c.shouldAnswerCall ? c.onAnswerCall() : c.onEndCall(),
                 icon: Icon(
                   isReceiver ? Icons.call_sharp : Icons.call_end,
                   color: Colors.white,

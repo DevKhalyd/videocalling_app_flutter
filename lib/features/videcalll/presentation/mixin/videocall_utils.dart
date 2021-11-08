@@ -1,5 +1,5 @@
 mixin VideoCallMixin {
-  final maxDurationToWait = 6000;
+  final maxDurationToWait = 10000;
 
   /// Given [seconds] return the minutes and seconds in the following format
   /// 00:00

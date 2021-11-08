@@ -20,6 +20,7 @@ import '../../domain/usecases/update_user_online.dart';
 import '../screens/home_searcher_screen.dart';
 import '../screens/image_picker_screen.dart';
 
+// TODO: Add the permission to record and for the camera. This to allow to agora works properly.
 /// Handle each fragment in this screen
 class HomeController extends GetxController {
   /// Allow to update just a part of the UI

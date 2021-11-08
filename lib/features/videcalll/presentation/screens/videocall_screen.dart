@@ -14,9 +14,10 @@ class VideocallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<VideoCallController>(
         init: VideoCallController(),
         builder: (c) {
+          final isOnCall = c.isOnCall;
           return Scaffold(
             backgroundColor: Utils.textFormFIeldColor,
             body: SafeArea(
@@ -25,7 +26,7 @@ class VideocallScreen extends StatelessWidget {
                 /// Button back
                 VideoCallUserView(),
                 VideoCallButtonBack(),
-                VideoCallSwitchCameraViews(),
+                if (isOnCall) VideoCallSwitchCameraViews(),
 
                 /// Actions
                 VideoCallBottomContainer(),

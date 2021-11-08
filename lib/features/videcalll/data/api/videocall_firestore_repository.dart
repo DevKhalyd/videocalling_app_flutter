@@ -30,12 +30,15 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
   ///
   /// [callId] is the id of the call (document)
   ///
-  /// [newState] is the new state of the call. Must be between `CallState.stateFinalized` and `CallState.stateLost`
+  /// [newState] is the new state of the call. Must be between `CallState.stateFinalized`,
+  /// `CallState.stateLost` and `CallState.stateOnCall`
   Future<void> updateStateCall(String callId, int newState) async {
-    final newStateCondition =
-        newState == CallState.stateFinalized || newState == CallState.stateLost;
+    final newStateCondition = newState == CallState.stateFinalized ||
+        newState == CallState.stateLost ||
+        newState == CallState.stateOnCall;
 
-    assert(newStateCondition, 'The states can be: stateFinalized or stateLost');
+    assert(newStateCondition,
+        'The states can be: stateFinalized, stateLost and stateOnCall');
 
     try {
       firestore.runTransaction((transaction) async {

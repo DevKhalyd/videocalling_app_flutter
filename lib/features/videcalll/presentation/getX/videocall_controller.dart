@@ -32,6 +32,18 @@ import '../mixin/videocall_utils.dart';
 /// NOTE:`this` refers to the the user signed in this current session.
 class VideoCallController extends GetxController with VideoCallMixin {
   static VideoCallController get to => Get.find();
+  bool get isOnCall => _currentCallState == CallState.stateOnCall;
+  // IMPROVE: Create function that returns the function to use in each case.
+
+  /// If true use [onAnswerCall]
+  ///
+  /// If false use [onEndCall]
+  ///
+  /// Basically depending on the profile and the state of the call each method should be different.
+  bool get shouldAnswerCall =>
+      _isReceiver && _currentCallState == CallState.stateCalling;
+
+  get onEndCall => _onEndCall;
 
   @override
   void onInit() {
@@ -48,16 +60,13 @@ class VideoCallController extends GetxController with VideoCallMixin {
   int _durationInSeconds = 0;
   Timer? _timer;
 
-  // NOTE: Global Functions (In this controller)
-  VoidCallback get onEndCall => _onEndCall;
-
   /// Return to home and make a transaction
   /// to change to Finalized or Lost state
   void _onEndCall({bool displayEndCallMsg = false}) {
     log('_onEndCall called...');
     Get.back();
 
-    if (displayEndCallMsg) {
+    if (displayEndCallMsg && !_isReceiver) {
       Utils.runFunction(() {
         Get.dialog(AlertInfo(
           title: 'Videocall finalized',
@@ -200,6 +209,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// The current state of the videocall
   int _currentCallState = CallState.stateRequesting;
 
+  /// Helps to know what is the call object in
+  /// the database and update each field depending on the needs.
   String? _callId;
 
   /// Update the UI with Call coming from the database.
@@ -361,6 +372,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   bool _isReceiver = false;
 
   /// Indicates to the UI what colors and icons should use the UI
+  ///
+  /// Inside this controller serves to know how to act in each use case
   bool get isReceiver => _isReceiver;
 
   void _handleUserReceiver(String idVideocall) {
@@ -391,8 +404,14 @@ class VideoCallController extends GetxController with VideoCallMixin {
     update(['muted']);*/
   }
 
-  Function? onPressHangUp() {
-    return _onEndCall;
+  void onAnswerCall() {
+    log('Answering call...');
+    if (_callId == null) {
+      log('Call id is null. Finishing the call.');
+      _onEndCall();
+      return;
+    }
+    UpdateStateCall.execute(_callId!, CallState.stateOnCall);
   }
 
   //NOTE: Agora Engine

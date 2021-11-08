@@ -18,6 +18,7 @@ class VideoCallBottomActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<VideoCallController>(
       builder: (c) {
+        final isOnCall = c.isOnCall;
         return CustomPaint(
           painter: _PathPainter(),
           child: Container(
@@ -26,10 +27,12 @@ class VideoCallBottomActions extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: BottomAction(
-                    icon: Icons.mic,
-                    onPressed: c.onPressMicroPhone,
-                  ),
+                  child: isOnCall
+                      ? BottomAction(
+                          icon: Icons.mic,
+                          onPressed: c.onPressMicroPhone,
+                        )
+                      : Container(),
                 ),
                 Expanded(
                   child: Column(
@@ -43,10 +46,12 @@ class VideoCallBottomActions extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: BottomAction(
-                    icon: Icons.cameraswitch,
-                    onPressed: c.onPressCamerasSwitch,
-                  ),
+                  child: isOnCall
+                      ? BottomAction(
+                          icon: Icons.cameraswitch,
+                          onPressed: c.onPressCamerasSwitch,
+                        )
+                      : Container(),
                 ),
               ],
             ),
