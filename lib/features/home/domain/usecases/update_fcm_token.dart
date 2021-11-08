@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/utils.dart';
 import '../../data/api/home_firestore_repository.dart';
@@ -13,6 +15,7 @@ abstract class UpdateFCMToken {
     try {
       final repo = HomeFirestoreRepository();
       await repo.updateUserData(id, User.tokenFCMField, token);
+      log('Token updated');
     } catch (e) {
       Utils.printACatch('UpdateUserOnlineStatus', e);
     }
