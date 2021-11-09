@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../home/domain/models/call.dart';
-import '../../../home/domain/models/call_state.dart';
 
 class VideoCallFirestoreRepository extends FirestoreRepository {
   /// Create a call in firestore
@@ -30,16 +29,12 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
   ///
   /// [callId] is the id of the call (document)
   ///
-  /// [newState] is the new state of the call. Must be between `CallState.stateFinalized`,
-  /// `CallState.stateLost` and `CallState.stateOnCall`
+  /// [newState] is the new state of the call. Must be between `0 and 4`.
+  ///
+  /// Each method that uses this method must have a validation to works properly with the application architecture.
   Future<void> updateStateCall(String callId, int newState) async {
-    final newStateCondition = newState == CallState.stateFinalized ||
-        newState == CallState.stateLost ||
-        newState == CallState.stateOnCall;
-
-    assert(newStateCondition,
-        'The states can be: stateFinalized, stateLost and stateOnCall');
-
+    assert(newState <= 4 && newState >= 0,
+        'The range must be between 0 and 4. Check out the CallState model for further information');
     try {
       firestore.runTransaction((transaction) async {
         final documentReference = getDocumentReference(callsCollection, callId);
@@ -49,14 +44,6 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
           Log.console('The reference to the document does not exist', L.E);
           return;
         }
-
-        /// The latest information about the call
-        final call = Call.fromJson(snapshot.data() as Map<String, dynamic>);
-
-        final state = call.callState.type;
-
-        /// The call was updated already
-        if (state > CallState.stateCalling) return;
 
         // NOTE: Might be a problem with the field to update
         transaction.update(documentReference, {

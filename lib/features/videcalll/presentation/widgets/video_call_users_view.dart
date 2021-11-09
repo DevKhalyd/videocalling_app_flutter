@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/utils/logger.dart';
 import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
 import '../getX/videocall_controller.dart';
@@ -15,11 +16,23 @@ class VideoCallUserView extends StatelessWidget {
     return GetBuilder<VideoCallController>(builder: (c) {
       final views = c.views;
 
-      if (views.length != 2)
+      Log.console('Total views: $views');
+
+      if (views.isEmpty)
         return const CenterText(
           'Waiting for the users...',
           color: Colors.white,
         );
+
+      if (views.length == 1)
+        return const CenterText(
+          'Waiting for the other user...',
+          color: Colors.white,
+        );
+
+    //  assert(views.length == 2, 'Must be 2 users in this call. No more.');
+
+    // NOTE: To see what is happening in the video call, use a grid to show each camera
 
       Widget currentUser = views[0];
       Widget guestUser = views[1];
@@ -28,12 +41,16 @@ class VideoCallUserView extends StatelessWidget {
         currentUser = views[1];
         guestUser = views[0];
       }
-
-      return Stack(
-        children: [
-          _FullScreenUser(user: guestUser),
-          _MiniScreenUser(user: currentUser),
-        ],
+      return Container(
+        color: Colors.green,
+        height: double.infinity,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            _FullScreenUser(user: guestUser),
+            _MiniScreenUser(user: currentUser),
+          ],
+        ),
       );
     });
   }
@@ -49,8 +66,14 @@ class _FullScreenUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: double.infinity,
+      width: 90,
+      height: 90,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.red,
+          width: 2,
+        ),
+      ),
       child: user,
     );
   }
@@ -70,6 +93,12 @@ class _MiniScreenUser extends StatelessWidget {
       child: Container(
         width: 120,
         height: 200,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.yellow,
+            width: 2,
+          ),
+        ),
         child: user,
       ),
     );

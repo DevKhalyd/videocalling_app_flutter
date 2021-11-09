@@ -54,6 +54,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   @override
   void onClose() {
     _timer?.cancel();
+    _engine?.destroy();
     super.onClose();
   }
 
@@ -63,8 +64,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// Return to home and make a transaction
   /// to change to Finalized or Lost state
   void _onEndCall({bool displayEndCallMsg = false}) {
-    log('_onEndCall called...');
-    Get.back();
+    log('_onEndCall called... State: $_currentCallState');
 
     if (displayEndCallMsg && !_isReceiver) {
       Utils.runFunction(() {
@@ -73,34 +73,36 @@ class VideoCallController extends GetxController with VideoCallMixin {
           content:
               'Because the user is not avaible the videocall was finalized.',
         ));
-      }, milliseconds: 1750);
+      }, milliseconds: 1500);
     }
 
     /// Because the call is finalized already. We don't to do anything more.
     if (_currentCallState == CallState.stateLost ||
-        _currentCallState == CallState.stateFinalized) return;
+        _currentCallState == CallState.stateFinalized) {
+      Get.back();
+      return;
+    }
 
     Utils.runFunction(
       () {
-        log('Updating database with new data... (Ending call...)');
-
         if (_callId == null) {
           Log.console(
               '_callId is null. Please verify that this values is asigned where is used',
               L.E);
           return;
         }
-
+        log('Updating database with new data... (Ending call...)');
         final int newState;
 
         if (_currentCallState == CallState.stateOnCall)
           newState = CallState.stateFinalized;
         else
           newState = CallState.stateLost;
+
         UpdateStateCall.execute(_callId!, newState);
       },
-      milliseconds: 200,
     );
+    Get.back();
   }
 
   // NOTE: Methods and parameters to handle the creation of the call and the handling of the call (UI)
@@ -428,7 +430,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   late VideoCallingModel _videoCallingModel;
 
   /// The _engine to start the videocall
-  late RtcEngine _engine;
+  RtcEngine? _engine;
   // Handle the UI
   bool _muted = false, _defaultView = true;
 
@@ -450,17 +452,24 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   Future<void> _initAgoraRtcEngine() async {
     _engine = await RtcEngine.create(AgoraSettings.appId);
-    await _engine.enableVideo();
-    await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    await _engine.setClientRole(_videoCallingModel.role);
+    await _engine?.enableVideo();
+    await _engine?.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await _engine?.setClientRole(_videoCallingModel.role);
 
     _agoraEventHandlers();
 
+    // TODO: Check the documentation
+
+    // TODO: Check out again with two devices. (See the roles)
+
+    // TODO: Use the agora demo to see how works further.
+
+    // NOTE: Sometimes. Works fine and other times not more.
     // Don´t need it
     // VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     // configuration.dimensions = VideoDimensions(1920, 1080);
     // await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(
+    await _engine?.joinChannel(
       _videoCallingModel.token,
       _videoCallingModel.channel,
       null,
@@ -470,20 +479,29 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _onCountTime();
   }
 
-  void _agoraEventHandlers() => _engine.setEventHandler(
+  void _agoraEventHandlers() => _engine?.setEventHandler(
         RtcEngineEventHandler(
-          error: (code) => log('Something bad happens. Code: $code'),
-          joinChannelSuccess: (channel, uid, elapsed) =>
-              log('onJoinChannel: $channel, uid: $uid elapsed: $elapsed'),
-          leaveChannel: (stats) {
-            users.clear();
+          error: (code) =>
+              // TODO: When this error happens call the _onEndCall method
+              Log.console('Something bad happens. Code: $code', L.E),
+          joinChannelSuccess: (channel, uid, elapsed) {
+            log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed');
+            users.add(uid);
             _assignViews();
           },
+          leaveChannel: (stats) {
+            log('onLeaveChannel: $stats');
+            users.clear();
+            // Because this user leave the channel it's not necessary to update the UI
+            //_assignViews();
+          },
           userJoined: (uid, elapsed) {
+            log('A user has joined: $uid lapsed: $elapsed');
             users.add(uid);
             _assignViews();
           },
           userOffline: (uid, elapsed) {
+            log('A user has left: $uid lapsed: $elapsed');
             users.remove(uid);
             _assignViews();
           },
@@ -508,12 +526,12 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// Turn on and turn off the video
   void onToggleMute() {
     _muted = !_muted;
-    _engine.muteLocalAudioStream(_muted);
+    _engine?.muteLocalAudioStream(_muted);
     update();
   }
 
   /// Switch the camera between the front and the back
-  void onSwitchCamera() => _engine.switchCamera();
+  void onSwitchCamera() => _engine?.switchCamera();
 
   /// Get the camera from the back to the fronted
   ///

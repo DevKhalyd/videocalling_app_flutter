@@ -22,7 +22,7 @@ class HangUpVideoCallButton extends StatelessWidget {
         final isReceiver = c.isReceiver;
 
         return Material(
-          color: isReceiver ? Colors.green : Colors.red,
+          color: isReceiver && !c.isOnCall ? Colors.green : Colors.red,
           shape: CircleBorder(),
           clipBehavior: Clip.hardEdge,
           child: Padding(
