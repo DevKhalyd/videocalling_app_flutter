@@ -20,6 +20,12 @@ Add your own files to configure this project.
 
 All those files necessary are from Firebase Core. Check out the docs.
 
+**IOS**
+
+Add the necessary files to configure the permission handler.
+
+https://github.com/AgoraIO/Agora-Flutter-SDK
+
 # Structure
 
 presentation: The UI and their controllers.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../core/mixins/permission_handler_mixin.dart';
 
 import '../../../../core/repositories/fcm_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
@@ -22,7 +23,7 @@ import '../screens/image_picker_screen.dart';
 
 // TODO: Add the permission to record and for the camera. This to allow to agora works properly.
 /// Handle each fragment in this screen
-class HomeController extends GetxController {
+class HomeController extends GetxController with PermissionHandlerMixin {
   /// Allow to update just a part of the UI
   static const idUnique = 'id';
   static HomeController get to => Get.find();
@@ -56,6 +57,12 @@ class HomeController extends GetxController {
   String get title => _titles[_currentPage];
   bool get isTabMessageSelected => _currentPage == 0;
   bool get isTabCallSelected => _currentPage == 1;
+
+  @override
+  void onInit() {
+    askForCameraAndMicroPhonePermission();
+    super.onInit();
+  }
 
   @override
   void onReady() {
