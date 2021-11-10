@@ -5,6 +5,7 @@ import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../getX/videocall_controller.dart';
 import 'bottom_action.dart';
+import 'microphone_icon.dart';
 
 const _sizeActions = 110.0;
 
@@ -26,13 +27,9 @@ class VideoCallBottomActions extends StatelessWidget {
             width: context.width,
             child: Row(
               children: [
+                // TODO: Test the microphone in real devices...
                 Expanded(
-                  child: isOnCall
-                      ? BottomAction(
-                          icon: Icons.mic,
-                          onPressed: c.onPressMicroPhone,
-                        )
-                      : Container(),
+                  child: isOnCall ? MicroPhoneIcon() : Container(),
                 ),
                 Expanded(
                   child: Column(

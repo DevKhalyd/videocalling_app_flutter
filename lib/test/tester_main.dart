@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../features/videcalll/presentation/widgets/diagonal_shape.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,12 +12,11 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(title: Text('Material App Bar')),
-        body: PathExample(),
+        body: Center(child: DiagonalShape()),
       ),
     );
   }
 }
-
 
 class PathExample extends StatelessWidget {
   @override

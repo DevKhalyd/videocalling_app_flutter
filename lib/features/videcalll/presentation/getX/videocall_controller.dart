@@ -405,12 +405,16 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// Like: requesting,waiting, oncall (Start to count  each second and convert to minutes)
   String get state => _state;
 
-  void onPressCamerasSwitch() {}
+  /// Switches between front and rear cameras.
+  void onPressCamerasSwitch() {
+    _engine?.switchCamera();
+  }
 
+  /// Stops/Resumes sending the local audio stream.
   void onPressMicroPhone() {
-    /*_muted = !_muted;
-    _engine.muteLocalAudioStream(_muted);
-    update(['muted']);*/
+    _engine?.muteLocalAudioStream(_muted);
+    _muted = !_muted;
+    update();
   }
 
   void onAnswerCall() {
@@ -441,6 +445,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   // Handle the UI
   bool _muted = false, _defaultView = true;
 
+  /// By default the user is not muted.
   bool get muted => _muted;
 
   /// The default view is when `this` user is a mini player

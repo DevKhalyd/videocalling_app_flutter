@@ -16,6 +16,8 @@ class VideoCallUserView extends StatelessWidget {
     return GetBuilder<VideoCallController>(builder: (c) {
       final views = c.views;
 
+      // TODO: Because of there are three suferviews I need to test each maybe one of them are bad or contains anything.
+      // TODO: Check the channel where each user joins.
       Log.console('Total views: $views');
 
       if (views.isEmpty)
@@ -31,8 +33,6 @@ class VideoCallUserView extends StatelessWidget {
         );
 
       //  assert(views.length == 2, 'Must be 2 users in this call. No more.');
-
-      // NOTE: To see what is happening in the video call, use a grid to show each camera
 
       Widget currentUser = views[0];
       Widget guestUser = views[1];
