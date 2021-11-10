@@ -6,7 +6,7 @@
 
 - Receive the videocalling for the Receiver in the background of the device (Check the package of agora.)
 
-# Videocalling App
+# Description
 
 A videocalling app where I show how structure an application with GetX and Clean Architecture.
 
@@ -51,3 +51,19 @@ https://medium.com/flutter-community/paths-in-flutter-a-visual-guide-6c906464dcd
 # NOTES
 
 This project was built with Flutter 2.5.3
+
+# Libraries
+
+All the libraries described here
+
+## Agora
+
+Important to read:
+
+**Example:**
+
+Agora IO:
+https://github.com/AgoraIO/Agora-Flutter-SDK/blob/master/example/lib/examples/basic/join_channel_video/join_channel_video.dart
+
+Reference:
+https://docs.agora.io/en/Video/API%20Reference/flutter/index.html

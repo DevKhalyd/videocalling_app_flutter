@@ -43,7 +43,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   bool get shouldAnswerCall =>
       _isReceiver && _currentCallState == CallState.stateCalling;
 
-  get onEndCall => _onEndCall;
+  VoidCallback get onEndCall => _onEndCall;
 
   @override
   void onInit() {
@@ -54,7 +54,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
   @override
   void onClose() {
     _timer?.cancel();
-    _engine?.destroy();
+    _engine?.leaveChannel().then((_) {
+      _engine?.destroy();
+    });
     super.onClose();
   }
 
@@ -62,15 +64,20 @@ class VideoCallController extends GetxController with VideoCallMixin {
   Timer? _timer;
 
   /// Return to home and make a transaction
-  /// to change to Finalized or Lost state
-  void _onEndCall({bool displayEndCallMsg = false}) {
+  /// to change to Finalized or Lost state if it's necessary.
+  ///
+  /// [displayEndCallMsg] If true, show a message explaining why the call was
+  /// finalized.
+  ///
+  /// [msg] A custom message to be displayed when the call is finalized.
+  void _onEndCall({bool displayEndCallMsg = false, String? msg}) {
     log('_onEndCall called... State: $_currentCallState');
 
-    if (displayEndCallMsg && !_isReceiver) {
+    if (displayEndCallMsg && !_isReceiver || msg != null) {
       Utils.runFunction(() {
         Get.dialog(AlertInfo(
           title: 'Videocall finalized',
-          content:
+          content: msg ??
               'Because the user is not avaible the videocall was finalized.',
         ));
       }, milliseconds: 1500);
@@ -450,25 +457,19 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _initAgoraRtcEngine();
   }
 
+  /// Init the AgoraEngine and Join to the new channel
   Future<void> _initAgoraRtcEngine() async {
-    _engine = await RtcEngine.create(AgoraSettings.appId);
+    _engine = await RtcEngine.createWithContext(
+        RtcEngineContext(AgoraSettings.appId));
+
+    _addAgoraListeners();
+
     await _engine?.enableVideo();
+    await _engine?.startPreview();
     await _engine?.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine?.setClientRole(_videoCallingModel.role);
 
-    _agoraEventHandlers();
-
-    // TODO: Check the documentation
-
-    // TODO: Check out again with two devices. (See the roles)
-
-    // TODO: Use the agora demo to see how works further.
-
-    // NOTE: Sometimes. Works fine and other times not more.
-    // Don´t need it
-    // VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
-    // configuration.dimensions = VideoDimensions(1920, 1080);
-    // await _engine.setVideoEncoderConfiguration(configuration);
+    // NOTE: Maybe this one can be split into other method
     await _engine?.joinChannel(
       _videoCallingModel.token,
       _videoCallingModel.channel,
@@ -479,34 +480,39 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _onCountTime();
   }
 
-  void _agoraEventHandlers() => _engine?.setEventHandler(
-        RtcEngineEventHandler(
-          error: (code) =>
-              // TODO: When this error happens call the _onEndCall method
-              Log.console('Something bad happens. Code: $code', L.E),
-          joinChannelSuccess: (channel, uid, elapsed) {
-            log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed');
-            users.add(uid);
-            _assignViews();
-          },
-          leaveChannel: (stats) {
-            log('onLeaveChannel: $stats');
-            users.clear();
-            // Because this user leave the channel it's not necessary to update the UI
-            //_assignViews();
-          },
-          userJoined: (uid, elapsed) {
-            log('A user has joined: $uid lapsed: $elapsed');
-            users.add(uid);
-            _assignViews();
-          },
-          userOffline: (uid, elapsed) {
-            log('A user has left: $uid lapsed: $elapsed');
-            users.remove(uid);
-            _assignViews();
-          },
-        ),
-      );
+  void _addAgoraListeners() {
+    _engine?.setEventHandler(
+      RtcEngineEventHandler(
+        error: (code) {
+          Log.console('Something bad happens. Code: $code', L.E);
+          final msg =
+              'An error has occurred when attempts to join to this conversation. Please, try again later.';
+          _onEndCall(msg: msg);
+        },
+        joinChannelSuccess: (channel, uid, elapsed) {
+          log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed');
+          users.add(uid);
+          _assignViews();
+        },
+        leaveChannel: (stats) {
+          log('onLeaveChannel: $stats');
+          users.clear();
+          // Because this user leave the channel it's not necessary to update the UI
+          //_assignViews();
+        },
+        userJoined: (uid, elapsed) {
+          log('A user has joined: $uid lapsed: $elapsed');
+          users.add(uid);
+          _assignViews();
+        },
+        userOffline: (uid, elapsed) {
+          log('A user has left: $uid lapsed: $elapsed');
+          users.remove(uid);
+          _assignViews();
+        },
+      ),
+    );
+  }
 
   void _assignViews() {
     views = _getRenderViews();

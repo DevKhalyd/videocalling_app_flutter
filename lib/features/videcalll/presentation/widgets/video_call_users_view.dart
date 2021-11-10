@@ -30,9 +30,9 @@ class VideoCallUserView extends StatelessWidget {
           color: Colors.white,
         );
 
-    //  assert(views.length == 2, 'Must be 2 users in this call. No more.');
+      //  assert(views.length == 2, 'Must be 2 users in this call. No more.');
 
-    // NOTE: To see what is happening in the video call, use a grid to show each camera
+      // NOTE: To see what is happening in the video call, use a grid to show each camera
 
       Widget currentUser = views[0];
       Widget guestUser = views[1];
@@ -66,12 +66,12 @@ class _FullScreenUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 90,
-      height: 90,
+      width: double.infinity,
+      height: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.red,
-          width: 2,
+          width: 5,
         ),
       ),
       child: user,
@@ -96,7 +96,7 @@ class _MiniScreenUser extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.yellow,
-            width: 2,
+            width: 5,
           ),
         ),
         child: user,
