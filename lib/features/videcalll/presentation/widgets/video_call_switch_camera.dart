@@ -12,9 +12,12 @@ class VideoCallSwitchCameraViews extends StatelessWidget {
         right: 16,
         child: GestureDetector(
             onTap: VideoCallController.to.onChangeViews,
-            child: Icon(
-              Icons.flip_camera_android_outlined,
-              color: Colors.white,
+            child: Tooltip(
+              message: 'Change views',
+              child: Icon(
+                Icons.flip_camera_android_outlined,
+                color: Colors.white,
+              ),
             )));
   }
 }

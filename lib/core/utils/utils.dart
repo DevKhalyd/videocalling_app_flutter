@@ -3,6 +3,7 @@ import 'dart:math' show Random;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'logger.dart';
 
@@ -47,5 +48,10 @@ abstract class Utils {
 
   static void runFunction(VoidCallback callback, {int milliseconds = 750}) {
     Timer(Duration(milliseconds: milliseconds), callback);
+  }
+
+  static Future<bool> hasInternetConnection() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
   }
 }

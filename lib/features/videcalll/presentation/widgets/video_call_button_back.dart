@@ -10,12 +10,15 @@ class VideoCallButtonBack extends StatelessWidget {
     return Positioned(
         top: 0,
         left: 8,
-        child: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
+        child: Tooltip(
+          message: 'Go to home a finalize the video call',
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: VideoCallController.to.onEndCall,
           ),
-          onPressed: () => VideoCallController.to.onEndCall,
         ));
   }
 }

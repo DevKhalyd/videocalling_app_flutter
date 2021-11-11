@@ -27,7 +27,6 @@ class VideoCallBottomActions extends StatelessWidget {
             width: context.width,
             child: Row(
               children: [
-                // TODO: Test the microphone in real devices...
                 Expanded(
                   child: isOnCall ? MicroPhoneIcon() : Container(),
                 ),
@@ -45,6 +44,7 @@ class VideoCallBottomActions extends StatelessWidget {
                 Expanded(
                   child: isOnCall
                       ? BottomAction(
+                          tooltip: 'Switch camera',
                           icon: Icons.cameraswitch,
                           onPressed: c.onPressCamerasSwitch,
                         )

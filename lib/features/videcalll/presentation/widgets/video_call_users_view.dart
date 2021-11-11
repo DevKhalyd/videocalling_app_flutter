@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/logger.dart';
 import 'package:videocalling_app/core/widgets/mini_widgets.dart';
 
 import '../getX/videocall_controller.dart';
@@ -16,10 +15,6 @@ class VideoCallUserView extends StatelessWidget {
     return GetBuilder<VideoCallController>(builder: (c) {
       final views = c.views;
 
-      // TODO: Because of there are three suferviews I need to test each maybe one of them are bad or contains anything.
-      // TODO: Check the channel where each user joins.
-      Log.console('Total views: $views');
-
       if (views.isEmpty)
         return const CenterText(
           'Waiting for the users...',
@@ -32,7 +27,7 @@ class VideoCallUserView extends StatelessWidget {
           color: Colors.white,
         );
 
-      //  assert(views.length == 2, 'Must be 2 users in this call. No more.');
+      assert(views.length == 2, 'Must be 2 users in this call. No more.');
 
       Widget currentUser = views[0];
       Widget guestUser = views[1];
@@ -42,7 +37,6 @@ class VideoCallUserView extends StatelessWidget {
         guestUser = views[0];
       }
       return Container(
-        color: Colors.green,
         height: double.infinity,
         width: double.infinity,
         child: Stack(
@@ -68,12 +62,6 @@ class _FullScreenUser extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.red,
-          width: 5,
-        ),
-      ),
       child: user,
     );
   }
@@ -93,12 +81,6 @@ class _MiniScreenUser extends StatelessWidget {
       child: Container(
         width: 120,
         height: 200,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.yellow,
-            width: 5,
-          ),
-        ),
         child: user,
       ),
     );

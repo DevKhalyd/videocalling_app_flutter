@@ -10,4 +10,7 @@ abstract class Messages {
 
   static const videocallConnectionError =
       'We had have an error. Please try again later.';
+
+  static const noInternetConnection =
+      'Looks like you have no internet connection. Please try again later.';
 }

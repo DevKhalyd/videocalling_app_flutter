@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 import '../../../../core/mixins/permission_handler_mixin.dart';
 
 import '../../../../core/repositories/fcm_repository.dart';
@@ -77,7 +78,7 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   void onTabCallSelected() => _changeCurrentPage(1);
 
   /// When press the videocall button
-  void onVideocall() => Get.to(() => HomeSearcherScreen());
+  void onVideocall() async => Get.to(() => HomeSearcherScreen());
 
   void _changeCurrentPage([int value = 0]) {
     if (value == _currentPage) return;

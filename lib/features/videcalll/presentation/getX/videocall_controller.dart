@@ -43,7 +43,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   bool get shouldAnswerCall =>
       _isReceiver && _currentCallState == CallState.stateCalling;
 
-  VoidCallback get onEndCall => _onEndCall;
+  get onEndCall => _onEndCall;
 
   @override
   void onInit() {
@@ -411,9 +411,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
   }
 
   /// Stops/Resumes sending the local audio stream.
-  void onPressMicroPhone() {
-    _engine?.muteLocalAudioStream(_muted);
+  void onPressMicroPhone() async {
     _muted = !_muted;
+    await _engine?.muteLocalAudioStream(_muted);
     update();
   }
 
@@ -494,16 +494,12 @@ class VideoCallController extends GetxController with VideoCallMixin {
               'An error has occurred when attempts to join to this conversation. Please, try again later.';
           _onEndCall(msg: msg);
         },
-        joinChannelSuccess: (channel, uid, elapsed) {
-          log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed');
-          users.add(uid);
-          _assignViews();
-        },
+        joinChannelSuccess: (channel, uid, elapsed) =>
+            log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed'),
         leaveChannel: (stats) {
           log('onLeaveChannel: $stats');
           users.clear();
-          // Because this user leave the channel it's not necessary to update the UI
-          //_assignViews();
+          _assignViews();
         },
         userJoined: (uid, elapsed) {
           log('A user has joined: $uid lapsed: $elapsed');
@@ -544,9 +540,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
   /// Switch the camera between the front and the back
   void onSwitchCamera() => _engine?.switchCamera();
 
-  /// Get the camera from the back to the fronted
+  /// Get the [SurfaceView] from the rear to the fronted
   ///
-  /// That means if the user A is the front and the user B is the back,
+  /// That means if the user A is the front and the user B is the rear,
   /// the user A will be the back and the user B will be the front and viceversa.
   void onChangeViews() {
     _defaultView = !_defaultView;

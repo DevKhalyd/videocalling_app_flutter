@@ -5,10 +5,12 @@ class BottomAction extends StatelessWidget {
     Key? key,
     required this.icon,
     this.onPressed,
+    this.tooltip,
   }) : super(key: key);
 
   final IconData icon;
   final VoidCallback? onPressed;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class BottomAction extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: IconButton(
+            tooltip: tooltip,
             onPressed: onPressed,
             icon: Icon(
               icon,

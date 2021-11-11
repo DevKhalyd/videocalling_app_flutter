@@ -1,8 +1,8 @@
 # TODO
 
-- Test that the UI works properly. Caller and Receiver
+- Before to make a call, check out if there is internet connection.
 
-- Test that in each device contains works properly (Check out the flow)
+- Add sound whe the caller is calling
 
 - Receive the videocalling for the Receiver in the background of the device (Check the package of agora.)
 

@@ -23,6 +23,7 @@ class MicroPhoneIcon extends StatelessWidget {
           children: [
             BottomAction(
               icon: Icons.mic,
+              tooltip: c.muted ? 'Unmute' : 'Mute',
               onPressed: c.onPressMicroPhone,
             ),
             if (c.muted) DiagonalShape(),
