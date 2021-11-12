@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-import 'package:videocalling_app/core/repositories/audio_player_repository.dart';
+
+import '../core/repositories/audio_player_repository.dart';
 
 void main() => runApp(MyApp());
 

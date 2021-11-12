@@ -5,10 +5,12 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/bridges/fcm_bridge.dart';
 import '../../../../core/enums/fcm_enums.dart';
+import '../../../../core/repositories/audio_player_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
 
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
@@ -33,7 +35,10 @@ import '../mixin/videocall_utils.dart';
 class VideoCallController extends GetxController with VideoCallMixin {
   static VideoCallController get to => Get.find();
   bool get isOnCall => _currentCallState == CallState.stateOnCall;
-  // IMPROVE: Create function that returns the function to use in each case.
+
+  bool _isReceiver = false;
+  int _durationInSeconds = 0;
+  Timer? _timer;
 
   /// If true use [onAnswerCall]
   ///
@@ -60,9 +65,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
     super.onClose();
   }
 
-  int _durationInSeconds = 0;
-  Timer? _timer;
-
   /// Return to home and make a transaction
   /// to change to Finalized or Lost state if it's necessary.
   ///
@@ -71,8 +73,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
   ///
   /// [msg] A custom message to be displayed when the call is finalized.
   void _onEndCall({bool displayEndCallMsg = false, String? msg}) {
-    log('_onEndCall called... State: $_currentCallState');
-
+    log('_onEndCall called...');
+    _stopSound();
     if (displayEndCallMsg && !_isReceiver || msg != null) {
       Utils.runFunction(() {
         Get.dialog(AlertInfo(
@@ -164,7 +166,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
     // Liisten to this object to get the state of the call
     final idDocument = reference.id;
-
     _listenCall(idDocument);
   }
 
@@ -263,6 +264,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   void _stateCalling(Call call) {
     log('_stateCalling called...');
+    _playSound();
     final callState = call.callState;
     _state = callState.getState();
     update();
@@ -279,6 +281,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   void _stateOnCall(Call call) async {
     log('_stateOnCall called...');
+    _stopSound();
     final channel = call.channel;
     final token = call.token;
 
@@ -323,7 +326,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
   void _onCountTime() {
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       _durationInSeconds++;
-      // NOTE: Maybe this needs a unique id to update
       final time = getMinutesFromSeconds(_durationInSeconds);
       _state = time;
       update();
@@ -338,6 +340,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
     final arguments = Get.arguments;
 
     /// Another [User] selected by `this` user
+    ///
+    /// The caller made the call
     if (arguments is User)
       _handleUserCaller(arguments);
 
@@ -377,8 +381,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
     _state = callState;
     if (shouldUpdate) update();
   }
-
-  bool _isReceiver = false;
 
   /// Indicates to the UI what colors and icons should use the UI
   ///
@@ -547,5 +549,23 @@ class VideoCallController extends GetxController with VideoCallMixin {
   void onChangeViews() {
     _defaultView = !_defaultView;
     update();
+  }
+
+  /// According to the type of user (caller or receiver)
+  /// play the sounds to indicate something happens
+  void _playSound() {
+    if (isReceiver)
+      FlutterRingtonePlayer.playRingtone();
+    else
+      AudioPlayerRepository.loopCallingRingtone();
+  }
+
+  /// According to the type of user (caller or receiver)
+  /// stop the sounds to indicate something happens
+  void _stopSound() {
+    if (isReceiver)
+      FlutterRingtonePlayer.stop();
+    else
+      AudioPlayerRepository.stopCallingRingtone();
   }
 }
