@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:videocalling_app/core/repositories/audio_player_repository.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,22 +30,34 @@ class _Item extends StatefulWidget {
 
 class _ItemState extends State<_Item> {
   bool isSilent = true;
-
+  // test each sound
   @override
   Widget build(BuildContext context) {
     return Center(
       child: TextButton(
-        onPressed: () {
-          if (isSilent) {
-            FlutterRingtonePlayer.playRingtone();
-            isSilent = false;
-          } else {
-            FlutterRingtonePlayer.stop();
-            isSilent = true;
-          }
-        },
+        onPressed: onCallingTone,
         child: Text('Play Sound'),
       ),
     );
+  }
+
+  onCallingTone() {
+    if (isSilent) {
+      AudioPlayerRepository.loopCallingRingtone();
+      isSilent = false;
+    } else {
+      AudioPlayerRepository.stopCallingRingtone();
+      isSilent = true;
+    }
+  }
+
+  onRingtone() {
+    if (isSilent) {
+      FlutterRingtonePlayer.playRingtone();
+      isSilent = false;
+    } else {
+      FlutterRingtonePlayer.stop();
+      isSilent = true;
+    }
   }
 }
