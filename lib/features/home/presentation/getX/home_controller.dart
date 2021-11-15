@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
-import '../../../../core/mixins/permission_handler_mixin.dart';
 
+import '../../../../core/mixins/permission_handler_mixin.dart';
 import '../../../../core/repositories/fcm_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/arguments.dart';
+import '../../../../core/utils/logger.dart';
 import '../../../../core/utils/messages.dart';
 import '../../../../core/utils/routes.dart';
 import '../../../../core/widgets/dialogs/alert_option.dart';
@@ -15,6 +15,7 @@ import '../../../calls/presentation/screens/calls_screen.dart';
 import '../../../messages/presentation/screens/messages_screen.dart';
 import '../../../sign_up/domain/usecases/get_fcm_token.dart';
 import '../../domain/usecases/get_email_user.dart';
+import '../../domain/usecases/get_latest_msg_fcm.dart';
 import '../../domain/usecases/get_user_data.dart';
 import '../../domain/usecases/sign_out.dart';
 import '../../domain/usecases/update_fcm_token.dart';
@@ -61,6 +62,7 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   @override
   void onInit() {
     askForCameraAndMicroPhonePermission();
+    _checkForLatestFCMessages();
     super.onInit();
   }
 
@@ -71,6 +73,15 @@ class HomeController extends GetxController with PermissionHandlerMixin {
     FCMRepository.onMessage();
     _onReceiveArguments();
     _initData();
+  }
+
+  /// Check out if there is a message that contains a videocall notification or other information
+  /// to process.
+  void _checkForLatestFCMessages() async {
+    Log.console('Checking the latest message');
+    final message = await GetLatestMessageFCM.execute();
+    if (message == null) return;
+    handleRemoteMessage(message);
   }
 
   void onTabMessageSelected() => _changeCurrentPage();

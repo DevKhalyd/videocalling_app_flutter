@@ -19,28 +19,25 @@ class HomeBottomItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Material(
-        color: Colors.black38,
-        child: InkWell(
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 65.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  isSelected ? iconSelected : iconNotSelected,
-                  color: Colors.white,
-                ),
-                Space(0.005),
-                TextCustom(
-                  label,
-                  color: isSelected ? Colors.white : Colors.grey,
-                )
-              ],
-            ),
+    return Material(
+      color: Colors.black38,
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 65.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                isSelected ? iconSelected : iconNotSelected,
+                color: Colors.white,
+              ),
+              Space(0.005),
+              TextCustom(
+                label,
+                color: isSelected ? Colors.white : Colors.grey,
+              )
+            ],
           ),
         ),
       ),

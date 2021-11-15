@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io' show Platform;
 
@@ -16,8 +17,12 @@ import '../utils/routes.dart';
 abstract class FCMRepository {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  // NOTE: Check this option to open a specific screen
-  //messaging.getInitialMessage();
+  /// Use if you want to get the latest message sent to the application.
+  ///
+  /// Serves to open a screen or manipulate the logic.
+  Future<RemoteMessage?> getLastMessageFromFCM() {
+    return messaging.getInitialMessage();
+  }
 
   Future<String?> getToken() async {
     if (Platform.isAndroid) return await messaging.getToken();
@@ -36,46 +41,7 @@ abstract class FCMRepository {
   /// Listen to messages whilst your application is in the foreground
   static void onMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final notification = message.notification;
-      final data = message.data;
-
-      if (notification != null) {
-        log('Message also contained a notification: ${message.notification}');
-      }
-
-      if (data.isEmpty) {
-        Log.console(
-            'Because the logic of the application the data should not be empty',
-            L.E);
-        return;
-      }
-
-      if (data.containsKey(FCMKeys.idVideocall)) {
-        final idVideocall = data[FCMKeys.idVideocall];
-        if (idVideocall.isEmpty) {
-          Log.console('The idVideocall should be not empty', L.E);
-          return;
-        }
-
-        /// Context: Basically the caller sends the notification to the receiver
-        ///
-        /// Then if this one is avaible and the application is running in the foreground
-        ///
-        /// Then the application will open the videocall screen. Without questions to answer the call
-        /// because that is the logic that I want to implement.
-        ///
-        /// If the application is not running in the foreground (Background or Terminated), then the application will ask for answer the call.
-
-        final arguments = FCMBridge(
-          type: TypeContent.videocall,
-          value: idVideocall,
-        );
-
-        Get.toNamed(
-          Routes.videocall,
-          arguments: arguments,
-        );
-      }
+      handleRemoteMessage(message);
     });
   }
 
@@ -89,9 +55,67 @@ abstract class FCMRepository {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // https://firebase.flutter.dev/docs/messaging/usage#background-messages
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+  /*
+  Since the handler runs in its own isolate outside your applications context, 
+  it is not possible to update application state or execute any UI impacting logic. 
+  You can however perform logic such as HTTP requests, 
+  IO operations (updating local storage), communicate with other plugins etc.
 
-  print("Handling a background message: ${message.messageId}");
+  It is also recommended to complete your logic as soon as possible. 
+  Running long intensive tasks impacts device performance and may cause 
+  the OS to terminate the process. If tasks run for longer than 30 seconds,
+  the device may automatically kill the process.
+   */
+}
+
+/// This method helps to handle the messages from the FCM.
+///
+/// [message] The current message sent by FCM.
+///
+/// Use when you have a context to use in the application.
+Future<void> handleRemoteMessage(RemoteMessage message) async {
+  final notification = message.notification;
+  final data = message.data;
+
+  if (notification != null) {
+    log('Message also contained a notification: ${message.notification}');
+  }
+
+  if (data.isEmpty) {
+    Log.console(
+        'Because the logic of the application the data should not be empty',
+        L.E);
+    return;
+  }
+
+  if (data.containsKey(FCMKeys.idVideocall)) {
+    final idVideocall = data[FCMKeys.idVideocall];
+    if (idVideocall.isEmpty) {
+      Log.console('The idVideocall should be not empty', L.E);
+      return;
+    }
+
+    /// Context: Basically the caller sends the notification to the receiver
+    ///
+    /// Then if this one is avaible and the application is running in the foreground
+    ///
+    /// Then the application will open the videocall screen. Without questions to answer the call
+    /// because that is the logic that I want to implement.
+    ///
+    /// If the application is not running in the foreground (Background or Terminated), then the application will ask for answer the call.
+
+    final arguments = FCMBridge(
+      type: TypeContent.videocall,
+      value: idVideocall,
+    );
+
+    Get.toNamed(
+      Routes.videocall,
+      arguments: arguments,
+    );
+  }
 }

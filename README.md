@@ -1,7 +1,5 @@
 # TODO
 
-- Add sound whe the caller is calling
-
 - Receive the videocalling for the Receiver in the background of the device (Check the package of agora.)
 
 # Description
