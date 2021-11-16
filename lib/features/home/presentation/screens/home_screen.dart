@@ -9,8 +9,36 @@ import '../widgets/home_screen/home_app_bar.dart';
 import '../widgets/home_screen/home_bottom_navigation.dart';
 
 /// Contains the main screen application.
-class HomeScreen extends StatelessWidget {
-const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // As personal note. Worth if I use GetX? Because I ended up using the native methods of flutter.
+    // Maybe I need to change to another state managment for flutter. IDK.
+
+    // Because If a notification arrives when the app is resumed those lines are necessary.
+    // Resumed is not fired when the view is created. Instead is fired when go from paused | inactive to resumed.
+    if (state == AppLifecycleState.resumed)
+      HomeController.to.checkForLatestFCMessages();
+  }
 
   @override
   Widget build(BuildContext context) {

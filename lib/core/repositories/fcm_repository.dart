@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io' show Platform;
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +12,6 @@ import '../utils/logger.dart';
 import '../utils/routes.dart';
 
 // Docs: https://firebase.flutter.dev/docs/messaging/usage#requesting-permission-apple--web
-
 abstract class FCMRepository {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -45,7 +43,6 @@ abstract class FCMRepository {
     });
   }
 
-  // NOTE: Check if this one listen at terminated state
   /// Listen to messages whilst your application is in background or terminated.
   static void onBackgroundMessage() {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -55,10 +52,12 @@ abstract class FCMRepository {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // https://firebase.flutter.dev/docs/messaging/usage#background-messages
+  // Docs: https://firebase.flutter.dev/docs/messaging/usage#background-messages
+  
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // await Firebase.initializeApp();
+  
   /*
   Since the handler runs in its own isolate outside your applications context, 
   it is not possible to update application state or execute any UI impacting logic. 
@@ -69,14 +68,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   Running long intensive tasks impacts device performance and may cause 
   the OS to terminate the process. If tasks run for longer than 30 seconds,
   the device may automatically kill the process.
-   */
+  */
+
+  // TODO: Detect if it's a videocalling notification
+  // Triggered the ringtone
 }
 
 /// This method helps to handle the messages from the FCM.
 ///
 /// [message] The current message sent by FCM.
 ///
-/// Use when you have a context to use in the application.
+/// Use when you have a context to use in the application. Otherwise, will fail the application.
 Future<void> handleRemoteMessage(RemoteMessage message) async {
   final notification = message.notification;
   final data = message.data;

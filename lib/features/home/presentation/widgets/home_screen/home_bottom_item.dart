@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:videocalling_app/core/widgets/mini_widgets.dart';
+
+import '../../../../../core/widgets/mini_widgets.dart';
 
 /// Item to use with `HomeBottomNavigation`
 class HomeBottomItem extends StatelessWidget {
@@ -23,22 +24,19 @@ class HomeBottomItem extends StatelessWidget {
       color: Colors.black38,
       child: InkWell(
         onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 65.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isSelected ? iconSelected : iconNotSelected,
-                color: Colors.white,
-              ),
-              Space(0.005),
-              TextCustom(
-                label,
-                color: isSelected ? Colors.white : Colors.grey,
-              )
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isSelected ? iconSelected : iconNotSelected,
+              color: Colors.white,
+            ),
+            Space(0.005),
+            TextCustom(
+              label,
+              color: isSelected ? Colors.white : Colors.grey,
+            ),
+          ],
         ),
       ),
     );

@@ -62,7 +62,7 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   @override
   void onInit() {
     askForCameraAndMicroPhonePermission();
-    _checkForLatestFCMessages();
+    checkForLatestFCMessages();
     super.onInit();
   }
 
@@ -77,7 +77,7 @@ class HomeController extends GetxController with PermissionHandlerMixin {
 
   /// Check out if there is a message that contains a videocall notification or other information
   /// to process.
-  void _checkForLatestFCMessages() async {
+  void checkForLatestFCMessages() async {
     Log.console('Checking the latest message');
     final message = await GetLatestMessageFCM.execute();
     if (message == null) return;
