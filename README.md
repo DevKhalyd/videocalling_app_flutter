@@ -1,6 +1,8 @@
 # TODO
 
-- Receive the videocalling for the Receiver in the background of the device (Check the package of agora.)
+- Local notifications: Show my own notifications in my application (Max)
+
+- Firebase: Send only the data (Check the docs)
 
 # Description
 

@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
+import '../../main.dart';
 import '../bridges/fcm_bridge.dart';
 import '../enums/fcm_enums.dart';
 import '../utils/fcm_keys.dart';
@@ -53,11 +54,11 @@ abstract class FCMRepository {
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Docs: https://firebase.flutter.dev/docs/messaging/usage#background-messages
-  
+
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // await Firebase.initializeApp();
-  
+
   /*
   Since the handler runs in its own isolate outside your applications context, 
   it is not possible to update application state or execute any UI impacting logic. 
@@ -70,8 +71,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   the device may automatically kill the process.
   */
 
-  // TODO: Detect if it's a videocalling notification
-  // Triggered the ringtone
+  // TODO: Detect if it's a videocalling notification. Use shared preferences if the other solutions don't work
 }
 
 /// This method helps to handle the messages from the FCM.
