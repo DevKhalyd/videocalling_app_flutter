@@ -5,7 +5,6 @@ import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../../main.dart';
 import '../bridges/fcm_bridge.dart';
 import '../enums/fcm_enums.dart';
 import '../utils/fcm_keys.dart';

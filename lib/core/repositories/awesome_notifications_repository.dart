@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 // Docs: https://pub.dev/packages/awesome_notifications
 
-//Example: https://github.com/rafaelsetragni/awesome_notifications/tree/master/example
+// Example: https://github.com/rafaelsetragni/awesome_notifications/tree/master/example
 
 /// Handle the [AwesomeNotifications] logic and exposes the notifications most used.
 class AwesomeNotificationsRepository {
-  static const keyBasicChannel = "basicChannel";
+  static const _videocallingChannel = '_videocallingChannel';
 
   /// If something is wrong is this initialization
   static final instance = AwesomeNotifications();
@@ -19,20 +19,35 @@ class AwesomeNotificationsRepository {
   /// Call in the main method of the app
   AwesomeNotificationsRepository.init() {
     instance.initialize(
+      // Media source: https://pub.dev/packages/awesome_notifications#media-source-types
       // set the icon to null if you want to use the default app icon
       null,
       // 'resource://drawable/res_app_icon',
-      [
+      <NotificationChannel>[
+        // Notification Channels documentation
+        // https://pub.dev/packages/awesome_notifications#notification-channels
         NotificationChannel(
-          channelKey: keyBasicChannel,
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
-          defaultColor: Colors.red,
-          ledColor: Colors.white,
-        )
+          channelKey: _videocallingChannel,
+          channelName: 'VideocallingChannel',
+          channelDescription:
+              'Channel to use for the notifications of the videocalls.',
+          defaultColor: Colors.blue,
+          importance: NotificationImportance.Max,
+
+          /// My own sound will be played
+          /// ERROR: When the Native code tries to read [playSound]
+          /// throws a NullPointerException
+          playSound: false,
+
+          /// Cannot be removed by the user
+          locked: true,
+        ),
       ],
       debug: true,
     );
+
+    // TODO: Listen in other place
+    _listenNotifications();
   }
 
   /// Call this method in the screen most used.
@@ -49,22 +64,77 @@ class AwesomeNotificationsRepository {
     });
   }
 
-  /// Listen when a notification is tapped
+  /// Listen according to each function passed.
   ///
   /// Listen after the initialization
-  listenToNotifications(Function(ReceivedAction) onListen) {
-    instance.actionStream.listen(onListen);
+  ///
+  /// Docs: https://pub.dev/packages/awesome_notifications#flutter-streams
+  ///
+  /// [onAction] Capture all actions (tap) over notifications
+  ///
+  /// [onCreated] Capture all created notifications
+  ///
+  /// [onDisplayed] Capture all notifications displayed on user's screen.
+  ///
+  /// [onDismessed] Capture all notifications dismissed by the user.
+  void _listenNotifications({
+    Function(ReceivedAction)? onAction,
+    Function(ReceivedNotification)? onCreated,
+    Function(ReceivedNotification)? onDisplayed,
+    Function(ReceivedNotification)? onDismessed,
+  }) {
+    if (onCreated != null) instance.createdStream.listen(onCreated);
+    if (onAction != null) instance.actionStream.listen(onAction);
+    if (onDisplayed != null) instance.displayedStream.listen(onDisplayed);
+    if (onDismessed != null) instance.dismissedStream.listen(onDismessed);
   }
 
-  // TODO: Create a notification method when everything is working.
-
-  testNotification() {
+  static void testNotification() {
+    // Read: https://pub.dev/packages/awesome_notifications#notification-channels
     instance.createNotification(
         content: NotificationContent(
-      id: 10,
-      channelKey: keyBasicChannel,
-      title: 'Simple Notification',
-      body: 'Simple body',
+      id: 1,
+      channelKey: _videocallingChannel,
+      title: 'Hello There',
+      body: 'Wasup',
+      locked: true,
+      autoDismissable: false,
     ));
   }
+
+  static void buttonNotification() {
+    //https://pub.dev/packages/awesome_notifications#notificationcontent-content-in-push-data---required
+    instance.createNotification(
+        content: NotificationContent(
+          id: 1,
+          channelKey: _videocallingChannel,
+          title: 'Hello There Video',
+          body: 'Wasup',
+          //displayOnForeground: false
+        ),
+        schedule: NotificationCalendar(repeats: true),
+        actionButtons: [
+          NotificationActionButton(
+            key: '1',
+            label: 'Hang Up',
+            buttonType: ActionButtonType.Default,
+            isDangerousOption: true,
+          ),
+          NotificationActionButton(
+            key: '2',
+            label: 'Answer',
+            color: Colors.green,
+            buttonType: ActionButtonType.Default,
+          ),
+        ]);
+  }
 }
+
+/*
+Methods to use in the future...
+To use:  NotificationActionButton(
+            key: 'button3',
+            label: 'InputField',
+            buttonType: ActionButtonType.InputField,
+          ),
+ */
