@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 
 import '../bridges/fcm_bridge.dart';
@@ -25,6 +26,7 @@ abstract class FCMRepository {
   Future<String?> getToken() async {
     if (Platform.isAndroid) return await messaging.getToken();
 
+    // IMPROVE: Before to ask for the permission. Show a dialog the reason of that dialog.
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       // Messages or videocalling notification
@@ -71,6 +73,27 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   */
 
   // TODO: Detect if it's a videocalling notification. Use shared preferences if the other solutions don't work
+
+  // TODO: Update the type of the notification in the functions... (No title and body (Silent))
+  log('Incoming messsage...');
+
+  FlutterRingtonePlayer.playRingtone();
+
+  // Working fine...
+  Timer(Duration(seconds: 50), () {
+    log('Timer finished and ringtone stopped');
+    FlutterRingtonePlayer.stop();
+  });
+
+  /* final data = message.data;
+
+  if (data.containsKey(FCMKeys.idVideocall)) {
+    final idVideocall = data[FCMKeys.idVideocall];
+    if (idVideocall.isEmpty) {
+      Log.console('The idVideocall should be not empty', L.E);
+      return;
+    }
+  }*/
 }
 
 /// This method helps to handle the messages from the FCM.
@@ -79,19 +102,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 ///
 /// Use when you have a context to use in the application. Otherwise, will fail the application.
 Future<void> handleRemoteMessage(RemoteMessage message) async {
-  final notification = message.notification;
   final data = message.data;
-
-  if (notification != null) {
-    log('Message also contained a notification: ${message.notification}');
-  }
-
-  if (data.isEmpty) {
-    Log.console(
-        'Because the logic of the application the data should not be empty',
-        L.E);
-    return;
-  }
 
   if (data.containsKey(FCMKeys.idVideocall)) {
     final idVideocall = data[FCMKeys.idVideocall];

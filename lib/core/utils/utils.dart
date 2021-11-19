@@ -36,6 +36,11 @@ abstract class Utils {
     Log.console(msg, L.E, exception);
   }
 
+  /// Generate a random integer
+  static int generateInteger() {
+    return Random().nextInt(100);
+  }
+
   static Color genereateColor() {
     final random = new Random();
     final n = random.nextInt(_colors.length - 1);
