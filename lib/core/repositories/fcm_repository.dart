@@ -1,16 +1,21 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io' show Platform;
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 
+import '../../features/home/domain/models/call.dart';
+import '../../features/home/domain/models/call_state.dart';
+import '../../features/videcalll/domain/usecases/listen_call.dart';
 import '../bridges/fcm_bridge.dart';
 import '../enums/fcm_enums.dart';
 import '../utils/fcm_keys.dart';
 import '../utils/logger.dart';
 import '../utils/routes.dart';
+import '../utils/utils.dart';
+import 'awesome_notifications_repository.dart';
 
 // Docs: https://firebase.flutter.dev/docs/messaging/usage#requesting-permission-apple--web
 abstract class FCMRepository {
@@ -58,7 +63,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   /*
   Since the handler runs in its own isolate outside your applications context, 
@@ -72,28 +77,65 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   the device may automatically kill the process.
   */
 
-  // TODO: Detect if it's a videocalling notification. Use shared preferences if the other solutions don't work
+  // TODO: Update the type of the notification in the functions... (Isolate)
+  //(No title and body (Silent)). Send a silent notification from FCM functions
+  // FlutterRingtonePlayer.stop();
 
-  // TODO: Update the type of the notification in the functions... (No title and body (Silent))
-  log('Incoming messsage...');
+  final data = message.data;
 
-  FlutterRingtonePlayer.playRingtone();
-
-  // Working fine...
-  Timer(Duration(seconds: 50), () {
-    log('Timer finished and ringtone stopped');
-    FlutterRingtonePlayer.stop();
-  });
-
-  /* final data = message.data;
-
+  // Create the notification to display
   if (data.containsKey(FCMKeys.idVideocall)) {
+    // TODO: Send the name of the user who is calling (Cloud functions)
+    final username = '\$UserName';
     final idVideocall = data[FCMKeys.idVideocall];
-    if (idVideocall.isEmpty) {
+    if (idVideocall.isEmpty || username.isEmpty) {
       Log.console('The idVideocall should be not empty', L.E);
       return;
     }
-  }*/
+
+    final stream = ListenCall.execute(idVideocall);
+
+    /// Call object from the stream
+    Call? c;
+
+    final subscription = stream.listen((call) {
+      if (call == null) {
+        Log.console('The call is comming null', L.E);
+        return;
+      }
+      c = call;
+
+      final state = call.callState;
+
+      if (state.shouldStopRingtone()) FlutterRingtonePlayer.stop();
+    });
+
+    /// After of 30s the subscription is closed.
+    Utils.runFunction(() {
+      subscription.cancel();
+      final state = c?.callState;
+      if (state == null) {
+        Log.console(
+            'After the subscription is closed. Tried to make some validations but was not able to make',
+            L.E);
+        return;
+      }
+      if (state.shouldStopRingtone() || state.type == CallState.stateCalling)
+        FlutterRingtonePlayer.stop();
+    }, milliseconds: 30000);
+    // Create the notification and start the ringtone sound
+    final id = Utils.generateInteger();
+    FlutterRingtonePlayer.playRingtone();
+    AwesomeNotificationsRepository.showVideocallNotification(
+        id: id,
+        username: username,
+        payload: {
+          // Helps to cancel the notification or update it
+          AwesomeNotificationsRepository.idNotification: id.toString(),
+          FCMKeys.idVideocall: idVideocall,
+          FCMKeys.userName: username,
+        });
+  }
 }
 
 /// This method helps to handle the messages from the FCM.
@@ -106,6 +148,8 @@ Future<void> handleRemoteMessage(RemoteMessage message) async {
 
   if (data.containsKey(FCMKeys.idVideocall)) {
     final idVideocall = data[FCMKeys.idVideocall];
+
+    /// An error from the cloud functions...
     if (idVideocall.isEmpty) {
       Log.console('The idVideocall should be not empty', L.E);
       return;

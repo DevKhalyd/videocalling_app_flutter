@@ -7,14 +7,13 @@ import '../core/utils/firebase_initalizer.dart';
 import '../core/utils/logger.dart';
 import '../core/widgets/mini_widgets.dart';
 import '../features/home/domain/models/call.dart';
-import '../features/sign_up/data/api/sign_up_fcm_repository.dart';
 import '../features/sign_up/domain/usecases/add_user_data.dart';
 import '../features/videcalll/domain/usecases/create_call.dart';
 
 /// This class basically helps to isolate and test each cloud function in the local environment. Then the cloud functions are uploaded to
 /// the production environment.
 void main() async {
-  await FirebaseInitializer.execute(testFirestore: true);
+  await FirebaseInitializer.execute();
   FCMRepository.onBackgroundMessage();
   AwesomeNotificationsRepository.init();
   runApp(TestFirebaseMain());
@@ -30,14 +29,10 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
   void initState() {
     super.initState();
     FCMRepository.onMessage();
-    final repository = SignUpFCMRepository();
-    repository.getToken().then((token) => print(token));
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add something if needed
-    AwesomeNotificationsRepository.listenNotifications();
     return MaterialApp(
       title: 'Test Firebase Main',
       home: Scaffold(
@@ -57,8 +52,8 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
 
   /// Execute each method to test it
   void onPressed() async {
-    //Get tokens
     /*
+    //Get tokens
     final repository = SignUpFCMRepository();
     final token = await repository.getToken();
     print(token);

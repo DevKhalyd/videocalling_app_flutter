@@ -1,5 +1,7 @@
 # TODO
 
+- Test the cloud functions locally with flutter. To check how is working the function and send the silent notification
+
 - Local notifications: Show my own notifications in my application (Max)
 
 - Firebase: Send only the data (Check the docs)

@@ -133,7 +133,8 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   void onUpdateFCMToken() async {
     final u = user!;
 
-    /// The current token
+    // TODO: If is IOS show a message that request for this permission
+    /// Get the current token of this device
     final currentToken = await GetFCMToken.execute();
 
     /// Update token in firestore

@@ -3,6 +3,7 @@ import '../../../home/domain/models/call.dart';
 import '../../data/api/videocall_firestore_repository.dart';
 
 abstract class ListenCall {
+  /// Listen a given call
   static Stream<Call?> execute(String callId) async* {
     try {
       final repo = VideoCallFirestoreRepository();

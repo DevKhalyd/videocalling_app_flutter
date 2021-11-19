@@ -29,6 +29,18 @@ class CallState {
 
   const CallState.requesting({this.type = stateRequesting});
 
+  /// Useful when knows the current state of the call
+  bool shouldStopRingtone() {
+    switch (type) {
+      case stateOnCall:
+      case stateLost:
+      case stateFinalized:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   /// The state of this call
   final int type;
 

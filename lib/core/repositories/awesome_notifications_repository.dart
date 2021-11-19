@@ -2,15 +2,17 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/utils.dart';
-
 // Docs: https://pub.dev/packages/awesome_notifications
 
 // Example: https://github.com/rafaelsetragni/awesome_notifications/tree/master/example
 
 /// Handle the [AwesomeNotifications] logic and exposes the notifications most used.
 class AwesomeNotificationsRepository {
+  // consts
+
+  /// The id of each notification
+  static const idNotification = 'idNotification';
+
   // Channels
   static const _videocallingChannel = '_videocallingChannel';
 
@@ -69,8 +71,6 @@ class AwesomeNotificationsRepository {
     });
   }
 
-  // TODO: Call this method to start to listen...
-
   /// Listen according to each function passed.
   ///
   /// Listen after the initialization
@@ -96,30 +96,33 @@ class AwesomeNotificationsRepository {
     if (onDismessed != null) instance.dismissedStream.listen(onDismessed);
   }
 
-  // TODO: Test the sounds when is called from the isolated and then try to stop from the app side...
-
-  /// Show a incoming videocall and returs the [id] of this videocall.
+  /// Show a incoming videocall.
   ///
-  /// Useful to disappear the notification or updated
+  /// [id] The id of the notification
   ///
   /// [username] The username of the user who is calling.
-  static int showVideocallNotification({required String username}) {
-    final id = Utils.generateInteger();
+  ///
+  /// [payload] The payload of the notification.
+  static void showVideocallNotification({
+    required int id,
+    required String username,
+    Map<String, String>? payload,
+  }) {
     //https://pub.dev/packages/awesome_notifications#notificationcontent-content-in-push-data---required
     instance.createNotification(
         content: NotificationContent(
-          id: id,
-          channelKey: _videocallingChannel,
-          title: username,
-          body: 'Incoming videocall...',
-          // TODO: Uncomment this one
-          //displayOnForeground: false
-        ),
+            id: id,
+            channelKey: _videocallingChannel,
+            title: username,
+            body: 'Incoming videocall...',
+            payload: payload,
+            displayOnForeground: false),
         actionButtons: [
           NotificationActionButton(
             key: keyHangUp,
             label: 'Hang Up',
-            buttonType: ActionButtonType.Default,
+            // Remove the notification without open the application
+            buttonType: ActionButtonType.KeepOnTop,
             isDangerousOption: true,
           ),
           NotificationActionButton(
@@ -129,8 +132,12 @@ class AwesomeNotificationsRepository {
             buttonType: ActionButtonType.Default,
           ),
         ]);
-    return id;
   }
+
+  /// Remove a notification give it's [id]
+  static deleteNotification(int id) => instance.cancel(id);
+
+  static bool isVideocallChannel(String? key) => key == _videocallingChannel;
 }
 
 /*

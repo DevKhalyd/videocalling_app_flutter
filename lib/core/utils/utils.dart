@@ -59,4 +59,5 @@ abstract class Utils {
     final connectivityResult = await Connectivity().checkConnectivity();
     return connectivityResult != ConnectivityResult.none;
   }
+
 }

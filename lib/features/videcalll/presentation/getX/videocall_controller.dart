@@ -40,6 +40,11 @@ class VideoCallController extends GetxController with VideoCallMixin {
   int _durationInSeconds = 0;
   Timer? _timer;
 
+  // TODO: Check out that this part works fine
+
+  /// The subscription that listen to the current call
+  StreamSubscription<Call?>? _callSubscription;
+
   /// If true use [onAnswerCall]
   ///
   /// If false use [onEndCall]
@@ -59,6 +64,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
   @override
   void onClose() {
     _timer?.cancel();
+    _callSubscription?.cancel();
     _engine?.leaveChannel().then((_) {
       _engine?.destroy();
     });
@@ -184,7 +190,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
     Log.console('Listen call: $callId');
     final stream = ListenCall.execute(callId);
 
-    stream.listen((call) {
+    _callSubscription = stream.listen((call) {
       if (call == null) {
         Log.console(
             'The call is comming empty. Checking for a new update...', L.W);
@@ -347,6 +353,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
     /// `this` user acts as receiver
     else if (arguments is FCMBridge) {
+      // TODO: Important part to check out for the new implementation...
       if (arguments.type == TypeContent.videocall)
         _handleUserReceiver(arguments.value);
       else
