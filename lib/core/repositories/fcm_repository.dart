@@ -13,6 +13,7 @@ import '../../features/videcalll/domain/usecases/listen_call.dart';
 import '../../features/videcalll/domain/usecases/update_state_call.dart';
 import '../bridges/fcm_bridge.dart';
 import '../enums/fcm_enums.dart';
+import '../mixins/fcm_mixin.dart';
 import '../utils/fcm_keys.dart';
 import '../utils/logger.dart';
 import '../utils/routes.dart';
@@ -20,7 +21,7 @@ import '../utils/utils.dart';
 import 'awesome_notifications_repository.dart';
 
 // Docs: https://firebase.flutter.dev/docs/messaging/usage#requesting-permission-apple--web
-abstract class FCMRepository {
+abstract class FCMRepository with FCMRepositoryMixin {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   /// Use if you want to get the latest message sent to the application.
@@ -33,7 +34,8 @@ abstract class FCMRepository {
   Future<String?> getToken() async {
     if (Platform.isAndroid) return await messaging.getToken();
 
-    // IMPROVE: Before to ask for the permission. Show a dialog the reason of that dialog.
+    await showDialogNotificationPermissionIOS();
+
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       // Messages or videocalling notification
@@ -80,15 +82,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   */
 
   // TODO: Update the type of the notification in the functions... (Isolate) (No title and body (Silent)). Send a silent notification from FCM functions
+  // TODO: Send the name of the user who is calling (Cloud functions)
   final data = message.data;
 
   // Create the notification to display
-  if (data.containsKey(FCMKeys.idVideocall)) {
-    // TODO: Send the name of the user who is calling (Cloud functions)
-    final username = '\$UserName';
+  if (data.containsKey(FCMKeys.idVideocall) && data[FCMKeys.userName]) {
+    final username = data[FCMKeys.userName];
     final idVideocall = data[FCMKeys.idVideocall];
     if (idVideocall.isEmpty || username.isEmpty) {
-      Log.console('The idVideocall should be not empty', L.E);
+      Log.console('The idVideocall and username must  be not empty', L.E);
       return;
     }
 

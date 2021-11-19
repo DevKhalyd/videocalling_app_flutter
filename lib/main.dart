@@ -20,12 +20,6 @@ class VideocallingApp extends StatelessWidget with VideoCallMixin {
   Widget build(BuildContext context) {
     AwesomeNotificationsRepository.listenNotifications(
       onAction: (notification) {
-        // TODO: Do some validations when the user press the a button
-        // 1. Update the database with the new state of the call
-        // 2. Work with the button that was pressed
-        // 3. Update the UI if the answer button was pressed
-        //(Send the FCMBridge to the videocall screen to works properly)
-
         if (AwesomeNotificationsRepository.isVideocallChannel(
           notification.channelKey,
         )) {

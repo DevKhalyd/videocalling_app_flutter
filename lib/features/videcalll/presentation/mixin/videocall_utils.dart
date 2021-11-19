@@ -1,8 +1,13 @@
 import 'dart:developer';
 
+import 'package:get/get.dart';
+
+import '../../../../core/bridges/fcm_bridge.dart';
+import '../../../../core/enums/fcm_enums.dart';
 import '../../../../core/repositories/awesome_notifications_repository.dart';
 import '../../../../core/utils/fcm_keys.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/routes.dart';
 import '../../../home/domain/models/call_state.dart';
 import '../../domain/usecases/update_state_call.dart';
 
@@ -52,7 +57,15 @@ mixin VideoCallMixin {
 
     /// Because if the key comes empty means that the user tap the notification
     if (key == AwesomeNotificationsRepository.keyAnswer || key.isEmpty) {
-      // TODO: End this method
+      //  Update the database with the new state of the call
+      UpdateStateCall.execute(idVideocall, CallState.stateOnCall);
+      // note: Here I could do other validations like if the user is signed in.
+      // Since my goal with this project is to understand how works the cloud functions, agora and  the notifications
+      // this is not necessary by this moment. Maybe in the future I'll do it.
+      Get.offAndToNamed(
+        Routes.videocall,
+        arguments: FCMBridge(type: TypeContent.videocall, value: idVideocall),
+      );
       return;
     }
 

@@ -40,8 +40,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
   int _durationInSeconds = 0;
   Timer? _timer;
 
-  // TODO: Check out that this part works fine
-
   /// The subscription that listen to the current call
   StreamSubscription<Call?>? _callSubscription;
 
@@ -353,7 +351,6 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
     /// `this` user acts as receiver
     else if (arguments is FCMBridge) {
-      // TODO: Important part to check out for the new implementation...
       if (arguments.type == TypeContent.videocall)
         _handleUserReceiver(arguments.value);
       else
