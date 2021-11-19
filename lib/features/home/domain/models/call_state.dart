@@ -19,7 +19,8 @@ class CallState {
 
   /// Not answared the call while the phone is ringing.
   ///
-  /// This state is accepted as finalized because lost the call.
+  /// This state is accepted as finalized because lost the call
+  /// or was rejected by the user.
   static const stateLost = 3;
 
   /// The call is ended because was accepted by the other user.

@@ -6,7 +6,7 @@ abstract class UpdateStateCall {
   ///
   /// [callId] The id of the call
   ///
-  /// [callState] The new state of the call
+  /// [callState] The new state of the call. See: [CallState]
   static Future<void> execute(String callId, int newState) async {
     assert(newState <= 4 && newState >= 0,
         'The range must be between 0 and 4. Check out the CallState model for further information');

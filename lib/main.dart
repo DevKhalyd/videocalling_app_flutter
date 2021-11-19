@@ -25,13 +25,16 @@ class VideocallingApp extends StatelessWidget with VideoCallMixin {
         // 2. Work with the button that was pressed
         // 3. Update the UI if the answer button was pressed
         //(Send the FCMBridge to the videocall screen to works properly)
-        // Remove the notification with this id
-        // final id = action.id;
-        // If both come empty means that the user touch the notification. So answer the notification.
-        //final buttonKeyPressed = action.buttonKeyPressed;
-        final key = notification.channelKey;
 
-        if (AwesomeNotificationsRepository.isVideocallChannel(key)) {}
+        if (AwesomeNotificationsRepository.isVideocallChannel(
+          notification.channelKey,
+        )) {
+          // If both come empty means that the user touch the notification. So answer the notification.
+          onVideoCallingKeyPressed(
+            notification.buttonKeyPressed,
+            payload: notification.payload,
+          );
+        }
       },
     );
     return GetMaterialApp(

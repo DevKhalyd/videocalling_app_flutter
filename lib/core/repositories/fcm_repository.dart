@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import '../../features/home/domain/models/call.dart';
 import '../../features/home/domain/models/call_state.dart';
 import '../../features/videcalll/domain/usecases/listen_call.dart';
+import '../../features/videcalll/domain/usecases/update_state_call.dart';
 import '../bridges/fcm_bridge.dart';
 import '../enums/fcm_enums.dart';
 import '../utils/fcm_keys.dart';
@@ -77,10 +79,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   the device may automatically kill the process.
   */
 
-  // TODO: Update the type of the notification in the functions... (Isolate)
-  //(No title and body (Silent)). Send a silent notification from FCM functions
-  // FlutterRingtonePlayer.stop();
-
+  // TODO: Update the type of the notification in the functions... (Isolate) (No title and body (Silent)). Send a silent notification from FCM functions
   final data = message.data;
 
   // Create the notification to display
@@ -92,6 +91,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       Log.console('The idVideocall should be not empty', L.E);
       return;
     }
+
+    /// The id for this notification
+    final id = Utils.generateInteger();
+
+    /// A flag to indicate if the resources was removed. Avoid to call them again.
+    bool resourcesWasRemovedAlready = false;
+
+    /// Remove the notification from the notification bar and stop the ringtone
+    ///
+    /// [shouldUpdateDatabase] Update the database to Lost call because the user has not answered the call
+    final removeResources = ({bool shouldUpdateDatabase = false}) {
+      if (!resourcesWasRemovedAlready) {
+        resourcesWasRemovedAlready = true;
+        AwesomeNotificationsRepository.deleteNotification(id);
+        FlutterRingtonePlayer.stop();
+      }
+      if (shouldUpdateDatabase)
+        UpdateStateCall.execute(idVideocall, CallState.stateLost);
+    };
 
     final stream = ListenCall.execute(idVideocall);
 
@@ -107,24 +125,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
       final state = call.callState;
 
-      if (state.shouldStopRingtone()) FlutterRingtonePlayer.stop();
+      if (state.shouldStopRingtone()) removeResources();
     });
-
-    /// After of 30s the subscription is closed.
-    Utils.runFunction(() {
-      subscription.cancel();
-      final state = c?.callState;
-      if (state == null) {
-        Log.console(
-            'After the subscription is closed. Tried to make some validations but was not able to make',
-            L.E);
-        return;
-      }
-      if (state.shouldStopRingtone() || state.type == CallState.stateCalling)
-        FlutterRingtonePlayer.stop();
-    }, milliseconds: 30000);
     // Create the notification and start the ringtone sound
-    final id = Utils.generateInteger();
     FlutterRingtonePlayer.playRingtone();
     AwesomeNotificationsRepository.showVideocallNotification(
         id: id,
@@ -135,6 +138,26 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           FCMKeys.idVideocall: idVideocall,
           FCMKeys.userName: username,
         });
+
+    /// After of 30s the subscription is closed.
+    Utils.runFunction(() {
+      log('Closing subscription...');
+      subscription.cancel();
+      final state = c?.callState;
+      if (state == null) {
+        Log.console(
+            'After the subscription is closed. Tried to make some validations but was not able to make',
+            L.E);
+        return;
+      }
+
+      if (state.type == CallState.stateCalling) {
+        removeResources(shouldUpdateDatabase: true);
+        return;
+      }
+
+      if (state.shouldStopRingtone()) removeResources();
+    }, milliseconds: 30000);
   }
 }
 

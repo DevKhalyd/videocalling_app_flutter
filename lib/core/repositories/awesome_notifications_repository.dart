@@ -17,7 +17,9 @@ class AwesomeNotificationsRepository {
   static const _videocallingChannel = '_videocallingChannel';
 
   // Keys
+  /// Hang up the call
   static const keyHangUp = '_keyHangUp';
+  /// Answer the call
   static const keyAnswer = '_keyAnswer';
 
   /// If something is wrong is this initialization
