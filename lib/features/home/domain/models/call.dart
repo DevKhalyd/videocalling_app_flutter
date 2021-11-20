@@ -17,7 +17,7 @@ class Call {
     this.conversationType = const ConversationType.videoCallType(),
     this.callType = const CallType.outcomingType(),
     this.callState = const CallState.requesting(),
-    this.durationInSeconds = 0,
+    this.duration = '',
     this.caller,
     this.receiver,
     this.channel,
@@ -32,7 +32,7 @@ class Call {
     this.conversationType = const ConversationType.videoCallType(),
     this.callType = const CallType.outcomingType(),
     this.callState = const CallState.requesting(),
-    this.durationInSeconds = 0,
+    this.duration = '',
     this.caller,
     this.receiver,
     this.channel,
@@ -83,7 +83,9 @@ class Call {
   final User? receiver;
 
   /// The time elapsed since the call start.
-  final int durationInSeconds;
+  ///
+  /// The format is: 0 : 00
+  final String duration;
 
   /// Call date
   final DateTime date;

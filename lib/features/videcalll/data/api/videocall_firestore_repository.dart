@@ -44,12 +44,31 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
           Log.console('The reference to the document does not exist', L.E);
           return;
         }
-
-        // NOTE: Might be a problem with the field to update
         transaction.update(documentReference, {
           'callState.type': newState,
         });
         log('CallState.type was updated in firestore with the value $newState');
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// This is method is called when the call is ended and both users have interaction.
+  ///
+  /// [callId] is the id of the call (document)
+  ///
+  /// [duration] is the duration of the call in the format `00:00`
+  Future<void> updateDurationCall(String callId, String duration) async {
+    try {
+      firestore.runTransaction((transaction) async {
+        final documentReference = getDocumentReference(callsCollection, callId);
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
+        if (!snapshot.exists) {
+          Log.console('The reference to the document does not exist', L.E);
+          return;
+        }
+        transaction.update(documentReference, {'duration': duration});
       });
     } catch (e) {
       rethrow;

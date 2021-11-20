@@ -7,6 +7,7 @@ import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/features/videcalll/domain/usecases/update_duration_call.dart';
 
 import '../../../../core/bridges/fcm_bridge.dart';
 import '../../../../core/enums/fcm_enums.dart';
@@ -87,6 +88,13 @@ class VideoCallController extends GetxController with VideoCallMixin {
               'Because the user is not avaible the videocall was finalized.',
         ));
       }, milliseconds: 1500);
+    }
+
+    /// If it's greater than 0, means that the call was started
+    if (_durationInSeconds > 0) {
+      final time = getMinutesFromSeconds(_durationInSeconds);
+      log('Saving in the call object the time for: $time m.');
+      UpdateDurationCall.execute(_callId!, time);
     }
 
     /// Because the call is finalized already. We don't to do anything more.
