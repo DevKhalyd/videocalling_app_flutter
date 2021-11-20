@@ -78,7 +78,7 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   /// Check out if there is a message that contains a videocall notification or other information
   /// to process.
   void checkForLatestFCMessages() async {
-    Log.console('Checking the latest message');
+    Log.console('Checking out for the latest message in FCM', L.W);
     final message = await GetLatestMessageFCM.execute();
     if (message == null) return;
     handleRemoteMessage(message);

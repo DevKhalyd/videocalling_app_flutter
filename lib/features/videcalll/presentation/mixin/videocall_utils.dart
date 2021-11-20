@@ -34,7 +34,10 @@ mixin VideoCallMixin {
   /// [payload] The data received from the notification.
   ///
   /// This method is important for the videocalling notifications
-  void onVideoCallingKeyPressed(String key, {Map<String, String>? payload}) {
+  void onVideoCallingKeyPressed(
+    String key, {
+    Map<String, String>? payload,
+  }) {
     // At this point Firebase is already initialized
     if (payload == null) {
       final msg =
@@ -47,7 +50,7 @@ mixin VideoCallMixin {
     final idNotification =
         payload[AwesomeNotificationsRepository.idNotification];
     final idVideocall = payload[FCMKeys.idVideocall];
-    final username = payload[FCMKeys.userName];
+    final username = payload[FCMKeys.username];
 
     if (idNotification == null || idVideocall == null || username == null) {
       Log.console('''Some values comes null. 

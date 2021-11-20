@@ -18,6 +18,7 @@ void main() async {
 class VideocallingApp extends StatelessWidget with VideoCallMixin {
   @override
   Widget build(BuildContext context) {
+    // NOTE: if the get x context does not work check the latest message
     AwesomeNotificationsRepository.listenNotifications(
       onAction: (notification) {
         if (AwesomeNotificationsRepository.isVideocallChannel(

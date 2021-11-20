@@ -19,6 +19,7 @@ class AwesomeNotificationsRepository {
   // Keys
   /// Hang up the call
   static const keyHangUp = '_keyHangUp';
+
   /// Answer the call
   static const keyAnswer = '_keyAnswer';
 
@@ -104,21 +105,53 @@ class AwesomeNotificationsRepository {
   ///
   /// [username] The username of the user who is calling.
   ///
+  /// [imageUrl] The image  of the user who is calling. According to the backend logic the image always comes not empty.
+  ///
   /// [payload] The payload of the notification.
   static void showVideocallNotification({
     required int id,
     required String username,
+    required String imageUrl,
     Map<String, String>? payload,
   }) {
     //https://pub.dev/packages/awesome_notifications#notificationcontent-content-in-push-data---required
     instance.createNotification(
         content: NotificationContent(
-            id: id,
-            channelKey: _videocallingChannel,
-            title: username,
-            body: 'Incoming videocall...',
-            payload: payload,
-            displayOnForeground: false),
+          id: id,
+          channelKey: _videocallingChannel,
+          title: username,
+          body: 'Incoming videocall...',
+          payload: payload,
+          displayOnForeground: false,
+          largeIcon: imageUrl,
+        ),
+        actionButtons: [
+          NotificationActionButton(
+            key: keyHangUp,
+            label: 'Hang Up',
+            // Remove the notification without open the application
+            buttonType: ActionButtonType.KeepOnTop,
+            isDangerousOption: true,
+          ),
+          NotificationActionButton(
+            key: keyAnswer,
+            label: 'Answer',
+            color: Colors.green,
+            buttonType: ActionButtonType.Default,
+          ),
+        ]);
+  }
+
+  static void testNotification() {
+    instance.createNotification(
+        content: NotificationContent(
+          id: 1,
+          channelKey: _videocallingChannel,
+          title: 'hello',
+          body: 'Incoming videocall...',
+          largeIcon:
+              'https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png',
+        ),
         actionButtons: [
           NotificationActionButton(
             key: keyHangUp,

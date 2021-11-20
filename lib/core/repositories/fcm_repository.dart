@@ -59,7 +59,27 @@ abstract class FCMRepository with FCMRepositoryMixin {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
+  static void onBackgroundMessageTest() {
+    FirebaseMessaging.onBackgroundMessage(
+        _firebaseMessagingBackgroundHandlerTester);
+  }
+
   // Docs:https://firebase.flutter.dev/docs/messaging/usage#handling-messages
+}
+
+Future<void> _firebaseMessagingBackgroundHandlerTester(
+    RemoteMessage message) async {
+  log('Incoming message...');
+
+  final data = message.data;
+
+  if (data.isEmpty) {
+    Log.console('Data is coming empty. Check the source');
+    return;
+  }
+  data.forEach((key, value) {
+    log('$key: $value');
+  });
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -81,14 +101,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   the device may automatically kill the process.
   */
 
-  // TODO: Update the type of the notification in the functions... (Isolate) (No title and body (Silent)). Send a silent notification from FCM functions
-  // TODO: Send the name of the user who is calling (Cloud functions)
+  // Receiving just Data message. Check out the backend part...
   final data = message.data;
 
   // Create the notification to display
-  if (data.containsKey(FCMKeys.idVideocall) && data[FCMKeys.userName]) {
-    final username = data[FCMKeys.userName];
+  if (data.containsKey(FCMKeys.idVideocall) && data[FCMKeys.username]) {
     final idVideocall = data[FCMKeys.idVideocall];
+    final username = data[FCMKeys.username];
+
+    /// This always comes not empty
+    final image = data[FCMKeys.image];
+
     if (idVideocall.isEmpty || username.isEmpty) {
       Log.console('The idVideocall and username must  be not empty', L.E);
       return;
@@ -134,11 +157,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     AwesomeNotificationsRepository.showVideocallNotification(
         id: id,
         username: username,
+        imageUrl: image,
         payload: {
           // Helps to cancel the notification or update it
           AwesomeNotificationsRepository.idNotification: id.toString(),
           FCMKeys.idVideocall: idVideocall,
-          FCMKeys.userName: username,
+          FCMKeys.username: username,
         });
 
     /// After of 30s the subscription is closed.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:videocalling_app/features/sign_up/data/api/sign_up_fcm_repository.dart';
 
 import '../core/repositories/awesome_notifications_repository.dart';
 import '../core/repositories/fcm_repository.dart';
@@ -14,7 +15,7 @@ import '../features/videcalll/domain/usecases/create_call.dart';
 /// the production environment.
 void main() async {
   await FirebaseInitializer.execute();
-  FCMRepository.onBackgroundMessage();
+  FCMRepository.onBackgroundMessageTest();
   AwesomeNotificationsRepository.init();
   runApp(TestFirebaseMain());
 }
@@ -52,14 +53,9 @@ class _TestFirebaseMainState extends State<TestFirebaseMain> {
 
   /// Execute each method to test it
   void onPressed() async {
-    /*
-    //Get tokens
     final repository = SignUpFCMRepository();
     final token = await repository.getToken();
-    print(token);
-    // Simulate the calls
-    final ids = await createTwoUsers();
-    createCall(ids);*/
+    print('Token: $token');
   }
 
   Future<List<String>> createTwoUsers() async {
