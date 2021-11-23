@@ -1,10 +1,10 @@
 # TODO
 
-- Test the cloud functions locally with flutter. To check how is working the function and send the silent notification
+TODO: Check that the seconds stored in the database is correct. When a call is finalizaded
 
-- Local notifications: Show my own notifications in my application (Max)
+Test the history is save with the functions.
 
-- Firebase: Send only the data (Check the docs)
+Test the videocall in the background.
 
 # Description
 
