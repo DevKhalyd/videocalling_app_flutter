@@ -105,7 +105,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final data = message.data;
 
   // Create the notification to display
-  if (data.containsKey(FCMKeys.idVideocall) && data[FCMKeys.username]) {
+  if (data.containsKey(FCMKeys.idVideocall) &&
+      data.containsKey(FCMKeys.username)) {
     final idVideocall = data[FCMKeys.idVideocall];
     final username = data[FCMKeys.username];
 

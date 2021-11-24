@@ -41,9 +41,14 @@ class _MyAppState extends State<MyApp> {
                   text: 'One',
                   onPressed: () {
                     // https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png
-                    AwesomeNotificationsRepository.testNotification();
+                    AwesomeNotificationsRepository.showVideocallNotification(
+                      id: 1,
+                      imageUrl:
+                          'https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png',
+                      username: 'Test username',
+                    );
                   },
-                )
+                ),
               ],
             ),
           )),

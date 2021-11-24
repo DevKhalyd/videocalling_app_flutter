@@ -7,13 +7,11 @@ import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/videcalll/domain/usecases/update_duration_call.dart';
 
 import '../../../../core/bridges/fcm_bridge.dart';
 import '../../../../core/enums/fcm_enums.dart';
 import '../../../../core/repositories/audio_player_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
-
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
 /// Create one with your API KEY
 import '../../../../core/utils/agora_settings.dart';
@@ -27,6 +25,7 @@ import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/video_calling_model.dart';
 import '../../domain/usecases/create_call.dart';
 import '../../domain/usecases/listen_call.dart';
+import '../../domain/usecases/update_duration_call.dart';
 import '../../domain/usecases/update_state_call.dart';
 import '../mixin/videocall_utils.dart';
 

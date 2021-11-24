@@ -9,10 +9,7 @@ import 'core/utils/utils.dart';
 import 'features/videcalll/presentation/mixin/videocall_utils.dart';
 
 void main() async {
-  await FirebaseInitializer.execute(
-    testAuth: true,
-    testFirestore: true,
-  );
+  await FirebaseInitializer.execute();
   FCMRepository.onBackgroundMessage();
   AwesomeNotificationsRepository.init();
   runApp(VideocallingApp());

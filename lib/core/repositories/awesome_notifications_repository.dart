@@ -44,7 +44,7 @@ class AwesomeNotificationsRepository {
           channelDescription:
               'Channel to use for the notifications of the videocalls.',
           defaultColor: Colors.blue,
-          importance: NotificationImportance.Max,
+          importance: NotificationImportance.High,
 
           /// My own sound will be played
           playSound: false,
@@ -121,6 +121,8 @@ class AwesomeNotificationsRepository {
           channelKey: _videocallingChannel,
           title: username,
           body: 'Incoming videocall...',
+          //  fullScreenIntent: true,
+          //wakeUpScreen: true,
           payload: payload,
           displayOnForeground: false,
           largeIcon: imageUrl,
