@@ -122,9 +122,9 @@ class AwesomeNotificationsRepository {
           title: username,
           body: 'Incoming videocall...',
           //  fullScreenIntent: true,
-          //wakeUpScreen: true,
+          // wakeUpScreen: true,
           payload: payload,
-          displayOnForeground: false,
+          // displayOnForeground: false,
           largeIcon: imageUrl,
         ),
         actionButtons: [

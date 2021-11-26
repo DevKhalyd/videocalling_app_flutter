@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 
 abstract class AuthRepository {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -9,6 +10,7 @@ abstract class AuthRepository {
 
 class EmulatorAuthRepository extends AuthRepository {
   EmulatorAuthRepository.init() {
-    auth.useAuthEmulator('localhost', 9099);
+    // Use the http if neeed
+    auth.useAuthEmulator(Utils.localHost, 9099);
   }
 }

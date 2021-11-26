@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:videocalling_app/core/utils/utils.dart';
 
 /// Handle the main logic shared between the Firestore and each feature of the application.
 abstract class FirestoreRepository {
@@ -78,6 +79,6 @@ abstract class FirestoreRepository {
 /// Use to emulate the firestore database
 class EmulatorFirestoreRepository extends FirestoreRepository {
   EmulatorFirestoreRepository.init() {
-    firestore.useFirestoreEmulator('localhost', 8080);
+    firestore.useFirestoreEmulator(Utils.localHost, 8080);
   }
 }
