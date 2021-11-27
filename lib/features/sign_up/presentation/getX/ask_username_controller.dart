@@ -48,7 +48,7 @@ class AskUsernameController extends GetxController {
     super.onReady();
   }
 
-  _focusListener() {
+  void _focusListener() {
     /// Allow to update the UI according to the user's input
     _focusNode.addListener(() {
       _delayedFocus(() {

@@ -18,7 +18,7 @@ abstract class Utils {
     acentColor
   ];
   // Assigned to your computer by router
-  /// If you are in windows to get it just:
+  /// If you are in windows to get it, just:
   /// cmd > ipconfig
   static const localHost = '192.168.1.67';
   static final appName = 'Videocalling App';

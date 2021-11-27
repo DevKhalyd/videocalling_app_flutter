@@ -17,9 +17,17 @@ abstract class FirebaseInitializer {
 
     /// Necessary to connect with the proper Firebase Project
     await Firebase.initializeApp();
-    // TODO: Create the flow to test the data... Auth, Firebase store, Avoid to create the flow each the environment is initialized.
-    if (testAuth) EmulatorAuthRepository.init();
-    if (testFirestore) EmulatorFirestoreRepository.init();
+
+    if (testAuth) {
+      final auth = EmulatorAuthRepository();
+      await auth.init();
+      await auth.createAccounts();
+    }
+
+    if (testFirestore) {
+      final firestore = EmulatorFirestoreRepository.init();
+      await firestore.createAccountsData();
+    }
     if (testFunctions) EmulatorCloudFunctionsRepository.init();
   }
 }

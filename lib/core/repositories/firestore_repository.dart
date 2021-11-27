@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
+
+import '../../features/sign_up/domain/usecases/add_user_data.dart';
+import '../shared/models/user/user.dart';
+import '../utils/logger.dart';
+import '../utils/utils.dart';
 
 /// Handle the main logic shared between the Firestore and each feature of the application.
 abstract class FirestoreRepository {
@@ -80,5 +86,50 @@ abstract class FirestoreRepository {
 class EmulatorFirestoreRepository extends FirestoreRepository {
   EmulatorFirestoreRepository.init() {
     firestore.useFirestoreEmulator(Utils.localHost, 8080);
+  }
+
+  /// Add the data to firestore emulator as mock.
+  Future<void> createAccountsData() async {
+    final qs = await getCollection(usersCollection)
+        .where(User.emailField, isEqualTo: 't1@gmail.com')
+        .get();
+
+    if (qs.docs.isNotEmpty) {
+      log('Data added already in firestore');
+      return;
+    }
+
+    /// In this case, the FCM is not requested because the application
+    /// has not context a this point
+    // tokenFCM:
+
+    final testOne = User(
+      username: 'testOne',
+      fullname: 'Test One',
+      email: 't1@gmail.com',
+      password: '123456',
+    );
+
+    final testTwo = User(
+      username: 'testTwo',
+      fullname: 'Test Two',
+      email: 't2@gmail.com',
+      password: '123456',
+    );
+
+    AddUserData.execute(user: testOne).then((value) {
+      if (value == null) {
+        Log.console('Something went wrong just happens');
+        return;
+      }
+      log('Test one added');
+    });
+    AddUserData.execute(user: testTwo).then((value) {
+      if (value == null) {
+        Log.console('Something went wrong just happens');
+        return;
+      }
+      log('Test two added');
+    });
   }
 }

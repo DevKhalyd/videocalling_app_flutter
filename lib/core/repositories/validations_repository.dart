@@ -6,7 +6,7 @@ abstract class ValidationsRepository {
 
   /// Return `true` if this password is valid
   static bool password(String password) {
-    if (password.length > 6) return true;
+    if (password.length >= 6) return true;
     return false;
   }
 
