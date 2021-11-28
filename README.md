@@ -1,9 +1,5 @@
 # TODO
 
-Check that the seconds stored in the database is correct. When a call is finalizaded
-
-Test the history is save with the functions.
-
 Test the videocall in the background. Check the new notifications.
 
 Add the calls history as new page

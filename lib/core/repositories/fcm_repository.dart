@@ -155,7 +155,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
       final state = call.callState;
 
-      if (state.shouldStopRingtone()) removeResources();
+      if (state.shouldStopRingtone()) {
+        Log.console('Removing resources ', L.W);
+        removeResources();
+      }
     });
     // Create the notification and start the ringtone sound
     FlutterRingtonePlayer.playRingtone();

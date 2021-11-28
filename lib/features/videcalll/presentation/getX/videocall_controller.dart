@@ -73,23 +73,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   /// Return to home and make a transaction
   /// to change to Finalized or Lost state if it's necessary.
-  ///
-  /// [displayEndCallMsg] If true, show a message explaining why the call was
-  /// finalized.
-  ///
-  /// [msg] A custom message to be displayed when the call is finalized.
-  void _onEndCall({bool displayEndCallMsg = false, String? msg}) {
+  void _onEndCall() {
     log('_onEndCall called...');
     _stopSound();
-    if (displayEndCallMsg && !_isReceiver || msg != null) {
-      Utils.runFunction(() {
-        Get.dialog(AlertInfo(
-          title: 'Videocall finalized',
-          content: msg ??
-              'Because the user is not avaible the videocall was finalized.',
-        ));
-      }, milliseconds: 1500);
-    }
 
     /// If it's greater than 0, means that the call was started
     if (_durationInSeconds > 0) {
@@ -111,11 +97,9 @@ class VideoCallController extends GetxController with VideoCallMixin {
         if (_callId == null) {
           Log.console(
               '_callId is null. Please verify that this values is asigned where is used',
-              L.E);
+              L.W);
           return;
         }
-        log('Updating database with new data... (Ending call...)');
-
         if (_currentCallState == CallState.stateLost ||
             _currentCallState == CallState.stateFinalized) {
           log('Go back from the videocall screen (From Timer)');
@@ -293,7 +277,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
       () {
         if (_currentCallState == CallState.stateCalling) {
           log("Because the receiver don't answer the call. The call will be finalized...");
-          _onEndCall(displayEndCallMsg: true);
+          _onEndCall();
         }
       },
       milliseconds: maxDurationToWait,
@@ -516,7 +500,8 @@ class VideoCallController extends GetxController with VideoCallMixin {
           if (code != ErrorCode.JoinChannelRejected) {
             final msg =
                 'An error has occurred when attempts to join to this conversation. Please, try again later.';
-            _onEndCall(msg: msg);
+            log(msg);
+            _onEndCall();
           }
         },
         joinChannelSuccess: (channel, uid, elapsed) =>

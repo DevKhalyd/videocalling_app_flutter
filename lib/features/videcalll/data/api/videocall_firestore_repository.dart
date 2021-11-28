@@ -58,17 +58,30 @@ class VideoCallFirestoreRepository extends FirestoreRepository {
   ///
   /// [callId] is the id of the call (document)
   ///
-  /// [duration] is the duration of the call in the format `00:00`
-  Future<void> updateDurationCall(String callId, String duration) async {
+  /// [newDuration] is the duration of the call in the format `00:00`
+  Future<void> updateDurationCall(String callId, String newDuration) async {
     try {
       firestore.runTransaction((transaction) async {
         final documentReference = getDocumentReference(callsCollection, callId);
         DocumentSnapshot snapshot = await transaction.get(documentReference);
         if (!snapshot.exists) {
-          Log.console('The reference to the document does not exist', L.E);
+          Log.console('The reference to this document does not exist', L.E);
           return;
         }
-        transaction.update(documentReference, {'duration': duration});
+
+        final data = snapshot.data() as Map<String, dynamic>?;
+
+        if (data == null) {
+          Log.console('The data of this document is null', L.E);
+          return;
+        }
+
+        final duration = data['duration'] as String?;
+
+        if (duration?.isEmpty ?? true) {
+          log('Updating with the new Duration of $newDuration');
+          transaction.update(documentReference, {'duration': newDuration});
+        }
       });
     } catch (e) {
       rethrow;

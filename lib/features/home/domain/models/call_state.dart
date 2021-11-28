@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:videocalling_app/core/utils/logger.dart';
 
 part 'call_state.g.dart';
 
@@ -32,6 +33,7 @@ class CallState {
 
   /// Useful when knows the current state of the call
   bool shouldStopRingtone() {
+    Log.console('Type call: $type', L.W);
     switch (type) {
       case stateOnCall:
       case stateLost:
