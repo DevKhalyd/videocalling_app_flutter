@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videocalling_app/core/bridges/fcm_bridge.dart';
 
 import '../../../../core/mixins/permission_handler_mixin.dart';
 import '../../../../core/repositories/fcm_repository.dart';
@@ -78,10 +79,24 @@ class HomeController extends GetxController with PermissionHandlerMixin {
   /// Check out if there is a message that contains a videocall notification or other information
   /// to process.
   void checkForLatestFCMessages() async {
-    Log.console('Checking out for the latest message in FCM', L.W);
+    Log.console('Checking out for videocalls', L.W);
     final message = await GetLatestMessageFCM.execute();
-    if (message == null) return;
-    handleRemoteMessage(message);
+    if (message != null) {
+      handleRemoteMessage(message);
+      return;
+    }
+
+    final arguments = Get.arguments;
+
+    if (arguments is FCMBridge) {
+      Get.toNamed(
+        Routes.videocall,
+        arguments: arguments,
+      );
+      return;
+    } else {
+      if (arguments != null) Log.console('Missing handler for $arguments', L.W);
+    }
   }
 
   void onTabMessageSelected() => _changeCurrentPage();

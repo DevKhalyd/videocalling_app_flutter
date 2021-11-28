@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,8 +38,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     // Because If a notification arrives when the app is resumed those lines are necessary.
     // Resumed is not fired when the view is created. Instead is fired when go from paused | inactive to resumed.
-    if (state == AppLifecycleState.resumed)
+    if (state == AppLifecycleState.resumed) {
+      log('Check the latest message from the resumed state');
       HomeController.to.checkForLatestFCMessages();
+    }
   }
 
   @override

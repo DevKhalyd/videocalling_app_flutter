@@ -104,6 +104,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Receiving just Data message. Check out the backend part...
   final data = message.data;
 
+  if (data.isEmpty) {
+    Log.console('Data is coming empty. Check the source', L.W);
+    return;
+  }
   // Create the notification to display
   if (data.containsKey(FCMKeys.idVideocall) &&
       data.containsKey(FCMKeys.username)) {
@@ -173,8 +177,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       final state = c?.callState;
       if (state == null) {
         Log.console(
-            'After the subscription is closed. Tried to make some validations but was not able to make',
-            L.E);
+          'After the subscription is closed. Tried to make some validations but was not able to do it. Removing sources...',
+          L.W,
+        );
+        removeResources(shouldUpdateDatabase: true);
         return;
       }
 

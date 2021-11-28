@@ -64,10 +64,16 @@ mixin VideoCallMixin {
       UpdateStateCall.execute(idVideocall, CallState.stateOnCall);
       // note: Here I could do other validations like if the user is signed in.
       // Since my goal with this project is to understand how works the cloud functions, agora and  the notifications
-      // this is not necessary by this moment. Maybe in the future I'll do it.
+      // this is not necessary by now. Maybe in the future I'll do it.
+
+      final args = FCMBridge(
+        type: TypeContent.videocall,
+        value: idVideocall,
+      );
+
       Get.offAndToNamed(
-        Routes.videocall,
-        arguments: FCMBridge(type: TypeContent.videocall, value: idVideocall),
+        Routes.home,
+        arguments: args,
       );
       return;
     }

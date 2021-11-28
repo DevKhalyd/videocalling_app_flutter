@@ -12,6 +12,7 @@ import '../../../../core/bridges/fcm_bridge.dart';
 import '../../../../core/enums/fcm_enums.dart';
 import '../../../../core/repositories/audio_player_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
+
 /// File not stored in GitHub. Just contains the AppID provided by Agora.
 /// Create one with your API KEY
 import '../../../../core/utils/agora_settings.dart';
@@ -61,6 +62,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
 
   @override
   void onClose() {
+    // NOTE: Wait for the call to end before closing the controller. The application may be doing too much work on its main thread.
     _timer?.cancel();
     _callSubscription?.cancel();
     _engine?.leaveChannel().then((_) {
@@ -99,6 +101,7 @@ class VideoCallController extends GetxController with VideoCallMixin {
     /// Because the call is finalized already. We don't to do anything more.
     if (_currentCallState == CallState.stateLost ||
         _currentCallState == CallState.stateFinalized) {
+      log('Go back from the videocall screen');
       Get.back();
       return;
     }
@@ -112,6 +115,13 @@ class VideoCallController extends GetxController with VideoCallMixin {
           return;
         }
         log('Updating database with new data... (Ending call...)');
+
+        if (_currentCallState == CallState.stateLost ||
+            _currentCallState == CallState.stateFinalized) {
+          log('Go back from the videocall screen (From Timer)');
+          return;
+        }
+
         final int newState;
 
         if (_currentCallState == CallState.stateOnCall)
@@ -503,9 +513,11 @@ class VideoCallController extends GetxController with VideoCallMixin {
       RtcEngineEventHandler(
         error: (code) {
           Log.console('Something bad happens. Code: $code', L.E);
-          final msg =
-              'An error has occurred when attempts to join to this conversation. Please, try again later.';
-          _onEndCall(msg: msg);
+          if (code != ErrorCode.JoinChannelRejected) {
+            final msg =
+                'An error has occurred when attempts to join to this conversation. Please, try again later.';
+            _onEndCall(msg: msg);
+          }
         },
         joinChannelSuccess: (channel, uid, elapsed) =>
             log('onJoinChannel: $channel, uid: $uid lapsed: $elapsed'),
