@@ -1,10 +1,10 @@
 # TODO
 
-Test the videocall in the background. Check the new notifications.
+Add the calls history as new page (Test it)
 
-Add the calls history as new page
+Test when the app is terminated
 
-Create the logic of the chat and the designs
+Create the logic of the chat and the designs.
 
 # Description
 
@@ -42,6 +42,8 @@ Use cases means that if I'm usign the AuthRepository the cases can be
 From that use cases should I return a response to interact with the UI... that means with the presentation Layer.
 
 data: Get the data from an API or Local Storage (Firebase, API rest)
+
+TODO: Add the flowcharts of the application.
 
 # Resources
 

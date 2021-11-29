@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/mini_widgets.dart';
+import '../getX/calls_controller.dart.dart';
 
 class CallsScreen extends StatelessWidget {
   /// Show the history of the calls for this user
@@ -10,9 +11,11 @@ class CallsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Utils.textFormFIeldColor,
-      body: CenterText(
-        'Calls Screens',
-        color: Colors.white,
+      body: GetBuilder<CallsController>(
+        init: CallsController(),
+        builder: (c) {
+          return Container();
+        },
       ),
     );
   }

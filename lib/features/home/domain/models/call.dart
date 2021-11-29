@@ -102,6 +102,7 @@ class Call {
   /// Get the date for this call
   static DateTime getDateNow() => DateTime.now();
 
+  // Necessary methods for this model
   factory Call.fromJson(Map<String, dynamic> json) => _$CallFromJson(json);
 
   Map<String, dynamic> toJson() => _$CallToJson(this);

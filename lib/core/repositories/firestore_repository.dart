@@ -19,6 +19,9 @@ abstract class FirestoreRepository {
 
   final String callsCollection = 'calls';
 
+  /// The collection inside of each user document
+  final String historyCallsCollection = 'history_calls';
+
   // NOTE: Fields in the database
 
   final String usernameField = 'username';
