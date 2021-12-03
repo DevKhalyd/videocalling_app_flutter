@@ -2,9 +2,11 @@
 
 Add the calls history as new page (Test it)
 
-Test when the app is terminated
+Test the notification when the app is terminated
 
-Create the logic of the chat and the designs.
+Create the logic of the chat (Backend side)
+
+Create the cloud functions of the chat
 
 # Description
 
@@ -69,3 +71,7 @@ https://github.com/AgoraIO/Agora-Flutter-SDK/blob/master/example/lib/examples/ba
 
 Reference:
 https://docs.agora.io/en/Video/API%20Reference/flutter/index.html
+
+# Designs (Inspirations)
+
+https://dribbble.com/shots/8961268-Chat-App

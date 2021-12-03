@@ -25,6 +25,8 @@ abstract class Utils {
   static final acentColor = Color.fromRGBO(85, 104, 254, 1.0);
   static final textFormFIeldColor = Color.fromRGBO(37, 42, 52, 1.0);
   static final bottomNavColor = Color.fromRGBO(37, 42, 52, .5);
+  static final defaultProfileImg =
+      'https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png';
 
   /// ALSO SEE: kReleaseMode
   static const isDebug = true;

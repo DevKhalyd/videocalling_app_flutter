@@ -5,6 +5,7 @@ import '../../../home/domain/models/conversation_type.dart';
 
 part 'history_call.g.dart';
 
+/// Model to identify a call in the history
 @JsonSerializable(explicitToJson: true)
 class HistoryCall {
   HistoryCall({
