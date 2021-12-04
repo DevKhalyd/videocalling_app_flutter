@@ -19,6 +19,9 @@ abstract class FirestoreRepository {
 
   final String callsCollection = 'calls';
 
+  // NOTE: Collections inside the user object
+  final String conversationsCollection = 'conversations';
+
   /// The collection inside of each user document
   final String historyCallsCollection = 'history_calls';
 
@@ -80,6 +83,15 @@ abstract class FirestoreRepository {
     try {
       return getCollection(collection).doc(idDocument).snapshots();
     } catch (_) {
+      rethrow;
+    }
+  }
+
+  /// Listen a given reference
+  Stream<QuerySnapshot<Object?>> getStream(CollectionReference reference) {
+    try {
+      return reference.snapshots();
+    } catch (e) {
       rethrow;
     }
   }

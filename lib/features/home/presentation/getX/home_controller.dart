@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/bridges/fcm_bridge.dart';
 
+import '../../../../core/bridges/fcm_bridge.dart';
 import '../../../../core/mixins/permission_handler_mixin.dart';
 import '../../../../core/repositories/fcm_repository.dart';
 import '../../../../core/shared/models/user/user.dart';
@@ -55,6 +55,9 @@ class HomeController extends GetxController with PermissionHandlerMixin {
 
   /// The user information of the current user signed in the application
   User? get user => _user;
+
+  /// The id of this signed user. Must not return null.
+  String get idUser => user!.id;
   List<String> get tabs => _tabs;
   String get title => _titles[_currentPage];
   bool get isTabMessageSelected => _currentPage == 0;

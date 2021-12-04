@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../features/chat/presentation/screens/chat_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/sign_in/presentation/screens/sign_in_screen.dart';
 import '../../features/sign_up/presentation/screens/ask_username_screen.dart';
@@ -15,6 +16,7 @@ abstract class Routes {
   static final home = '/home';
   static final askUserName = '/askUserName';
   static final videocall = '/videocall';
+  static final chat = '/chat';
 
   static final pages = <GetPage>[
     GetPage(
@@ -40,6 +42,10 @@ abstract class Routes {
     GetPage(
       name: videocall,
       page: () => VideocallScreen(),
+    ),
+    GetPage(
+      name: chat,
+      page: () => ChatScreen(),
     ),
   ];
 }

@@ -5,6 +5,7 @@ import 'message_type.dart';
 
 part 'last_message.g.dart';
 
+/// Model that allow to show the latest messages in the [MessagesScreen]
 @JsonSerializable(explicitToJson: true)
 class LastMessage {
   LastMessage({
@@ -22,6 +23,18 @@ class LastMessage {
   final int acumalativeMessages;
   final MessageType messageType;
   final MessageState messageState;
+
+  /// Get a message to show to the user according to the [messageType]
+  String getMessage() {
+    switch (messageType.type) {
+      case MessageType.text:
+        return message ?? '';
+      case MessageType.image:
+        return 'Image 📷';
+      default:
+        return '⁉';
+    }
+  }
 
   factory LastMessage.fromJson(Map<String, dynamic> json) =>
       _$LastMessageFromJson(json);

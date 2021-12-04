@@ -6,7 +6,7 @@ Test the notification when the app is terminated
 
 Create the logic of the chat (Backend side)
 
-Create the cloud functions of the chat
+Create the cloud functions of the chat (Review after of implement the header of the chat screen)
 
 # Description
 

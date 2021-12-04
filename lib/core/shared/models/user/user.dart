@@ -26,7 +26,7 @@ class User {
   User({
     required this.username,
     required this.fullname,
-    required this.email,
+    this.email = '',
     this.isOnline = true,
     this.tokenFCM = '',
     this.imageUrl,
@@ -49,12 +49,18 @@ class User {
   String _id = '';
 
   String get id {
-    assert(_id.isNotEmpty,
-        'Check out if you assing the ID that comes from firestore with `setId` method');
+    final msg = '''Check out if you assing the ID that comes 
+    from firestore with `setId` method''';
+    assert(_id.isNotEmpty, msg);
     return _id;
   }
 
-  final String username, fullname, email;
+  /// The emails is not null but can be empty.
+  ///
+  /// Check out if the emails is not empty if you are gonna to use it.
+  final String email;
+
+  final String username, fullname;
 
   /// Can be null when it's necessary.
   final String? imageUrl;
