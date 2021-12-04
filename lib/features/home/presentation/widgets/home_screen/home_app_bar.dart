@@ -32,7 +32,6 @@ class HomeAppBar extends StatelessWidget {
               return c.getImageAppbar();
             },
           ),
-          // c.getImageAppbar(),
           Space(0.02, isHorizontal: true),
         ],
       ),

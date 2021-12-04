@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:videocalling_app/features/chat/presentation/widgets/chat_app_bar.dart';
 
-import '../../../../core/widgets/mini_widgets.dart';
+import '../../../../core/utils/utils.dart';
+import '../getX/chat_controller.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add the logic to show. Always receive a user object from the controller
-    return CenterText('ChatScren');
+    return GetBuilder<ChatController>(
+      init: ChatController(),
+      builder: (c) {
+        // Define the header... in other widget and assign another id
+        return Scaffold(
+          backgroundColor: Utils.textFormFIeldColor,
+          body: SafeArea(
+              child: Column(
+            children: [
+              ChatAppBar(),
+              // Chat
+              Expanded(
+                  child: Container(
+                color: Colors.red,
+              )),
+              // Input
+              Container(
+                height: 60,
+              ),
+            ],
+          )),
+        );
+      },
+    );
   }
 }
