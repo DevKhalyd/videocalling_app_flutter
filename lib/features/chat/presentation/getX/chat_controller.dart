@@ -1,22 +1,27 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/chat/domain/usecases/listen_user.dart';
 
 import '../../../../core/shared/models/user/user.dart';
+import '../../domain/models/chat_bridge.dart';
+import '../../domain/usecases/listen_user.dart';
 
 class ChatController extends GetxController {
   late User _user;
+  late String _idConversation;
   late StreamSubscription<User?> _subscription;
   User get user => _user;
 
   @override
   void onInit() {
     final arguments = Get.arguments;
-    if (arguments is User)
-      _user = arguments;
-    else
-      assert(false, 'Arguments must be a User');
+    final condition = arguments is ChatBridge;
+    if (condition) {
+      final chatBridge = arguments as ChatBridge;
+      _idConversation = chatBridge.idConversation;
+      _user = chatBridge.user;
+    } else
+      assert(condition);
     super.onInit();
   }
 

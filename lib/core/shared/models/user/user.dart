@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../utils/logger.dart';
+
 /// This allows the `User` class to access private members in
 /// the generated file. The value for this is *.g.dart, where
 /// the star denotes the source file name.
@@ -50,8 +52,9 @@ class User {
 
   String get id {
     final msg = '''Check out if you assing the ID that comes 
-    from firestore with `setId` method''';
-    assert(_id.isNotEmpty, msg);
+    from firestore with `setId` method - If this is the behavior expected,
+    ommit this message''';
+    if (_id.isEmpty) Log.console(msg, L.W);
     return _id;
   }
 

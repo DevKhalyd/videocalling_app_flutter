@@ -19,7 +19,7 @@ abstract class FirestoreRepository {
 
   final String callsCollection = 'calls';
 
-  // NOTE: Collections inside the user object
+  // NOTE: Collections inside the user object or the main collection in firestore that contains the
   final String conversationsCollection = 'conversations';
 
   /// The collection inside of each user document
@@ -28,6 +28,9 @@ abstract class FirestoreRepository {
   // NOTE: Fields in the database
 
   final String usernameField = 'username';
+
+  /// The ids in a conversation
+  final String idsUser = 'idsUser';
 
   /// Useful to write only the collection name
   CollectionReference getCollection(String collection) =>
@@ -46,6 +49,21 @@ abstract class FirestoreRepository {
       String collection, Map<String, dynamic> data) async {
     try {
       return await getCollection(collection).add(data);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  /// Add data to a given collection
+  ///
+  /// [collection] The name collection to get the reference
+  ///
+  /// [data] The data to add to the collection
+  ///
+  /// [id] The id of the document to add the data
+  Future<void> addDataWithOwnId(String collection, data, String id) async {
+    try {
+      await getCollection(collection).doc(id).set(data);
     } catch (_) {
       rethrow;
     }

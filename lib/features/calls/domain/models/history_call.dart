@@ -9,6 +9,7 @@ part 'history_call.g.dart';
 @JsonSerializable(explicitToJson: true)
 class HistoryCall {
   HistoryCall({
+    required this.idUser,
     required this.fullname,
     required this.username,
     required this.date,
@@ -17,6 +18,8 @@ class HistoryCall {
     required this.imgUrl,
   });
 
+  /// The id of this user
+  final String idUser;
   final String? imgUrl;
   final String fullname;
   final String username;

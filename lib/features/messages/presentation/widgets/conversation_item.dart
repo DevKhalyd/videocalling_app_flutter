@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:videocalling_app/features/chat/domain/models/chat_bridge.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/utils.dart';
@@ -29,12 +30,14 @@ class ConversationItem extends StatelessWidget {
       subtitle: TextCustom(conversation.lastMessage.getMessage()),
       trailing: getTrailing(),
       onTap: () {
+        final idConversation = conversation.id;
         final user = User(
           username: conversation.username,
           fullname: conversation.fullname,
           imageUrl: conversation.imgUrl,
         );
-        MessagesController.to.onOpenChat(user);
+        final c = ChatBridge(idConversation: idConversation, user: user);
+        MessagesController.to.onOpenChat(c);
       },
     );
   }

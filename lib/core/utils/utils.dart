@@ -28,6 +28,9 @@ abstract class Utils {
   static final defaultProfileImg =
       'https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png';
 
+  /// Suffixes
+  static final conversation_suffix = 'conversation';
+
   /// ALSO SEE: kReleaseMode
   static const isDebug = true;
 

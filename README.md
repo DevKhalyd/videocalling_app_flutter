@@ -1,5 +1,9 @@
 # TODO
 
+When send the first message. Verify if the unique session has already been created otherwise create a new one.
+
+Why? Basically, because from the device I can get the both ids
+
 Add the calls history as new page (Test it)
 
 Test the notification when the app is terminated

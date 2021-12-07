@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:videocalling_app/features/chat/domain/models/chat_bridge.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/routes.dart';
@@ -15,5 +16,5 @@ class MessagesController extends GetxController {
 
   /// Go to the chat screen and configure all the data needed
   /// to start / continue the conversation.
-  void onOpenChat(User user) => Get.toNamed(Routes.chat, arguments: user);
+  void onOpenChat(ChatBridge c) => Get.toNamed(Routes.chat, arguments: c);
 }
