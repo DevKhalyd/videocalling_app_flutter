@@ -4,6 +4,7 @@ import '../../../messages/domain/models/message_type.dart';
 
 part 'message.g.dart';
 
+/// The message in a conversation.
 @JsonSerializable(explicitToJson: true)
 class Message {
   const Message({

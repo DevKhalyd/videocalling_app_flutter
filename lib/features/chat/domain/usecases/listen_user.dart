@@ -13,7 +13,7 @@ abstract class ListenUser {
       await for (final query in stream) {
         final docs = query.docs;
         if (docs.isEmpty) {
-          Log.console('User does not exist. Verify the user id.', L.W);
+          Log.console('User does not exist. Verify the user id.', L.E);
           yield null;
           return;
         }

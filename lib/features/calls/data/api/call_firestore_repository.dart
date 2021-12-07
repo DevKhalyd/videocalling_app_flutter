@@ -25,9 +25,9 @@ class CallFirestoreRepository extends FirestoreRepository {
 
       final data = <String, dynamic>{
         // id
-        'id': conversationId,
+        id: conversationId,
         // ids
-        'idsUser': ids,
+        idsUser: ids,
       };
       await addDataWithOwnId(conversationsCollection, data, conversationId);
       return conversationId;
@@ -65,10 +65,10 @@ class CallFirestoreRepository extends FirestoreRepository {
           }
 
           if (ids.contains(idsUserData[0]) && ids.contains(idsUserData[1])) {
-            if (data.containsKey('id'))
-              idConversation = data['id'] as String;
+            if (data.containsKey(id))
+              idConversation = data[id] as String;
             else
-              Log.console('Don\'t have id this document $data');
+              Log.console('Don\'t have an id this document $data',L.W);
           }
         }
       });

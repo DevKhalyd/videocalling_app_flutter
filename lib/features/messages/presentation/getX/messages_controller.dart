@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/chat/domain/models/chat_bridge.dart';
 
-import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/routes.dart';
+import '../../../chat/domain/models/chat_bridge.dart';
 import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/conversation.dart';
 import '../../domain/usecases/get_conversations.dart';

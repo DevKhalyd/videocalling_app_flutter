@@ -32,6 +32,8 @@ abstract class FirestoreRepository {
   /// The ids in a conversation
   final String idsUser = 'idsUser';
 
+  final String id = "id";
+
   /// Useful to write only the collection name
   CollectionReference getCollection(String collection) =>
       firestore.collection(collection);

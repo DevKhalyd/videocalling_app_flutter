@@ -13,14 +13,13 @@ class ChatScreen extends StatelessWidget {
     return GetBuilder<ChatController>(
       init: ChatController(),
       builder: (c) {
-        // Define the header... in other widget and assign another id
         return Scaffold(
           backgroundColor: Utils.textFormFIeldColor,
           body: SafeArea(
               child: Column(
             children: [
               ChatAppBar(),
-              // Chat
+              // Chat. TODO: Liste to the messages
               Expanded(
                   child: Container(
                 color: Colors.red,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:videocalling_app/features/chat/domain/models/chat_bridge.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
+import '../../../chat/domain/models/chat_bridge.dart';
 import '../../domain/models/conversation.dart';
 import '../getX/messages_controller.dart';
 import 'messages_unreaded.dart';
@@ -29,17 +29,22 @@ class ConversationItem extends StatelessWidget {
       title: TextCustom(conversation.fullname),
       subtitle: TextCustom(conversation.lastMessage.getMessage()),
       trailing: getTrailing(),
-      onTap: () {
-        final idConversation = conversation.id;
-        final user = User(
-          username: conversation.username,
-          fullname: conversation.fullname,
-          imageUrl: conversation.imgUrl,
-        );
-        final c = ChatBridge(idConversation: idConversation, user: user);
-        MessagesController.to.onOpenChat(c);
-      },
+      onTap: onTap,
     );
+  }
+
+  void onTap() {
+    /// Because the conversation was created already,
+    /// [Conversation] contains it
+    final idConversation = conversation.id;
+    final user = User(
+      username: conversation.username,
+      fullname: conversation.fullname,
+      imageUrl: conversation.imgUrl,
+    );
+    user.setId(conversation.idUser);
+    final c = ChatBridge(idConversation: idConversation, user: user);
+    MessagesController.to.onOpenChat(c);
   }
 
   /// Show the unreaded messages

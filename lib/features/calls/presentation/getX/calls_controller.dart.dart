@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/widgets/dialogs/waiting_dialog.dart';
-import 'package:videocalling_app/features/calls/domain/usecases/create_conversation.dart';
-import 'package:videocalling_app/features/calls/domain/usecases/get_id_conversation.dart';
-import 'package:videocalling_app/features/chat/domain/models/chat_bridge.dart';
 
 import '../../../../core/shared/models/user/user.dart';
+import '../../../../core/widgets/dialogs/waiting_dialog.dart';
+import '../../../chat/domain/models/chat_bridge.dart';
 import '../../../home/presentation/getX/home_controller.dart';
 import '../../../messages/presentation/getX/messages_controller.dart';
 import '../../domain/models/history_call.dart';
+import '../../domain/usecases/create_conversation.dart';
 import '../../domain/usecases/get_history_calls.dart';
+import '../../domain/usecases/get_id_conversation.dart';
 
 class CallsController extends GetxController {
   final idUser = HomeController.to.user?.id;
@@ -36,8 +36,11 @@ class CallsController extends GetxController {
     String? idConversation = await GetIdConversation.execute(ids);
 
     if (idConversation == null)
-      // Create the conversation
+      // Create the conversation if that one doesn't exists
       idConversation = await CreateConversation.execute(ids);
+
+    /// Close the waiting dialog
+    Get.back();
 
     /// Go to the chat page
     final c = ChatBridge(idConversation: idConversation, user: user);

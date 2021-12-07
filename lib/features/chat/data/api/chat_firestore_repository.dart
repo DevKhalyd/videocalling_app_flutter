@@ -14,4 +14,14 @@ class ChatFirestoreRepository extends FirestoreRepository {
       rethrow;
     }
   }
+
+  /// [id] The id of the conversation
+  Stream<QuerySnapshot<Object?>> listenConversation(String id) {
+    try {
+      final reference = getCollection('$conversationsCollection/$id');
+      return getStream(reference);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
