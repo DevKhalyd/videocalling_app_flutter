@@ -8,8 +8,8 @@ class MessageState {
   static const delivered = 1;
   static const seen = 2;
 
-  const MessageState({required this.state});
-  final int state;
+  const MessageState({required this.type});
+  final int type;
 
   factory MessageState.fromJson(Map<String, dynamic> json) =>
       _$MessageStateFromJson(json);

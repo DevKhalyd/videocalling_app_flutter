@@ -49,7 +49,7 @@ class ConversationItem extends StatelessWidget {
 
   /// Show the unreaded messages
   Widget? getTrailing() {
-    final amount = conversation.lastMessage.acumalativeMessages;
+    final amount = conversation.lastMessage.acumalativeMsgs;
     if (amount > 0) return MessagesUnreaded(unreaded: amount);
   }
 }

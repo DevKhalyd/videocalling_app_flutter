@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../messages/domain/models/message_state.dart';
 import '../../../messages/domain/models/message_type.dart';
 
 part 'message.g.dart';
@@ -11,7 +12,8 @@ class Message {
     required this.idUser,
     required this.date,
     required this.data,
-    required this.type,
+    required this.messageType,
+    required this.messageState,
   });
 
   final String idUser;
@@ -20,7 +22,8 @@ class Message {
   /// The data works in different ways depending on
   /// the type of the message
   final String data;
-  final MessageType type;
+  final MessageType messageType;
+  final MessageState messageState;
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);

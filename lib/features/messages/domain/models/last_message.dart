@@ -12,7 +12,7 @@ class LastMessage {
     required this.date,
     required this.messageType,
     required this.messageState,
-    this.acumalativeMessages = 0,
+    this.acumalativeMsgs = 0,
     this.message,
   });
 
@@ -20,7 +20,7 @@ class LastMessage {
   /// In the application is handle as a string
   final String date;
   final String? message;
-  final int acumalativeMessages;
+  final int acumalativeMsgs;
   final MessageType messageType;
   final MessageState messageState;
 
