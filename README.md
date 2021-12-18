@@ -1,16 +1,16 @@
 # TODO
 
-When send the first message. Verify if the unique session has already been created otherwise create a new one.
+- Test the notification when the app is terminated
 
-Why? Basically, because from the device I can get the both ids
+Create test for:
 
-Add the calls history as new page (Test it)
+- History (Create a history record)
 
-Test the notification when the app is terminated
+Verify:
 
-Create the logic of the chat (Backend side)
+- The chat needes wors who is expected
 
-Create the cloud functions of the chat (Review after of implement the header of the chat screen)
+So, from the history record the chat is created. So verify that works in a good way
 
 # Description
 
