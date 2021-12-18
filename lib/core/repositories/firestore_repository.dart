@@ -152,19 +152,14 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
       password: '123456',
     );
 
-    AddUserData.execute(user: testOne).then((value) {
-      if (value == null) {
-        Log.console('Something went wrong just happens');
-        return;
-      }
-      log('Test one added');
-    });
-    AddUserData.execute(user: testTwo).then((value) {
-      if (value == null) {
-        Log.console('Something went wrong just happens');
-        return;
-      }
-      log('Test two added');
-    });
+    final userOne = await AddUserData.execute(user: testOne);
+
+    final userTwo = await AddUserData.execute(user: testTwo);
+
+    if (userOne == null || userTwo == null) {
+      log('Error adding users to firestore');
+    } else {
+      log('Users added...');
+    }
   }
 }

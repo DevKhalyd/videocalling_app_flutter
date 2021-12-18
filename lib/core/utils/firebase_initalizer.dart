@@ -27,6 +27,7 @@ abstract class FirebaseInitializer {
     if (testFirestore) {
       final firestore = EmulatorFirestoreRepository.init();
       await firestore.createAccountsData();
+      // TODO: Add the history entry in this user...
     }
     if (testFunctions) EmulatorCloudFunctionsRepository.init();
   }
