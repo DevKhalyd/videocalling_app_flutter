@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:videocalling_app/features/calls/domain/models/history_call.dart';
+import 'package:videocalling_app/features/calls/domain/usecases/create_history_item.dart';
+import 'package:videocalling_app/features/home/domain/models/call_type.dart';
+import 'package:videocalling_app/features/home/domain/models/conversation_type.dart';
 
 import '../../features/sign_up/domain/usecases/add_user_data.dart';
 import '../shared/models/user/user.dart';
@@ -117,11 +121,16 @@ abstract class FirestoreRepository {
   }
 }
 
+const NOT_ID = "not_id";
+
 /// Use to emulate the firestore database
 class EmulatorFirestoreRepository extends FirestoreRepository {
   EmulatorFirestoreRepository.init() {
     firestore.useFirestoreEmulator(Utils.localHost, 8080);
   }
+
+  String idUserOne = NOT_ID;
+  String idUserTwo = NOT_ID;
 
   /// Add the data to firestore emulator as mock.
   Future<void> createAccountsData() async {
@@ -154,12 +163,49 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
 
     final userOne = await AddUserData.execute(user: testOne);
 
+    if (userOne != null) {
+      idUserOne = userOne.id;
+    }
+
     final userTwo = await AddUserData.execute(user: testTwo);
+
+    if (userTwo != null) {
+      idUserTwo = userTwo.id;
+    }
 
     if (userOne == null || userTwo == null) {
       log('Error adding users to firestore');
     } else {
       log('Users added...');
     }
+  }
+
+  Future<void> createHistoryItem() async {
+    if (idUserOne == NOT_ID || idUserTwo == NOT_ID) {
+      Log.console('$idUserOne $idUserTwo dont have id');
+      return;
+    }
+
+    final historyForUserOne = HistoryCall(
+      idUser: idUserTwo,
+      callType: CallType(type: CallType.outcoming),
+      conversationType: ConversationType(type: ConversationType.call),
+      fullname: 'Test Two',
+      username: 'testTwo',
+      date: 'Today',
+    );
+
+    final historyForUserTwo = HistoryCall(
+      idUser: idUserOne,
+      callType: CallType(type: CallType.incoming),
+      conversationType: ConversationType(type: ConversationType.call),
+      fullname: 'Test One',
+      username: 'testOne',
+      date: 'Today',
+    );
+
+    await CreateHistoryItem.execute(idUserOne, historyForUserOne);
+
+    await CreateHistoryItem.execute(idUserTwo, historyForUserTwo);
   }
 }

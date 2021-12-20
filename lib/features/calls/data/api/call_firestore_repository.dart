@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:videocalling_app/features/calls/domain/models/history_call.dart';
 
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/utils/logger.dart';
@@ -10,6 +11,17 @@ class CallFirestoreRepository extends FirestoreRepository {
     try {
       final historyCalls = '$usersCollection/$idDoc/$historyCallsCollection';
       return getCollection(historyCalls).snapshots();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Create a history item just for test.
+  Future<void> createHistoryItem(String idUser, HistoryCall historyCall) async {
+    try {
+      final collection =
+          getCollection('$usersCollection/$idUser/$historyCallsCollection');
+      await collection.add(historyCall.toJson());
     } catch (e) {
       rethrow;
     }
@@ -68,7 +80,7 @@ class CallFirestoreRepository extends FirestoreRepository {
             if (data.containsKey(id))
               idConversation = data[id] as String;
             else
-              Log.console('Don\'t have an id this document $data',L.W);
+              Log.console('Don\'t have an id this document $data', L.W);
           }
         }
       });

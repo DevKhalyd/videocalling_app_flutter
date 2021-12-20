@@ -27,22 +27,16 @@ class EmulatorAuthRepository extends AuthRepository {
     final secondEmail = 't2@gmail.com';
     final password = '123456';
 
-    SignUpWithEmail.execute(email: firstEmail, password: password)
-        .then((value) {
-      if (value != null) {
-        Log.console('Error creating account: $value', L.E);
-        return;
-      }
-      Log.console('Account created: $firstEmail');
-    });
+    final oneUser =
+        await SignUpWithEmail.execute(email: firstEmail, password: password);
 
-    SignUpWithEmail.execute(email: secondEmail, password: password)
-        .then((value) {
-      if (value != null) {
-        Log.console('Error creating account: $value', L.E);
-        return;
-      }
-      Log.console('Account created: $secondEmail');
-    });
+    if (oneUser != null)
+      Log.console('Error creating account: $firstEmail - $oneUser', L.E);
+
+    final twoUser =
+        await SignUpWithEmail.execute(email: secondEmail, password: password);
+
+    if (twoUser != null)
+      Log.console('Error creating account: $secondEmail - $twoUser', L.E);
   }
 }

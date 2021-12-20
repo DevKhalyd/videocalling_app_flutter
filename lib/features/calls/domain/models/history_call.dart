@@ -15,7 +15,7 @@ class HistoryCall {
     required this.date,
     required this.conversationType,
     required this.callType,
-    required this.imgUrl,
+    this.imgUrl,
   });
 
   /// The id of this user
