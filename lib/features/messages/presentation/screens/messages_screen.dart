@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/messages/presentation/widgets/conversation_item.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../domain/models/conversation.dart';
 import '../getX/messages_controller.dart';
+import '../widgets/conversation_item.dart';
 
 /// Just show the current messages for this user
 ///

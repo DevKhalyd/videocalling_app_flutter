@@ -13,6 +13,7 @@ import '../../../../core/widgets/dialogs/alert_option.dart';
 import '../../../../core/widgets/dialogs/info_dialog.dart';
 import '../../../../core/widgets/shared/circle_profile_image.dart';
 import '../../../calls/presentation/screens/calls_screen.dart';
+import '../../../chat/domain/models/chat_bridge.dart';
 import '../../../messages/presentation/screens/messages_screen.dart';
 import '../../../sign_up/domain/usecases/get_fcm_token.dart';
 import '../../domain/usecases/get_email_user.dart';
@@ -208,4 +209,8 @@ class HomeController extends GetxController with PermissionHandlerMixin {
       if (result) signOut();
     }
   }
+
+  /// Go to the chat screen and configure all the data needed
+  /// to start / continue the conversation.
+  void onOpenChat(ChatBridge c) => Get.toNamed(Routes.chat, arguments: c);
 }

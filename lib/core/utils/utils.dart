@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' show Random;
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -20,7 +19,7 @@ abstract class Utils {
   // Assigned to your computer by router
   /// If you are in windows to get it, just:
   /// cmd > ipconfig
-  static const localHost = '192.168.1.67';
+  static const localHost = '192.168.1.68';
   static final appName = 'Videocalling App';
   static final acentColor = Color.fromRGBO(85, 104, 254, 1.0);
   static final textFormFIeldColor = Color.fromRGBO(37, 42, 52, 1.0);
@@ -29,7 +28,7 @@ abstract class Utils {
       'https://lacollege.edu/wp-content/uploads/2021/09/blank-profile-picture.png';
 
   /// Suffixes
-  static final conversation_suffix = 'conversation';
+  static final conversationSuffix = 'conversation';
 
   /// ALSO SEE: kReleaseMode
   static const isDebug = true;

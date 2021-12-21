@@ -33,7 +33,7 @@ class CallFirestoreRepository extends FirestoreRepository {
   Future<String> createConversation(List<String> ids) async {
     assert(ids.length == 2, 'A conversation must have two users');
     try {
-      final conversationId = Utils.generateId(Utils.conversation_suffix);
+      final conversationId = Utils.generateId(Utils.conversationSuffix);
 
       final data = <String, dynamic>{
         // id

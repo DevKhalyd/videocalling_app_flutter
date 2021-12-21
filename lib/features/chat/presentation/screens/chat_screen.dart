@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/chat/presentation/widgets/chat_app_bar.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../getX/chat_controller.dart';
+import '../widgets/chat_app_bar.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -19,7 +19,6 @@ class ChatScreen extends StatelessWidget {
               child: Column(
             children: [
               ChatAppBar(),
-              // Chat. TODO: Liste to the messages
               Expanded(
                   child: Container(
                 color: Colors.red,

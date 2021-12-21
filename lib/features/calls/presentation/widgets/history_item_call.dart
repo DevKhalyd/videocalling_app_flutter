@@ -20,7 +20,7 @@ class HistoryItemCall extends StatelessWidget {
       builder: (c) {
         return ListTile(
           leading: CircleAvatar(
-            radius: 30,
+            radius: 20,
             backgroundImage:
                 NetworkImage(history.imgUrl ?? Utils.defaultProfileImg),
           ),
@@ -32,18 +32,25 @@ class HistoryItemCall extends StatelessWidget {
             children: [
               Icon(
                 isIncoming ? Icons.call_received : Icons.call_made,
-                color: isIncoming ? Colors.green : Colors.red,
+                color: isIncoming ? Colors.red : Colors.green,
+                size: 15,
               ),
               Space(
-                0.001,
+                0.015,
                 isHorizontal: true,
               ),
-              TextCustom(history.date),
+              TextCustom(
+                history.getDate(),
+                color: Colors.grey,
+              ),
             ],
           ),
           trailing: IconButton(
             onPressed: () => c.onChat(history),
-            icon: Icon(Icons.message),
+            icon: Icon(
+              Icons.message,
+              color: Colors.white,
+            ),
           ),
         );
       },

@@ -1,16 +1,6 @@
 # TODO
 
-- Test the notification when the app is terminated
-
-Create test for:
-
-- History (Create a history record)
-
-Verify:
-
-- The chat needes wors who is expected
-
-So, from the history record the chat is created. So verify that works in a good way
+- Test the chat according to the data given
 
 # Description
 

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:videocalling_app/features/calls/domain/models/history_call.dart';
-import 'package:videocalling_app/features/calls/domain/usecases/create_history_item.dart';
-import 'package:videocalling_app/features/home/domain/models/call_type.dart';
-import 'package:videocalling_app/features/home/domain/models/conversation_type.dart';
 
+import '../../features/calls/domain/models/history_call.dart';
+import '../../features/calls/domain/usecases/create_history_item.dart';
+import '../../features/home/domain/models/call_type.dart';
+import '../../features/home/domain/models/conversation_type.dart';
 import '../../features/sign_up/domain/usecases/add_user_data.dart';
 import '../shared/models/user/user.dart';
 import '../utils/logger.dart';
@@ -121,6 +121,8 @@ abstract class FirestoreRepository {
   }
 }
 
+// TODO: Unify the auth and the firestore data with real name to distinguish them.
+// Verify that the chat is created according to the backend logic...
 const NOT_ID = "not_id";
 
 /// Use to emulate the firestore database

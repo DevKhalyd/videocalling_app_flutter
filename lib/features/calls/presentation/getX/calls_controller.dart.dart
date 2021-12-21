@@ -4,7 +4,6 @@ import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/widgets/dialogs/waiting_dialog.dart';
 import '../../../chat/domain/models/chat_bridge.dart';
 import '../../../home/presentation/getX/home_controller.dart';
-import '../../../messages/presentation/getX/messages_controller.dart';
 import '../../domain/models/history_call.dart';
 import '../../domain/usecases/create_conversation.dart';
 import '../../domain/usecases/get_history_calls.dart';
@@ -44,6 +43,6 @@ class CallsController extends GetxController {
 
     /// Go to the chat page
     final c = ChatBridge(idConversation: idConversation, user: user);
-    MessagesController.to.onOpenChat(c);
+    HomeController.to.onOpenChat(c);
   }
 }

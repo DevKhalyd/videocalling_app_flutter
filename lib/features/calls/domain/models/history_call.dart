@@ -27,6 +27,13 @@ class HistoryCall {
   final ConversationType conversationType;
   final CallType callType;
 
+  /// Return a readable date string
+  String getDate() {
+    if (date.length < 10) return date;
+
+    return date.substring(0, 10);
+  }
+
   // Necessary methods for this model
   factory HistoryCall.fromJson(Map<String, dynamic> json) =>
       _$HistoryCallFromJson(json);

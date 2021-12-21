@@ -4,13 +4,11 @@ import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../../chat/domain/models/chat_bridge.dart';
+import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/conversation.dart';
-import '../getX/messages_controller.dart';
 import 'messages_unreaded.dart';
 
-// TODO: Implement all of this, after of the test... (Cloud functions)
 // https://dribbble.com/shots/8094338-Chat-App
-
 /// According to the data given by the stream the
 /// item should be updated
 class ConversationItem extends StatelessWidget {
@@ -44,7 +42,7 @@ class ConversationItem extends StatelessWidget {
     );
     user.setId(conversation.idUser);
     final c = ChatBridge(idConversation: idConversation, user: user);
-    MessagesController.to.onOpenChat(c);
+    HomeController.to.onOpenChat(c);
   }
 
   /// Show the unreaded messages
