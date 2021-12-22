@@ -8,6 +8,7 @@ import '../../features/home/domain/models/call_type.dart';
 import '../../features/home/domain/models/conversation_type.dart';
 import '../../features/sign_up/domain/usecases/add_user_data.dart';
 import '../shared/models/user/user.dart';
+import '../utils/data_test.dart';
 import '../utils/logger.dart';
 import '../utils/utils.dart';
 
@@ -121,9 +122,8 @@ abstract class FirestoreRepository {
   }
 }
 
-// TODO: Unify the auth and the firestore data with real name to distinguish them.
 // Verify that the chat is created according to the backend logic...
-const NOT_ID = "not_id";
+const NOT_ID = "ID_NOT_INITIALIZED";
 
 /// Use to emulate the firestore database
 class EmulatorFirestoreRepository extends FirestoreRepository {
@@ -150,17 +150,17 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
     // tokenFCM:
 
     final testOne = User(
-      username: 'testOne',
-      fullname: 'Test One',
-      email: 't1@gmail.com',
-      password: '123456',
+      username: DataTest.usernameOne,
+      fullname: DataTest.fullnameOne,
+      email: DataTest.emailOne,
+      password: DataTest.password,
     );
 
     final testTwo = User(
-      username: 'testTwo',
-      fullname: 'Test Two',
-      email: 't2@gmail.com',
-      password: '123456',
+      username: DataTest.usernameTwo,
+      fullname: DataTest.fullnameTwo,
+      email: DataTest.emailTwo,
+      password: DataTest.password,
     );
 
     final userOne = await AddUserData.execute(user: testOne);
@@ -192,8 +192,8 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
       idUser: idUserTwo,
       callType: CallType(type: CallType.outcoming),
       conversationType: ConversationType(type: ConversationType.call),
-      fullname: 'Test Two',
-      username: 'testTwo',
+      fullname: DataTest.fullnameTwo,
+      username: DataTest.usernameTwo,
       date: 'Today',
     );
 
@@ -201,8 +201,8 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
       idUser: idUserOne,
       callType: CallType(type: CallType.incoming),
       conversationType: ConversationType(type: ConversationType.call),
-      fullname: 'Test One',
-      username: 'testOne',
+      fullname: DataTest.fullnameOne,
+      username: DataTest.usernameOne,
       date: 'Today',
     );
 

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../features/sign_up/domain/usecases/sign_up_with_email.dart';
+import '../utils/data_test.dart';
 import '../utils/logger.dart';
 import '../utils/utils.dart';
 
@@ -23,9 +24,9 @@ class EmulatorAuthRepository extends AuthRepository {
   /// As a tester, add the data each time the server is started I have
   /// to add the data manually so this method automatically add the data
   Future<void> createAccounts() async {
-    final firstEmail = 't1@gmail.com';
-    final secondEmail = 't2@gmail.com';
-    final password = '123456';
+    final firstEmail = DataTest.emailOne;
+    final secondEmail = DataTest.emailTwo;
+    final password = DataTest.password;
 
     final oneUser =
         await SignUpWithEmail.execute(email: firstEmail, password: password);

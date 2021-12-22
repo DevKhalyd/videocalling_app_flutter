@@ -4,6 +4,7 @@ import 'last_message.dart';
 
 part 'conversation.g.dart';
 
+/// The conversation that appears in the [Chatting] screen
 @JsonSerializable(explicitToJson: true)
 class Conversation {
   const Conversation({

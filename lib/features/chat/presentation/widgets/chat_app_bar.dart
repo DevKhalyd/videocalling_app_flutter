@@ -20,13 +20,13 @@ class ChatAppBar extends StatelessWidget {
               url: c.user.imageUrl,
               firstLetter: c.user.fullname[0],
             ),
+            Space(0.01,isHorizontal: true,),
             Column(
               children: [
                 TextCustom(
                   c.user.fullname,
                   fontWeight: FontWeight.bold,
                 ),
-                // NOTE: Add some animations to see fancy...
                 if (c.user.isOnline)
                   TextCustom(
                     'Online',

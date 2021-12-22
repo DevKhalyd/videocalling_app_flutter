@@ -19,14 +19,10 @@ class ChatScreen extends StatelessWidget {
               child: Column(
             children: [
               ChatAppBar(),
-              Expanded(
-                  child: Container(
-                color: Colors.red,
-              )),
-              // Input
-              Container(
-                height: 60,
-              ),
+              // TODO: Create the screen of each message.
+              Expanded(child: Container()),
+              // TODO: Create the input in the server.
+              Container(),
             ],
           )),
         );

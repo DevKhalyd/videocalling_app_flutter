@@ -2,8 +2,6 @@ import '../../../../core/utils/utils.dart';
 import '../../data/api/message_firestore_repository.dart';
 import '../models/conversation.dart';
 
-// TODO: Test this feature in a isolate case
-
 abstract class GetConversations {
   /// [id] of the current user
   static Stream<List<Conversation>> execute(String id) async* {

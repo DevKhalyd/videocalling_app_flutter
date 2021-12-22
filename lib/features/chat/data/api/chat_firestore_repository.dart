@@ -24,4 +24,13 @@ class ChatFirestoreRepository extends FirestoreRepository {
       rethrow;
     }
   }
+
+  Future<void> sendMessage(String idConversation) async {
+    try {
+      // TODO: Create the message
+      
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
