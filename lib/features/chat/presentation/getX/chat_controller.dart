@@ -10,6 +10,14 @@ import '../../domain/usecases/listen_conversation.dart';
 import '../../domain/usecases/listen_user.dart';
 
 class ChatController extends GetxController {
+
+  /*
+   - Send Message
+   - Open Message (If required)
+   - Get the ids of each user
+   - Back button
+  */
+
   late User _user;
   late String _idConversation;
 

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import '../../../../core/utils/utils.dart';
 import '../getX/chat_controller.dart';
 import '../widgets/chat_app_bar.dart';
+import '../widgets/chat_messages.dart';
+import '../widgets/chat_text_input.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -19,10 +21,8 @@ class ChatScreen extends StatelessWidget {
               child: Column(
             children: [
               ChatAppBar(),
-              // TODO: Create the screen of each message.
-              Expanded(child: Container()),
-              // TODO: Create the input in the server.
-              Container(),
+              ChatMessages(),
+              ChatTextInput(),
             ],
           )),
         );
