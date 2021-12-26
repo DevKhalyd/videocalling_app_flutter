@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/repositories/firestore_repository.dart';
+import '../../domain/models/message.dart';
 
 class ChatFirestoreRepository extends FirestoreRepository {
-  /// Listen to a user document
+  /// Listen to a user
   ///
   /// [id] Document ID
   Stream<QuerySnapshot<Object?>> listenUser(String id) {
@@ -18,17 +19,23 @@ class ChatFirestoreRepository extends FirestoreRepository {
   /// [id] The id of the conversation
   Stream<QuerySnapshot<Object?>> listenConversation(String id) {
     try {
-      final reference = getCollection('$conversationsCollection/$id');
+      final reference =
+          getCollection('$conversationsCollection/$id/$messagesCollection');
       return getStream(reference);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> sendMessage(String idConversation) async {
+  /// Create a new Message in a given conversation
+  Future<void> sendMessage(
+    String idConversation,
+    Message message,
+  ) async {
     try {
-      // TODO: Create the message
-      
+      final collection = getCollection(
+          '$conversationsCollection/$idConversation/$messagesCollection');
+      await collection.add(message.toJson());
     } catch (e) {
       rethrow;
     }

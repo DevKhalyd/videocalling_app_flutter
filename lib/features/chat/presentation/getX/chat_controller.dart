@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:videocalling_app/features/home/presentation/getX/home_controller.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/logger.dart';
@@ -10,22 +11,20 @@ import '../../domain/usecases/listen_conversation.dart';
 import '../../domain/usecases/listen_user.dart';
 
 class ChatController extends GetxController {
-
-  /*
-   - Send Message
-   - Open Message (If required)
-   - Get the ids of each user
-   - Back button
-  */
-
   late User _user;
   late String _idConversation;
 
   /// Listen to the user changes in the database. This the User who is talking with.
   late StreamSubscription<User?> _userSubscription;
   late Stream<List<Message>> _messagesStream;
+
+  /// The user who is talking with.
   User get user => _user;
-  Stream get messages => _messagesStream;
+
+  String _idThisUser = HomeController.to.idUser;
+
+  /// Messages to show in the screen
+  Stream<List<Message>> get messages => _messagesStream;
 
   @override
   void onInit() {
@@ -76,5 +75,9 @@ class ChatController extends GetxController {
   void onClose() {
     _userSubscription.cancel();
     super.onClose();
+  }
+
+  onSendMessage() {
+    Log.console('Send message');
   }
 }

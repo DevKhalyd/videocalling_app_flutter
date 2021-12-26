@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+
+import '../../../../core/utils/logger.dart';
+import '../../../../core/widgets/mini_widgets.dart';
+import '../../domain/models/message.dart';
+import '../getX/chat_controller.dart';
 
 /// Where all the messages appears
 class ChatMessages extends StatelessWidget {
@@ -6,6 +12,22 @@ class ChatMessages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container());
+    return GetBuilder<ChatController>(builder: (c) {
+      final streamMessages = c.messages;
+      return StreamBuilderCustom<List<Message>>(
+        stream: streamMessages,
+        onData: (_, snapshot) {
+          final messages = snapshot.data ?? [];
+
+          if (messages.isEmpty)
+            return IconDescription(Icons.message, 'No messages');
+
+          Log.console('Total messages: ${messages.length}');
+          return Container();
+
+          // return Expanded(child: Container());
+        },
+      );
+    });
   }
 }
