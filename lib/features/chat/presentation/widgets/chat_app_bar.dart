@@ -16,12 +16,22 @@ class ChatAppBar extends StatelessWidget {
           height: kToolbarHeight,
           width: double.infinity,
           child: Row(children: [
+            BackButton(color: Colors.white),
+            Space(
+              0.01,
+              isHorizontal: true,
+            ),
             CircleProfileImage(
               url: c.user.imageUrl,
               firstLetter: c.user.fullname[0],
             ),
-            Space(0.01,isHorizontal: true,),
+            Space(
+              0.025,
+              isHorizontal: true,
+            ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextCustom(
                   c.user.fullname,

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:videocalling_app/features/home/presentation/getX/home_controller.dart';
+import '../../../home/presentation/getX/home_controller.dart';
 
 import '../../../../core/shared/models/user/user.dart';
 import '../../../../core/utils/logger.dart';
@@ -21,7 +21,8 @@ class ChatController extends GetxController {
   /// The user who is talking with.
   User get user => _user;
 
-  String _idThisUser = HomeController.to.idUser;
+  /// The id of the user signed in this session
+  String idThisUser = HomeController.to.idUser;
 
   /// Messages to show in the screen
   Stream<List<Message>> get messages => _messagesStream;
@@ -77,7 +78,7 @@ class ChatController extends GetxController {
     super.onClose();
   }
 
-  onSendMessage() {
+ void onSendMessage() {
     Log.console('Send message');
   }
 }

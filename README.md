@@ -69,3 +69,10 @@ https://docs.agora.io/en/Video/API%20Reference/flutter/index.html
 # Designs (Inspirations)
 
 https://dribbble.com/shots/8961268-Chat-App
+
+# Facts
+
+[TEMP]: An issue when flutter runs.
+
+
+[TEMP]: https://stackoverflow.com/questions/68204150/flutter-web-stable-reducing-my-hard-drive-space-everytime-i-run-the-web-app

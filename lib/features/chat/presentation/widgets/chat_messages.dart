@@ -20,11 +20,12 @@ class ChatMessages extends StatelessWidget {
           final messages = snapshot.data ?? [];
 
           if (messages.isEmpty)
-            return IconDescription(Icons.message, 'No messages');
+            return Expanded(
+              child: IconDescription(Icons.message, 'No messages'),
+            );
 
           Log.console('Total messages: ${messages.length}');
           return Container();
-
           // return Expanded(child: Container());
         },
       );

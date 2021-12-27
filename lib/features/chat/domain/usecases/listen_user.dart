@@ -3,11 +3,13 @@ import '../../../../core/utils/logger.dart';
 import '../../../../core/utils/utils.dart';
 import '../../data/api/chat_firestore_repository.dart';
 
+/// TODO: The problem is from here
 abstract class ListenUser {
   /// [id] The id of the user to listen
   static Stream<User?> execute(String id) async* {
     try {
       final repo = ChatFirestoreRepository();
+
       final stream = repo.listenUser(id);
 
       await for (final query in stream) {

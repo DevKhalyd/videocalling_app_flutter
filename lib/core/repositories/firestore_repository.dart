@@ -113,7 +113,7 @@ abstract class FirestoreRepository {
       rethrow;
     }
   }
-
+  // TODO: Isolate this method
   /// Listen a given reference
   Stream<QuerySnapshot<Object?>> getStream(CollectionReference reference) {
     try {
@@ -138,14 +138,25 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
 
   /// Add the data to firestore emulator as mock.
   Future<void> createAccountsData() async {
-    final qs = await getCollection(usersCollection)
-        .where(User.emailField, isEqualTo: 't1@gmail.com')
+    final userOneFromDb = await getCollection(usersCollection)
+        .where(User.emailField, isEqualTo: DataTest.emailOne)
         .get();
 
-    if (qs.docs.isNotEmpty) {
-      log('Data added already in firestore');
+    final userTwoFromDb = await getCollection(usersCollection)
+        .where(User.emailField, isEqualTo: DataTest.emailTwo)
+        .get();
+
+    if (userOneFromDb.docs.isNotEmpty && userTwoFromDb.docs.isNotEmpty) {
+      final oneDoc = userOneFromDb.docs.first;
+      final twoDoc = userTwoFromDb.docs.first;
+      idUserOne = oneDoc.id;
+      idUserTwo = twoDoc.id;
+      log('Those users already exists. IDs assigned.');
       return;
     }
+
+    assert(userOneFromDb.docs.isEmpty && userTwoFromDb.docs.isEmpty,
+        'Data was not added in a way form');
 
     /// In this case, the FCM is not requested because the application
     /// has not context a this point
@@ -167,15 +178,11 @@ class EmulatorFirestoreRepository extends FirestoreRepository {
 
     final userOne = await AddUserData.execute(user: testOne);
 
-    if (userOne != null) {
-      idUserOne = userOne.id;
-    }
+    if (userOne != null) idUserOne = userOne.id;
 
     final userTwo = await AddUserData.execute(user: testTwo);
 
-    if (userTwo != null) {
-      idUserTwo = userTwo.id;
-    }
+    if (userTwo != null) idUserTwo = userTwo.id;
 
     if (userOne == null || userTwo == null) {
       log('Error adding users to firestore');

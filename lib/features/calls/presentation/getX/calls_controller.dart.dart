@@ -38,6 +38,9 @@ class CallsController extends GetxController {
       // Create the conversation if that one doesn't exists
       idConversation = await CreateConversation.execute(ids);
 
+    /// Sometimes the task are too fast
+    await Future.delayed(Duration(milliseconds: 500));
+
     /// Close the waiting dialog
     Get.back();
 
