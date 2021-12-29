@@ -11,6 +11,8 @@ import '../../domain/usecases/listen_conversation.dart';
 import '../../domain/usecases/listen_user.dart';
 
 class ChatController extends GetxController {
+  static ChatController get to => Get.find();
+
   late User _user;
   late String _idConversation;
 
@@ -23,6 +25,8 @@ class ChatController extends GetxController {
 
   /// The id of the user signed in this session
   String idThisUser = HomeController.to.idUser;
+
+  String get idConversation => _idConversation;
 
   /// Messages to show in the screen
   Stream<List<Message>> get messages => _messagesStream;
@@ -66,7 +70,6 @@ class ChatController extends GetxController {
 
     _userSubscription = ListenUser.execute(idUser).listen((u) {
       if (u == null) return;
-      Log.console('New data of this user was received $u');
       _user = u;
       update();
     });
@@ -78,7 +81,7 @@ class ChatController extends GetxController {
     super.onClose();
   }
 
- void onSendMessage() {
+  void onSendMessage() {
     Log.console('Send message');
   }
 }

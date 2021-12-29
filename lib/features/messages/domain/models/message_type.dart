@@ -8,6 +8,11 @@ class MessageType {
   static const image = 1;
 
   const MessageType({required this.type});
+
+  const MessageType.textType() : this(type: text);
+
+  const MessageType.imageType() : this(type: image);
+
   final int type;
 
   factory MessageType.fromJson(Map<String, dynamic> json) =>

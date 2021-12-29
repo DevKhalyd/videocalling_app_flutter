@@ -1,6 +1,6 @@
-import 'package:videocalling_app/core/utils/utils.dart';
-import 'package:videocalling_app/features/chat/data/api/chat_firestore_repository.dart';
-import 'package:videocalling_app/features/chat/domain/models/message.dart';
+import '../../../../core/utils/utils.dart';
+import '../../data/api/chat_firestore_repository.dart';
+import '../models/message.dart';
 
 abstract class SendMessage {
   static Future<void> execute(String idConversation, Message msg) async {

@@ -24,9 +24,9 @@ class ChatMessages extends StatelessWidget {
               child: IconDescription(Icons.message, 'No messages'),
             );
 
+          // TODO: Once time the send message use case is ready, show the messages...
           Log.console('Total messages: ${messages.length}');
-          return Container();
-          // return Expanded(child: Container());
+          return Expanded(child: Container());
         },
       );
     });

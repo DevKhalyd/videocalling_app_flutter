@@ -10,13 +10,14 @@ part 'message.g.dart';
 class Message {
   const Message({
     required this.idUser,
-    required this.date,
+    this.date = '',
     required this.data,
     required this.messageType,
     required this.messageState,
   });
 
   final String idUser;
+  /// The server assigns the date
   final String date;
 
   /// The data works in different ways depending on
