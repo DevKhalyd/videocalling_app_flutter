@@ -7,10 +7,10 @@ class ChatFirestoreRepository extends FirestoreRepository {
   /// Listen to a user
   ///
   /// [id] Document ID
-  Stream<QuerySnapshot<Object?>> listenUser(String id) {
+  Stream<DocumentSnapshot<Object?>> listenUser(String id) {
     try {
-      final reference = getCollection('$usersCollection/$id');
-      return getStream(reference);
+      final reference = getCollection('$usersCollection').doc(id);
+      return getStreamDocument(reference);
     } catch (e) {
       rethrow;
     }
@@ -21,7 +21,7 @@ class ChatFirestoreRepository extends FirestoreRepository {
     try {
       final reference =
           getCollection('$conversationsCollection/$id/$messagesCollection');
-      return getStream(reference);
+      return getStreamCollection(reference);
     } catch (e) {
       rethrow;
     }

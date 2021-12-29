@@ -1,7 +1,3 @@
-# TODO
-
-- Test the chat according to the data given
-
 # Description
 
 A videocalling app where I show how structure an application with GetX and Clean Architecture.
@@ -66,13 +62,14 @@ https://github.com/AgoraIO/Agora-Flutter-SDK/blob/master/example/lib/examples/ba
 Reference:
 https://docs.agora.io/en/Video/API%20Reference/flutter/index.html
 
-# Designs (Inspirations)
+# Designs (Inspiration)
 
-https://dribbble.com/shots/8961268-Chat-App
+[HERE]: My goal wasn't to replicate this design, just how can I make a basic message screen.
 
 # Facts
 
 [TEMP]: An issue when flutter runs.
 
+[HERE]: https://dribbble.com/shots/8961268-Chat-App
 
 [TEMP]: https://stackoverflow.com/questions/68204150/flutter-web-stable-reducing-my-hard-drive-space-everytime-i-run-the-web-app

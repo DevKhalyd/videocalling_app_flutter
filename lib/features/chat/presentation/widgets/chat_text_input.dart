@@ -10,9 +10,23 @@ class ChatTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ChatController>(
       builder: (c) {
-        /// TODO: Make the design for this form field
+        // TODO: Create a space for this one... Expanded > Row ...
         /// Manage its own state
-        return TextFormField();
+        return TextFormField(
+          style: TextStyle(color: Colors.white),
+          cursorColor: Colors.white54,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
+            hintText: 'Type a message...',
+            hintStyle: TextStyle(
+              color: Colors.white54,
+            ),
+            border: InputBorder.none,
+          ),
+        );
       },
     );
   }

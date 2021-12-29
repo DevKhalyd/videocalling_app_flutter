@@ -28,6 +28,8 @@ class EmulatorAuthRepository extends AuthRepository {
     final secondEmail = DataTest.emailTwo;
     final password = DataTest.password;
 
+    // NOTE: When those accounts are created the user signs in automatically
+
     final oneUser =
         await SignUpWithEmail.execute(email: firstEmail, password: password);
 

@@ -113,9 +113,20 @@ abstract class FirestoreRepository {
       rethrow;
     }
   }
-  // TODO: Isolate this method
-  /// Listen a given reference
-  Stream<QuerySnapshot<Object?>> getStream(CollectionReference reference) {
+
+  /// Listen a given collection reference
+  Stream<QuerySnapshot<Object?>> getStreamCollection(
+      CollectionReference reference) {
+    try {
+      return reference.snapshots();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Listen a given document reference
+  Stream<DocumentSnapshot<Object?>> getStreamDocument(
+      DocumentReference reference) {
     try {
       return reference.snapshots();
     } catch (e) {
