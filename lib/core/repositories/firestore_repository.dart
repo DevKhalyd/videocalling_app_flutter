@@ -39,6 +39,7 @@ abstract class FirestoreRepository {
   /// The ids in a conversation
   final String idsUser = 'idsUser';
 
+  /// The id of a document in the database
   final String id = "id";
 
   /// Useful to write only the collection name
@@ -116,7 +117,8 @@ abstract class FirestoreRepository {
 
   /// Listen a given collection reference
   Stream<QuerySnapshot<Object?>> getStreamCollection(
-      CollectionReference reference) {
+      CollectionReference reference,{dynamic  where}) {
+        // TODO: Return a different collection if where is not null
     try {
       return reference.snapshots();
     } catch (e) {

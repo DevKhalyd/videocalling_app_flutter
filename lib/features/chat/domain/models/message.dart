@@ -16,6 +16,7 @@ class Message {
     required this.messageState,
   });
 
+  /// The id of the user who sent the message.
   final String idUser;
   /// The server assigns the date
   final String date;

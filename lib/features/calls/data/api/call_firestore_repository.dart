@@ -53,6 +53,8 @@ class CallFirestoreRepository extends FirestoreRepository {
   /// [ids] List of ids of the users
   ///
   /// If returns null means that the conversation doesn't exist. So create one.
+  ///
+  /// The above method create a conversation if it doesn't exist.
   Future<String?> getIdConversation(List<String> ids) async {
     assert(ids.length == 2, 'A conversation must have two users');
     try {
@@ -67,23 +69,29 @@ class CallFirestoreRepository extends FirestoreRepository {
 
       String? idConversation;
 
-      docs.forEach((d) {
+      for (final d in docs) {
         final data = d.data() as Map<String, dynamic>;
+
         if (data.containsKey(idsUser)) {
-          final idsUserData = data[idsUser] as List<String>;
+          final idsUserData = data[idsUser] as List<dynamic>;
           if (idsUserData.length != 2) {
             Log.console('Don\'t have two users. Check this object $data');
-            return;
+            continue;
           }
 
           if (ids.contains(idsUserData[0]) && ids.contains(idsUserData[1])) {
-            if (data.containsKey(id))
-              idConversation = data[id] as String;
-            else
-              Log.console('Don\'t have an id this document $data', L.W);
+            if (!data.containsKey(id)) {
+              Log.console('Don\'t have id. Check this document $data', L.W);
+              continue;
+            }
+            idConversation = data[id] as String;
+            break;
           }
         }
-      });
+      }
+
+      Log.console('idConversation: $idConversation');
+
       return idConversation;
     } catch (e) {
       rethrow;

@@ -67,10 +67,9 @@ class _ChatTextInputState extends State<ChatTextInput> {
     );
   }
 
-  // TODO: Test the send message usecase
   void onPressedSendIcon() {
     final msg = Message(
-      idUser: ChatController.to.user.id,
+      idUser: ChatController.to.idThisUser,
       data: textController.text,
       messageType: MessageType.textType(),
 
@@ -85,8 +84,6 @@ class _ChatTextInputState extends State<ChatTextInput> {
   /// Enable or disable the send icon
   changeState([bool value = true]) {
     if (hasText == value) return;
-    setState(() {
-      hasText = value;
-    });
+    setState(() => hasText = value);
   }
 }

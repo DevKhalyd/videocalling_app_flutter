@@ -1,3 +1,5 @@
+import 'package:videocalling_app/core/utils/utils.dart';
+
 import '../../../../core/utils/logger.dart';
 import '../../data/api/chat_firestore_repository.dart';
 import '../models/message.dart';
@@ -7,6 +9,7 @@ abstract class ListenConversation {
   static Stream<List<Message>> execute(String id) async* {
     try {
       final repo = ChatFirestoreRepository();
+      // TODO: Get the messages by date...
       final stream = repo.listenConversation(id);
       await for (final q in stream) {
         final docs = q.docs;
@@ -28,6 +31,7 @@ abstract class ListenConversation {
         yield messages;
       }
     } catch (e) {
+      Utils.printACatch('ListenConversation', e);
       yield [];
     }
   }

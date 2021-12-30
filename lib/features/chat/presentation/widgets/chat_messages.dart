@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-import '../../../../core/utils/logger.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../domain/models/message.dart';
 import '../getX/chat_controller.dart';
@@ -24,9 +23,15 @@ class ChatMessages extends StatelessWidget {
               child: IconDescription(Icons.message, 'No messages'),
             );
 
-          // TODO: Once time the send message use case is ready, show the messages...
-          Log.console('Total messages: ${messages.length}');
-          return Expanded(child: Container());
+          return Expanded(
+            child: ListView.builder(
+                itemCount: messages.length,
+                itemBuilder: (c, index) {
+                  final message = messages[index];
+                  // TODO: Create the message widget for this user...
+                  return TextCustom(message.data);
+                }),
+          );
         },
       );
     });
