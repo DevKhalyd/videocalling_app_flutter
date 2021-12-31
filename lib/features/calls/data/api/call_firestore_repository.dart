@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:videocalling_app/features/calls/domain/models/history_call.dart';
 
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../core/utils/utils.dart';
+import '../../domain/models/history_call.dart';
 
 class CallFirestoreRepository extends FirestoreRepository {
   /// Return the history of calls of this user
@@ -89,8 +89,6 @@ class CallFirestoreRepository extends FirestoreRepository {
           }
         }
       }
-
-      Log.console('idConversation: $idConversation');
 
       return idConversation;
     } catch (e) {

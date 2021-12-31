@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import '../../../../core/widgets/mini_widgets.dart';
 import '../../domain/models/message.dart';
 import '../getX/chat_controller.dart';
+import 'chat_message_item.dart';
 
 /// Where all the messages appears
 class ChatMessages extends StatelessWidget {
@@ -25,11 +26,14 @@ class ChatMessages extends StatelessWidget {
 
           return Expanded(
             child: ListView.builder(
+                reverse: true,
                 itemCount: messages.length,
-                itemBuilder: (c, index) {
+                itemBuilder: (_, index) {
                   final message = messages[index];
-                  // TODO: Create the message widget for this user...
-                  return TextCustom(message.data);
+                  return ChatMessageItem(
+                    idThisUser: c.idThisUser,
+                    message: message,
+                  );
                 }),
           );
         },

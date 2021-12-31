@@ -21,7 +21,7 @@ class ChatFirestoreRepository extends FirestoreRepository {
     try {
       final reference =
           getCollection('$conversationsCollection/$id/$messagesCollection');
-      return getStreamCollection(reference);
+      return getStreamCollection(reference, field: date);
     } catch (e) {
       rethrow;
     }

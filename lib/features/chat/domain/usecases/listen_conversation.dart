@@ -9,7 +9,6 @@ abstract class ListenConversation {
   static Stream<List<Message>> execute(String id) async* {
     try {
       final repo = ChatFirestoreRepository();
-      // TODO: Get the messages by date...
       final stream = repo.listenConversation(id);
       await for (final q in stream) {
         final docs = q.docs;

@@ -39,6 +39,8 @@ abstract class FirestoreRepository {
   /// The ids in a conversation
   final String idsUser = 'idsUser';
 
+  final String date = 'date';
+
   /// The id of a document in the database
   final String id = "id";
 
@@ -116,11 +118,26 @@ abstract class FirestoreRepository {
   }
 
   /// Listen a given collection reference
+  ///
+  /// [field] The field to order by descending.
+  ///
+  /// [descending] By default is true.
   Stream<QuerySnapshot<Object?>> getStreamCollection(
-      CollectionReference reference,{dynamic  where}) {
-        // TODO: Return a different collection if where is not null
+    CollectionReference reference, {
+    String? field,
+    bool descending = true,
+  }) {
     try {
-      return reference.snapshots();
+      if (field != null) {
+        return reference
+            .orderBy(
+              field,
+              descending: descending,
+            )
+            .snapshots();
+      } else {
+        return reference.snapshots();
+      }
     } catch (e) {
       rethrow;
     }

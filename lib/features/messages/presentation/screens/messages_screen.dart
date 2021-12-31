@@ -16,13 +16,15 @@ class MessagesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<MessagesController>(
       init: MessagesController(),
       builder: (c) {
         return Scaffold(
             backgroundColor: Utils.textFormFIeldColor,
             body:
-                StreamBuilderCustom<List<Conversation>>(onData: (_, snapshot) {
+                StreamBuilderCustom<List<Conversation>>(
+               stream: c.getConversations,
+                  onData: (_, snapshot) {
               final data = snapshot.data;
 
               if (data?.isEmpty ?? true)

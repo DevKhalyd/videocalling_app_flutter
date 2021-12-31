@@ -6,7 +6,7 @@ class MessageFirestoreRepository extends FirestoreRepository {
   /// Get the avaible conversations for this user
   Stream<QuerySnapshot<Object?>> getConversations(String idUser) {
     try {
-      return getStreamCollection(_getCollectionReference(idUser));
+      return getStreamCollection(_getCollectionReference(idUser), field: date);
     } catch (e) {
       rethrow;
     }
