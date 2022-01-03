@@ -21,25 +21,25 @@ class MessagesScreen extends StatelessWidget {
       builder: (c) {
         return Scaffold(
             backgroundColor: Utils.textFormFIeldColor,
-            body:
-                StreamBuilderCustom<List<Conversation>>(
-               stream: c.getConversations,
-                  onData: (_, snapshot) {
-              final data = snapshot.data;
+            body: StreamBuilderCustom<List<Conversation>>(
+                stream: c.conversations,
+                onData: (_, snapshot) {
+                  final data = snapshot.data;
 
-              if (data?.isEmpty ?? true)
-                return IconDescription(Icons.chat, 'No conversations found');
+                  if (data?.isEmpty ?? true)
+                    return IconDescription(
+                        Icons.chat, 'No conversations found');
 
-              final list = data!;
+                  final list = data!;
 
-              return ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (_, index) {
-                  final item = list[index];
-                  return ConversationItem(conversation: item);
-                },
-              );
-            }));
+                  return ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (_, index) {
+                      final item = list[index];
+                      return ConversationItem(conversation: item);
+                    },
+                  );
+                }));
       },
     );
   }

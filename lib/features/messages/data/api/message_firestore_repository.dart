@@ -6,7 +6,9 @@ class MessageFirestoreRepository extends FirestoreRepository {
   /// Get the avaible conversations for this user
   Stream<QuerySnapshot<Object?>> getConversations(String idUser) {
     try {
-      return getStreamCollection(_getCollectionReference(idUser), field: date);
+      return getStreamCollection(_getCollectionReference(idUser),
+          // Nested search...
+          field: 'lastMessage.$date');
     } catch (e) {
       rethrow;
     }
@@ -14,6 +16,7 @@ class MessageFirestoreRepository extends FirestoreRepository {
 
   /// The references to the conversations for this user.
   CollectionReference _getCollectionReference(String idUser) {
-    return getCollection('$usersCollection/$idUser/$conversationsCollection');
+    final collection = '$usersCollection/$idUser/$conversationsCollection';
+    return getCollection(collection);
   }
 }

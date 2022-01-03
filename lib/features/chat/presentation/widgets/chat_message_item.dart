@@ -18,11 +18,13 @@ class ChatMessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Identify what type of message it is
-
     /// This user send the message
     final isThisUser = idThisUser == message.idUser;
     return Align(
-        alignment: isThisUser ? Alignment.centerRight : Alignment.centerLeft,
-        child: TextCustom(message.data));
+      alignment: isThisUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: TextCustom(
+        message.data,
+      ),
+    );
   }
 }

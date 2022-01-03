@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'message_state.dart';
@@ -18,7 +19,7 @@ class LastMessage {
 
   /// In backend side this a timestamp object.
   /// In the application is handle as a string
-  final String date;
+  final Timestamp date;
   final String? message;
   final int acumalativeMsgs;
   final MessageType messageType;
