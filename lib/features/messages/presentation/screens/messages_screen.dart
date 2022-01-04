@@ -19,10 +19,15 @@ class MessagesScreen extends StatelessWidget {
     return GetBuilder<MessagesController>(
       init: MessagesController(),
       builder: (c) {
+        final conversations = c.conversations;
+
+        // TODO: Test this part with a real conversation
+        if (conversations == null) return const CircularProgressCustom();
+
         return Scaffold(
             backgroundColor: Utils.textFormFIeldColor,
             body: StreamBuilderCustom<List<Conversation>>(
-                stream: c.conversations,
+                stream: conversations,
                 onData: (_, snapshot) {
                   final data = snapshot.data;
 

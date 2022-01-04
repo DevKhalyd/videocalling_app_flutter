@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:videocalling_app/core/utils/logger.dart';
-import 'package:videocalling_app/core/utils/utils.dart';
 
+import '../../../../core/utils/logger.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../home/presentation/getX/home_controller.dart';
 import '../../domain/models/conversation.dart';
 import '../../domain/usecases/get_conversations.dart';
@@ -16,18 +16,21 @@ class MessagesController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: Test for get the messages in the first launch`
     if (HomeController.to.user != null)
       _conversations = GetConversations.execute(HomeController.to.idUser);
     else
       Utils.runFunction(
         () {
-          if (HomeController.to.user != null)
-            _conversations = GetConversations.execute(HomeController.to.idUser);
-          else
+          if (HomeController.to.user == null) {
             Log.console('User is null so the id cannot be found');
+            return;
+          }
+          _conversations = GetConversations.execute(HomeController.to.idUser);
+          update();
         },
-        milliseconds: 1000,
+
+        /// Way for the user assigment
+        milliseconds: 1500,
       );
 
     super.onInit();
