@@ -2,7 +2,7 @@
 
 A videocalling app where I show how structure an application with GetX and Clean Architecture.
 
-[Here] is the Backend flow. 
+[Flowchart]: Contains the Backend Flow
 
 # Set up the project
 
@@ -76,4 +76,4 @@ https://docs.agora.io/en/Video/API%20Reference/flutter/index.html
 
 [TEMP]: https://stackoverflow.com/questions/68204150/flutter-web-stable-reducing-my-hard-drive-space-everytime-i-run-the-web-app
 
-[Here]: https://drive.google.com/file/d/1CpC_iiU1e7P-6nv_D1D1FYdDlt4qHQS7/view?usp=sharing
+[Flowchart]: https://drive.google.com/file/d/1CpC_iiU1e7P-6nv_D1D1FYdDlt4qHQS7/view?usp=sharing
