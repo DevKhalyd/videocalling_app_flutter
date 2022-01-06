@@ -19,7 +19,7 @@ abstract class Utils {
   // Assigned to your computer by router
   /// If you are in windows to get it, just:
   /// cmd > ipconfig
-  static const localHost = '192.168.1.68';
+  static const localHost = '192.168.1.69';
   static final appName = 'Videocalling App';
   static final acentColor = Color.fromRGBO(85, 104, 254, 1.0);
   static final textFormFIeldColor = Color.fromRGBO(37, 42, 52, 1.0);

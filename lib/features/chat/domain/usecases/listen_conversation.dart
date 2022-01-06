@@ -1,4 +1,5 @@
 import 'package:videocalling_app/core/utils/utils.dart';
+import 'package:videocalling_app/features/messages/domain/models/message_type.dart';
 
 import '../../../../core/utils/logger.dart';
 import '../../data/api/chat_firestore_repository.dart';
@@ -25,7 +26,8 @@ abstract class ListenConversation {
         docs.forEach((d) {
           final data = d.data() as Map<String, dynamic>;
           final message = Message.fromJson(data);
-          messages.add(message);
+          if (message.messageType.type != MessageType.initialMessage)
+            messages.add(message);
         });
         yield messages;
       }

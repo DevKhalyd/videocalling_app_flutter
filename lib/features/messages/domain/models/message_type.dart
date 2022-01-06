@@ -4,6 +4,7 @@ part 'message_type.g.dart';
 
 @JsonSerializable()
 class MessageType {
+  static const initialMessage = -1;
   static const text = 0;
   static const image = 1;
 
@@ -12,6 +13,8 @@ class MessageType {
   const MessageType.textType() : this(type: text);
 
   const MessageType.imageType() : this(type: image);
+
+  const MessageType.initialMessageType() : this(type: initialMessage);
 
   final int type;
 

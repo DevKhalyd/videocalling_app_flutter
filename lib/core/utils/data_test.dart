@@ -9,5 +9,5 @@ abstract class DataTest {
   static const fullnameOne = 'Rolando Garcia';
   static const fullnameTwo = 'Vivian Jasiah';
 
-  static const password = 'super_secret_password';
+  static const password = '123456';
 }

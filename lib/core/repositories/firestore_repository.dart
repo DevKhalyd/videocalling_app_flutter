@@ -132,7 +132,7 @@ abstract class FirestoreRepository {
         return reference
             .orderBy(
               field,
-             descending: descending,
+              descending: descending,
             )
             .snapshots();
       } else {

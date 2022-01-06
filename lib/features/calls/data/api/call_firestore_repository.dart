@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:videocalling_app/features/chat/domain/models/message.dart';
+import 'package:videocalling_app/features/chat/domain/usecases/send_message.dart';
+import 'package:videocalling_app/features/messages/domain/models/message_state.dart';
+import 'package:videocalling_app/features/messages/domain/models/message_type.dart';
 
 import '../../../../core/repositories/firestore_repository.dart';
 import '../../../../core/utils/logger.dart';
@@ -41,7 +45,19 @@ class CallFirestoreRepository extends FirestoreRepository {
         // ids
         idsUser: ids,
       };
+
+      // Create the basic info of this conversation
       await addDataWithOwnId(conversationsCollection, data, conversationId);
+
+      final msg = Message(
+        idUser: 'Init',
+        messageState: MessageState.seenState(),
+        messageType: MessageType.initialMessageType(),
+        data: 'Initial Message',
+      );
+
+      await SendMessage.execute(conversationId, msg);
+
       return conversationId;
     } catch (e) {
       rethrow;
