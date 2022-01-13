@@ -37,8 +37,6 @@ From that use cases should I return a response to interact with the UI... that m
 
 data: Get the data from an API or Local Storage (Firebase, API rest)
 
-TODO: Add the flowcharts of the application.
-
 # Resources
 
 **Paths in flutter**

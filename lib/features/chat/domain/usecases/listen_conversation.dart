@@ -1,5 +1,5 @@
-import 'package:videocalling_app/core/utils/utils.dart';
-import 'package:videocalling_app/features/messages/domain/models/message_type.dart';
+import '../../../../core/utils/utils.dart';
+import '../../../messages/domain/models/message_type.dart';
 
 import '../../../../core/utils/logger.dart';
 import '../../data/api/chat_firestore_repository.dart';
