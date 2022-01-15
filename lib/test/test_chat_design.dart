@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
           title: Text('Material App Bar'),
         ),
         body: Center(
-          child: ChatBubble(
-            bottomRightRadius: 0,
-          ),
+          child: ChatMessage(),
         ),
       ),
     );
@@ -31,29 +29,25 @@ class MyApp extends StatelessWidget {
 const _radius = 32.0;
 
 /// The space to show a message in the chat
-class ChatBubble extends StatelessWidget {
-  const ChatBubble({
-    Key? key,
-    this.topLeftRadius = _radius,
-    this.bottomRightRadius = _radius,
-  })  : assert(topLeftRadius != bottomRightRadius),
-        super(key: key);
+class ChatMessage extends StatelessWidget {
+  const ChatMessage({Key? key, this.isRight = true}) : super(key: key);
 
-  final double topLeftRadius, bottomRightRadius;
+  final bool isRight;
 
   @override
   Widget build(BuildContext context) {
     final width = context.width * 0.6;
 
+    print("width message: $width");
+
     return Container(
       width: width,
       decoration: BoxDecoration(
         // TODO: Add constraints to the chat bubble for large screens
-        // TODO: Add the date as the dessign suggest
         color: Colors.purple,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(topLeftRadius),
-          bottomRight: Radius.circular(bottomRightRadius),
+          topLeft: Radius.circular(!isRight ? _radius : 0),
+          bottomRight: Radius.circular(isRight ? _radius : 0),
           topRight: Radius.circular(_radius),
           bottomLeft: Radius.circular(_radius),
         ),
@@ -61,6 +55,24 @@ class ChatBubble extends StatelessWidget {
       padding: const EdgeInsets.all(18.0),
       child: TextCustom(
           'Hello There.... asdadsadsa asdasdasdasd sdsadasdsad asdsadsadasds'),
+    );
+  }
+}
+
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({Key? key, this.date = '12 : 02'}) : super(key: key);
+
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        TextCustom(date),
+        SizedBox(width: 8),
+        ChatMessage(),
+      ],
     );
   }
 }
