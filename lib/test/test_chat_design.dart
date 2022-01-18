@@ -19,9 +19,37 @@ class MyApp extends StatelessWidget {
           title: Text('Material App Bar'),
         ),
         body: Center(
-          child: ChatMessage(),
+          child: ChatBubble(
+            isRight: true,
+          ),
         ),
       ),
+    );
+  }
+}
+
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({
+    Key? key,
+    this.time = '12 : 30',
+    this.isRight = true,
+  }) : super(key: key);
+
+  final String time;
+  final bool isRight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (!isRight) TextCustom(time),
+        if (!isRight) SizedBox(width: 25),
+        ChatMessage(isRight: isRight),
+        if (isRight) SizedBox(width: 25),
+        if (isRight) TextCustom(time),
+      ],
     );
   }
 }
@@ -32,6 +60,7 @@ const _radius = 32.0;
 class ChatMessage extends StatelessWidget {
   const ChatMessage({Key? key, this.isRight = true}) : super(key: key);
 
+  /// Whether the message is from the right or left
   final bool isRight;
 
   @override
@@ -43,7 +72,6 @@ class ChatMessage extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        // TODO: Add constraints to the chat bubble for large screens
         color: Colors.purple,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(!isRight ? _radius : 0),
@@ -55,24 +83,6 @@ class ChatMessage extends StatelessWidget {
       padding: const EdgeInsets.all(18.0),
       child: TextCustom(
           'Hello There.... asdadsadsa asdasdasdasd sdsadasdsad asdsadsadasds'),
-    );
-  }
-}
-
-class ChatBubble extends StatelessWidget {
-  const ChatBubble({Key? key, this.date = '12 : 02'}) : super(key: key);
-
-  final String date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        TextCustom(date),
-        SizedBox(width: 8),
-        ChatMessage(),
-      ],
     );
   }
 }
