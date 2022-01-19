@@ -18,15 +18,15 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Material App Bar'),
         ),
-        body: Center(
-          child: ChatBubble(
-            isRight: true,
-          ),
+        body: ChatBubble(
+          isRight: true,
         ),
       ),
     );
   }
 }
+
+// TODO: Implement this widget
 
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
@@ -40,16 +40,20 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (!isRight) TextCustom(time),
-        if (!isRight) SizedBox(width: 25),
-        ChatMessage(isRight: isRight),
-        if (isRight) SizedBox(width: 25),
-        if (isRight) TextCustom(time),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        mainAxisAlignment:
+            isRight ? MainAxisAlignment.start : MainAxisAlignment.end,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (!isRight) TextCustom(time),
+          if (!isRight) SizedBox(width: 25),
+          ChatMessage(isRight: isRight),
+          if (isRight) SizedBox(width: 25),
+          if (isRight) TextCustom(time),
+        ],
+      ),
     );
   }
 }
