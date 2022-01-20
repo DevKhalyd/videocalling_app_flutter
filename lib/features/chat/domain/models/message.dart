@@ -18,6 +18,7 @@ class Message {
 
   /// The id of the user who sent the message.
   final String idUser;
+
   /// The server assigns the date
   final String date;
 
@@ -26,6 +27,10 @@ class Message {
   final String data;
   final MessageType messageType;
   final MessageState messageState;
+
+  String getReadableDate() {
+    return 'GET IT';
+  }
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
