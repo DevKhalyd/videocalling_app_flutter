@@ -10,7 +10,7 @@ part 'message.g.dart';
 class Message {
   const Message({
     required this.idUser,
-    this.date = '',
+    required this.date,
     required this.data,
     required this.messageType,
     required this.messageState,
@@ -28,8 +28,8 @@ class Message {
   final MessageType messageType;
   final MessageState messageState;
 
-  String getReadableDate() {
-    return 'GET IT';
+  static String getReadableDate() {
+    return DateTime.now().toString().substring(11, 16);
   }
 
   factory Message.fromJson(Map<String, dynamic> json) =>

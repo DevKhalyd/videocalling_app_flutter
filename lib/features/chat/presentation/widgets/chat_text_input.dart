@@ -72,7 +72,7 @@ class _ChatTextInputState extends State<ChatTextInput> {
       idUser: ChatController.to.idThisUser,
       data: textController.text,
       messageType: MessageType.textType(),
-
+      date: Message.getReadableDate(),
       /// Because from the first moment send the message
       messageState: MessageState.deliveredState(),
     );

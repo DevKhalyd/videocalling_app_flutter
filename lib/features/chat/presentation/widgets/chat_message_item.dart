@@ -23,9 +23,9 @@ class ChatMessageItem extends StatelessWidget {
     final isThisUser = idThisUser == message.idUser;
 
     return ChatBubble(
-      isRight: isThisUser,
+      isRight: !isThisUser,
       message: message.data,
-      time: message.getReadableDate(),
+      time: message.date,
     );
   }
 }

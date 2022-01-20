@@ -51,6 +51,7 @@ class CallFirestoreRepository extends FirestoreRepository {
 
       final msg = Message(
         idUser: 'Init',
+        date: Message.getReadableDate(),
         messageState: MessageState.seenState(),
         messageType: MessageType.initialMessageType(),
         data: 'Initial Message',
